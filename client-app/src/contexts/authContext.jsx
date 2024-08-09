@@ -22,9 +22,14 @@ export const AuthProvider = ({ children }) => {
         setAuthState(result)
     }
 
+    const logoutHandler = () => {
+        setAuth({});
+    };
+
     const values = {
         registerSubmitHandler,
         loginSubmitHandler,
+        logoutHandler,
         isAuthenticated: !!authState.accessToken,
         fullName: authState.fullName,
         email: authState.email,
