@@ -13,7 +13,12 @@ export const useForm = (submitHandler, initialValues) => {
     const onSubmit = (e) => {
         e.preventDefault()
 
-        submitHandler(values)
+        if (Object.values(values).every(value => value !== '')) {
+            submitHandler(values)
+        } else {
+            alert('Please fill in all fields')
+        }
+
     }
 
     return ({

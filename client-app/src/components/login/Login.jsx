@@ -14,26 +14,13 @@ const initialValues = {
 }
 
 function Login() {
-  const [validated, setValidated] = useState(false)
 
   const { loginSubmitHandler } = useContext(AuthContext)
   const { values, onChange, onSubmit } = useForm(loginSubmitHandler, initialValues)
 
-  // const handleSubmit = (event) => {
-  //     const form = event.currentTarget;
-  //     if (form.checkValidity() === false) {
-  //       event.preventDefault();
-  //       event.stopPropagation();
-  //     }
-
-  //     setValidated(true);
-  //   };
-
-  //   onSubmit={onSubmit}
-
   return (
     <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-      <Form noValidate className="custom-form" onSubmit={onSubmit}>
+      <Form noValidate className="custom-form" onSubmit={onSubmit} >
 
         <Form.Group as={Row} controlId="email">
           <Form.Label column sm={4} className="text-center">

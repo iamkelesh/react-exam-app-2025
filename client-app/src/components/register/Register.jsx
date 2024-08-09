@@ -16,26 +16,13 @@ const initialValues = {
 }
 
 function Register() {
-    const [validated, setValidated] = useState(false)
 
     const { registerSubmitHandler } = useContext(AuthContext)
     const { values, onChange, onSubmit } = useForm(registerSubmitHandler, initialValues)
 
-    // const handleSubmit = (event) => {
-    //     const form = event.currentTarget;
-    //     if (form.checkValidity() === false) {
-    //       event.preventDefault();
-    //       event.stopPropagation();
-    //     }
-
-    //     setValidated(true);
-    //   };
-
-    //   onSubmit={onSubmit}
-
     return (
         <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-            <Form noValidate validated={validated}
+            <Form noValidate 
                  onSubmit={onSubmit} 
                 className="custom-form">
 
