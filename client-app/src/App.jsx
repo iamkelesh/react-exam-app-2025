@@ -3,6 +3,8 @@ import Login from "./components/login/Login"
 import Register from "./components/register/Register"
 import { Routes, Route } from "react-router-dom"
 
+import { AuthProvider } from "./contexts/authContext"
+
 function App() {
 
 
@@ -17,7 +19,7 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>
-        
+
       </AuthProvider>
 
     </>
