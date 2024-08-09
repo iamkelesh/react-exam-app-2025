@@ -8,13 +8,18 @@ function App() {
 
   return (
     <>
-      <Header/>
-      <Routes>
+      <AuthProvider>
 
+        <Header />
+
+        <Routes>
           <Route path="/login" element={<Login />} />
           <Route path='/register' element={<Register />} />
           <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>
+        
+      </AuthProvider>
+
     </>
   )
 }
