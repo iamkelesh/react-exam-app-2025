@@ -13,6 +13,11 @@ export const useForm = (submitHandler, initialValues) => {
     const onSubmit = (e) => {
         e.preventDefault()
 
+        if (values.repeatPassword !== undefined && values.password !== values.repeatPassword) {
+            alert('Passwords do not match')
+            return
+        }
+
         if (Object.values(values).every(value => value !== '')) {
             submitHandler(values)
         } else {

@@ -88,7 +88,7 @@ function Register() {
                     <Col sm={8}>
                         <Form.Control
                             type="password"
-                            placeholder="Password"
+                            placeholder="Repeat password"
                             required
                             minLength="6"
                         onChange={onChange}
