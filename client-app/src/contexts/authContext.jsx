@@ -18,12 +18,12 @@ export const AuthProvider = ({ children }) => {
 
     const loginSubmitHandler = async (data) => {
         const result = await login(data)
-
         setAuthState(result)
+        navigate('/')
     }
 
     const logoutHandler = () => {
-        setAuth({});
+        setAuthState({});
     };
 
     const values = {
