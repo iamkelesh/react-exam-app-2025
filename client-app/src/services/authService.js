@@ -12,5 +12,5 @@ export const login = async (data) => {
     return authData
 }
 
-export const logout = () => request.get(`${baseUrl}/logout`)
+export const logout = () => requester.get(`${baseUrl}/logout`)
 
