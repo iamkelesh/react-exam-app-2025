@@ -1,4 +1,8 @@
-const requester = async (method, url, data) => {
+// import AuthContext from "../contexts/authContext"
+// import { useContext } from "react"
+
+const requester = async (method, url, data, accessToken) => {
+    // let { accessToken } = useContext(AuthContext)
     let options = {}
     // console.log(data)
 
@@ -8,6 +12,15 @@ const requester = async (method, url, data) => {
             'Content-Type': 'application/json'
         }
 
+    }
+    if (accessToken) {
+        console.log(accessToken)
+    }
+    if (accessToken) {
+        options.headers = {
+            ...options.headers,
+            'X-Authorization': accessToken
+        };
     }
 
     let response = await fetch(url, { method, ...options })
