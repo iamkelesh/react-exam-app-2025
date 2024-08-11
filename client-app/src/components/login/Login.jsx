@@ -8,6 +8,8 @@ import { useContext } from 'react';
 import { useForm } from '../../hooks/useForm';
 import AuthContext from '../../contexts/authContext';
 
+import styles from './Login.module.css'
+
 const initialValues = {
   email: '',
   password: '',
@@ -20,13 +22,13 @@ function Login() {
 
   return (
     <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-      <Form noValidate className="custom-form" onSubmit={onSubmit} >
+      <Form noValidate className={styles.customForm} onSubmit={onSubmit} >
 
-        <Form.Group as={Row} controlId="email">
-          <Form.Label column sm={4} className="text-center">
+        <Form.Group as={Row} controlId="email" className={styles.formGroup}>
+          <Form.Label column sm={3} className="text-center">
             Email address
           </Form.Label>
-          <Col sm={8}>
+          <Col sm={9}>
             <Form.Control
               type="email"
               placeholder="Enter email"
@@ -40,11 +42,11 @@ function Login() {
           </Col>
         </Form.Group>
 
-        <Form.Group as={Row} controlId="password">
-          <Form.Label column sm={4} className="text-center">
+        <Form.Group as={Row} controlId="password" className={styles.formGroup}>
+          <Form.Label column sm={3} className="text-center">
             Password
           </Form.Label>
-          <Col sm={8}>
+          <Col sm={9}>
             <Form.Control
               type="password"
               placeholder="Password"

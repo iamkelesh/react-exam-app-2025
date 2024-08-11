@@ -4,9 +4,10 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/Row';
+import styles from './Register.module.css'
 
 import AuthContext from '../../contexts/authContext'
-import {useForm} from '../../hooks/useForm';
+import { useForm } from '../../hooks/useForm';
 
 const initialValues = {
     fullName: '',
@@ -22,21 +23,21 @@ function Register() {
 
     return (
         <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-            <Form noValidate 
-                 onSubmit={onSubmit} 
-                className="custom-form">
+            <Form noValidate
+                onSubmit={onSubmit}
+                className={styles.customForm}>
 
-                <Form.Group as={Row} controlId="fullName">
-                    <Form.Label column sm={4} className="text-center">
+                <Form.Group as={Row} controlId="fullName" className={styles.formGroup}>
+                    <Form.Label column sm={3} className="text-center">
                         Full Name
                     </Form.Label>
-                    <Col sm={8}>
+                    <Col sm={9}>
                         <Form.Control
                             type="text"
                             placeholder="Enter full name"
                             required
-                        onChange={onChange}
-                        value={values.fullName}
+                            onChange={onChange}
+                            value={values.fullName}
                         />
                         <Form.Control.Feedback type="invalid">
                             Please provide your full name.
@@ -44,17 +45,17 @@ function Register() {
                     </Col>
                 </Form.Group>
 
-                <Form.Group as={Row} controlId="email">
-                    <Form.Label column sm={4} className="text-center">
+                <Form.Group as={Row} controlId="email" className={styles.formGroup}>
+                    <Form.Label column sm={3} className="text-center">
                         Email address
                     </Form.Label>
-                    <Col sm={8}>
+                    <Col sm={9}>
                         <Form.Control
                             type="email"
                             placeholder="Enter email"
                             required
-                        onChange={onChange}
-                        value={values.email}
+                            onChange={onChange}
+                            value={values.email}
                         />
                         <Form.Control.Feedback type="invalid">
                             Please provide a valid email address.
@@ -62,18 +63,18 @@ function Register() {
                     </Col>
                 </Form.Group>
 
-                <Form.Group as={Row} controlId="password">
-                    <Form.Label column sm={4} className="text-center">
+                <Form.Group as={Row} controlId="password" className={styles.formGroup}>
+                    <Form.Label column sm={3} className="text-center">
                         Password
                     </Form.Label>
-                    <Col sm={8}>
+                    <Col sm={9}>
                         <Form.Control
                             type="password"
                             placeholder="Password"
                             required
                             minLength="6"
-                        onChange={onChange}
-                        value={values.password}
+                            onChange={onChange}
+                            value={values.password}
                         />
                         <Form.Control.Feedback type="invalid">
                             Please provide a password with at least 6 characters.
@@ -81,18 +82,18 @@ function Register() {
                     </Col>
                 </Form.Group>
 
-                <Form.Group as={Row} controlId="repeatPassword">
-                    <Form.Label column sm={4} className="text-center">
+                <Form.Group as={Row} controlId="repeatPassword" className={styles.formGroup}>
+                    <Form.Label column sm={3} className="text-center">
                         Repeat Password
                     </Form.Label>
-                    <Col sm={8}>
+                    <Col sm={9}>
                         <Form.Control
                             type="password"
                             placeholder="Repeat password"
                             required
                             minLength="6"
-                        onChange={onChange}
-                        value={values.repeatPassword}
+                            onChange={onChange}
+                            value={values.repeatPassword}
 
                         />
                         <Form.Control.Feedback type="invalid">
