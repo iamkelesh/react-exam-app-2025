@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useForm = (submitHandler, initialValues) => {
+export const useForm = (submitHandler, initialValues, accessToken) => {
     const [values, setValues] = useState(initialValues)
 
     const onChange = (e) => {
@@ -19,7 +19,7 @@ export const useForm = (submitHandler, initialValues) => {
         }
 
         if (Object.values(values).every(value => value !== '')) {
-            submitHandler(values)
+            submitHandler(values, accessToken)
         } else {
             alert('Please fill in all fields')
         }

@@ -1,39 +1,52 @@
 import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import React, { useContext, useState } from 'react';
+import { useForm } from '../../hooks/useForm';
+
+import { createService } from '../../services/postsServices';
+import AuthContext from '../../contexts/authContext';
+
 
 const initialValues = {
-  email: '',
-  password: '',
+  title: '',
+  body: '',
 }
-
 
 function Create() {
 
-  const [validated, setValidated] = useState(false);
-
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
-    // setValidated(true);
-  };
+  const { accessToken } = useContext(AuthContext)
+  const { values, onChange, onSubmit } = useForm(createService, initialValues, accessToken);
 
   return (
-    <Form noValidate validated={validated} onSubmit={handleSubmit}>
-      <Form.Group className="mb-3" controlId="formGroupEmail">
-        <Form.Label>Topic name</Form.Label>
-        <Form.Control type="text" placeholder="Enter email" required />
+    <Form noValidate
+      onSubmit={onSubmit}
+    >
+      <Form.Group className="mb-3" controlId="title">
+        <Form.Label>Title</Form.Label>
+        <Form.Control
+          type="text"
+          name="title"
+          placeholder="Enter title"
+          value={values.title}
+          onChange={onChange}
+        />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="details">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="text" placeholder="Details" required />
+      <Form.Group
+        className="mb-3"
+        controlId="body">
+        <Form.Label>Body</Form.Label>
+        <Form.Control
+          as="textarea"
+          rows={3}
+          name="body"
+          value={values.body}
+          onChange={onChange}
+        />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-        <Form.Label>Example textarea</Form.Label>
-        <Form.Control as="textarea" rows={3} required />
-      </Form.Group>
+
+      <Button variant="primary" type="submit" className="d-block mx-auto">
+        Register
+      </Button>
     </Form>
   );
 }
