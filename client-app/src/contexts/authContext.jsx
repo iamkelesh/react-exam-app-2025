@@ -34,6 +34,7 @@ export const AuthProvider = ({ children }) => {
         fullName: authState.fullName,
         email: authState.email,
         userId: authState._id,
+        accessToken: authState.accessToken 
 
     }
 
