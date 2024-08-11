@@ -1,3 +1,4 @@
+import * as requester from './requester'
 const baseUrl = 'http://localhost:3030/data/posts'
 
 export const getAll = async () => {
@@ -5,17 +6,17 @@ export const getAll = async () => {
     return result
 }
 
-export const create = async (postData) => {
-    const result = await requester.post(baseUrl, postData)
+export const createService = async (postData,accessToken) => {
+    const result = await requester.post(baseUrl, postData,accessToken)
     return result
 }
 
-export const getOne = async (id) => {
+export const getOneService = async (id) => {
     const result = await requester.get(`${baseUrl}/${id}`)
     return result
 }
 
-export const edit = async (gameId, gameData) => {
+export const editService = async (gameId, gameData) => {
     const result = await requester.put(`${baseUrl}/${gameId}`, gameData)
 
     return result
