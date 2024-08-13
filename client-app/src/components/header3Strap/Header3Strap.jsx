@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 function Header3Strap() {
     return (
         <header className="header text-center">
@@ -39,22 +40,27 @@ function Header3Strap() {
                     {/*//profile-section*/}
                     <ul className="navbar-nav flex-column text-left">
                         <li className="nav-item">
-                            <a className="nav-link" href="index.html">
+                            {/* <a className="nav-link" href="index.html">
                                 <i className="fas fa-home fa-fw mr-2" />
-                                Blog Home <span className="sr-only"></span>
-                            </a>
+                                Home <span className="sr-only"></span>
+                            </a> */}
+                            <Link to="/home" className="nav-link" >Home</Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="blog-post.html">
+                            {/* <a className="nav-link" href="blog-post.html">
                                 <i className="fas fa-bookmark fa-fw mr-2" />
                                 Blog Post
-                            </a>
+                            </a> */}
+                            <Link to="/login" className="nav-link" >Login</Link>
+
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="about.html">
+                            {/* <a className="nav-link" href="about.html">
                                 <i className="fas fa-user fa-fw mr-2" />
                                 About Me
-                            </a>
+                            </a> */}
+                            <Link to="/register" className="nav-link" >Register</Link>
+
                         </li>
                     </ul>
                     <div className="my-2 my-md-3">

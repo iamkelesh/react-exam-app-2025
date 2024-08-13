@@ -34,7 +34,7 @@ function Home2Strap() {
                         <div className="media">
                             <img
                                 className="mr-3 img-fluid post-thumb d-none d-md-flex"
-                                src="public/images/blog/blog-post-thumb-1.jpg"
+                                src="/images/blog/blog-post-thumb-1.jpg"
                                 alt="image"
                             />
                             <div className="media-body">
@@ -69,7 +69,7 @@ function Home2Strap() {
                         <div className="media">
                             <img
                                 className="mr-3 img-fluid post-thumb d-none d-md-flex"
-                                src="public/images/blog/blog-post-thumb-2.jpg"
+                                src="/images/blog/blog-post-thumb-2.jpg"
                                 alt="image"
                             />
                             <div className="media-body">
@@ -104,7 +104,7 @@ function Home2Strap() {
                         <div className="media">
                             <img
                                 className="mr-3 img-fluid post-thumb d-none d-md-flex"
-                                src="public/images/blog/blog-post-thumb-3.jpg"
+                                src="/images/blog/blog-post-thumb-3.jpg"
                                 alt="image"
                             />
                             <div className="media-body">
@@ -137,7 +137,7 @@ function Home2Strap() {
                         <div className="media">
                             <img
                                 className="mr-3 img-fluid post-thumb d-none d-md-flex"
-                                src="public/images/blog/blog-post-thumb-4.jpg"
+                                src="/images/blog/blog-post-thumb-4.jpg"
                                 alt="image"
                             />
                             <div className="media-body">
@@ -170,7 +170,7 @@ function Home2Strap() {
                         <div className="media">
                             <img
                                 className="mr-3 img-fluid post-thumb d-none d-md-flex"
-                                src="public/images/blog/blog-post-thumb-5.jpg"
+                                src="/images/blog/blog-post-thumb-5.jpg"
                                 alt="image"
                             />
                             <div className="media-body">
@@ -203,7 +203,7 @@ function Home2Strap() {
                         <div className="media">
                             <img
                                 className="mr-3 img-fluid post-thumb d-none d-md-flex"
-                                src="public/images/blog/blog-post-thumb-6.jpg"
+                                src="/images/blog/blog-post-thumb-6.jpg"
                                 alt="image"
                             />
                             <div className="media-body">
