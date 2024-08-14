@@ -1,4 +1,7 @@
 import * as requester from './requester'
+import { useNavigation } from '../contexts/navigationContext';
+
+
 const baseUrl = 'http://localhost:3030/data/posts'
 
 export const getAll = async () => {
@@ -6,9 +9,26 @@ export const getAll = async () => {
     return result
 }
 
-export const createService = async (postData,accessToken) => {
-    const result = await requester.post(baseUrl, postData,accessToken)
+export const getLatest = async () => {
+  try {
+    const result = await requester.get(`${baseUrl}?sortBy=_createdOn%20desc&offset=0&pageSize=5`)
     return result
+  } catch (error) {
+    console.log(error.message)
+    // alert(error.message)
+    return []
+  }
+}
+
+export const createService = async (postData, accessToken, navigate) => {
+    try {
+        const result = await requester.post(baseUrl, postData, accessToken)
+        navigate('/')
+    } catch (error) {
+        console.log(error)
+        alert(error.message)
+    }
+
 }
 
 export const getOneService = async (id) => {
