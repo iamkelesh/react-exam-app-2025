@@ -6,7 +6,7 @@ export const useForm = (submitHandler, initialValues, accessToken) => {
     const onChange = (e) => {
         setValues(x => ({
             ...x,
-            [e.target.id]: e.target.value
+            [e.target.name]: e.target.value
         }))
     }
 
