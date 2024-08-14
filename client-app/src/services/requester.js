@@ -13,6 +13,7 @@ const requester = async (method, url, data, accessToken) => {
         }
 
     }
+    console.log(accessToken)
     if (accessToken) {
         console.log(accessToken)
     }

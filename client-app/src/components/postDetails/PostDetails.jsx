@@ -1,11 +1,30 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 import { getOneService } from "../../services/postsServices"
 import Button from 'react-bootstrap/Button';
-
-
+import { removeService } from "../../services/postsServices"
+import AuthContext from "../../contexts/authContext";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 function PostDetails() {
     const [dataState, setDataState] = useState({})
+    const { accessToken } = useContext(AuthContext)
+    const navigate = useNavigate()
+
+
+    const deletePostHandler = async () => {
+        const confirmDelete = window.confirm('Are you sure you want to delete this post?')
+
+        if (confirmDelete) {
+            try {
+                await removeService(postId, accessToken)
+                navigate('/')
+            } catch (error) {
+                console.error(error)
+                navigate('/*')
+            }
+        }
+    }
 
     const { postId } = useParams()
     useEffect(() => {
@@ -29,7 +48,7 @@ function PostDetails() {
                         </span> */}
                         <Button type="button">Like</Button>{' '}
                         <Button type="button">Edit</Button>{' '}
-                        <Button type="button">Delete</Button>{' '}
+                        <Button type="button" onClick={deletePostHandler}>Delete</Button>{' '}
 
                     </div>
                 </header>
