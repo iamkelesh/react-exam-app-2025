@@ -1,56 +1,81 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import { Link } from 'react-router-dom';
-import { useContext } from 'react';
+import React, { useContext } from "react";
+import AuthContext from "../../contexts/authContext";
 
-import AuthContext from '../../contexts/authContext';
+import { Link } from "react-router-dom";
+
 
 function Header() {
-
     const { isAuthenticated } = useContext(AuthContext)
-    console.log(isAuthenticated)
 
     return (
-        <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
-            <Container>
-                <Navbar.Brand as={Link} to={'/home'}>Home</Navbar.Brand>
-                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="me-auto">
-                        <Nav.Link as={Link} to={'/all-topics'}>All topics</Nav.Link>
+        <header className="header text-center">
+            <h1 className="blog-name pt-lg-4 mb-0">
+                <a href="index.html">Blog site exam</a>
+            </h1>
+            <nav className="navbar navbar-expand-lg navbar-dark">
+                <button
+                    className="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navigation"
+                    aria-controls="navigation"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span className="navbar-toggler-icon" />
+                </button>
+                <div id="navigation" className="collapse navbar-collapse flex-column">
+                    <div className="profile-section pt-3 pt-lg-0">
+                        {/* <img
+                            className="profile-image mb-3 rounded-circle mx-auto"
+                            src="public/images/profile.png"
+                            alt="profile picture"
 
-                        {isAuthenticated && <Nav.Link as={Link} to={'/create-discusion'}>Create discusion</Nav.Link>}
-                        {isAuthenticated && <Nav.Link as={Link} to={'/account'}>Account</Nav.Link>}
+                            // here you can add users profile image
+                        /> */}
+                        <div className="bio mb-3">
+                            Hi, my name is Anthony Doe. Briefly introduce yourself here. You can
+                            also provide a link to the about page.
+                            <br />
+                            <a href="about.html">Find out more about me</a>
+                        </div>
+                        {/*//bio*/}
 
-                        <NavDropdown title="Topics" id="collapsible-nav-dropdown">
-                            <NavDropdown.Item as={Link} to={'/topics/games'}>Games</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item as={Link} to={'/topics/movies'}>Movies</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to={'/topics/anime'}>Anime</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item as={Link} to={'/topics/books'}>
-                                Books
-                            </NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to={'/topics/manga'}>Manga</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to={'/topics/comics'}>
-                                Comics
-                            </NavDropdown.Item>
-                        </NavDropdown>
+                        {/*//social-list*/}
+                        <hr />
+                    </div>
+                    {/*//profile-section*/}
+                    <ul className="navbar-nav flex-column text-left">
 
-                        {!isAuthenticated && <Nav.Link as={Link} to={'/user/login'}>Login</Nav.Link>}
-                        {!isAuthenticated && <Nav.Link as={Link} to={'/user/register'}>Register</Nav.Link>}
-
-                        {isAuthenticated && <Nav.Link as={Link} to={'/user/logout'}>Logout</Nav.Link>}
+                        <li className="nav-item">
+                            <Link to="/home" className="nav-link" >Home</Link>
+                        </li>
+                        {!isAuthenticated &&
+                            <li className="nav-item">
+                                <Link to="/user/login" className="nav-link" >Login</Link>
+                            </li>
+                        }
 
 
-                    </Nav>
-                    <Nav>
-                    </Nav>
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
+                        {!isAuthenticated &&
+                            <li className="nav-item">
+                                <Link to="/user/register" className="nav-link" >Register</Link>
+                            </li>
+                        }
+
+                    </ul>
+                    <div className="my-2 my-md-3">
+                        <a
+                            className="btn btn-primary"
+                            href="https://themes.3rdwavemedia.com/"
+                            target="_blank"
+                        >
+                            Get in Touch
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </header>
     );
 }
 

@@ -1,72 +1,60 @@
-import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import Container from 'react-bootstrap/esm/Container';
-import Row from 'react-bootstrap/Row';
+import styles from './Login.module.css';
 import { useContext } from 'react';
-import { useForm } from '../../hooks/useForm';
 import AuthContext from '../../contexts/authContext';
-
-import styles from './Login.module.css'
+import { useForm } from '../../hooks/useForm';
 
 const initialValues = {
-  email: '',
-  password: '',
+    email: '',
+    password: '',
 }
 
 function Login() {
+    const { loginSubmitHandler } = useContext(AuthContext)
+    const { values, onChange, onSubmit } = useForm(loginSubmitHandler, initialValues)
 
-  const { loginSubmitHandler } = useContext(AuthContext)
-  const { values, onChange, onSubmit } = useForm(loginSubmitHandler, initialValues)
-
-  return (
-    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-      <Form noValidate className={styles.customForm} onSubmit={onSubmit} >
-
-        <Form.Group as={Row} controlId="email" className={styles.formGroup}>
-          <Form.Label column sm={3} className="text-center">
-            Email address
-          </Form.Label>
-          <Col sm={9}>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              required
-              onChange={onChange}
-              value={values.email}
-            />
-            <Form.Control.Feedback type="invalid">
-              Please provide a valid email address.
-            </Form.Control.Feedback>
-          </Col>
-        </Form.Group>
-
-        <Form.Group as={Row} controlId="password" className={styles.formGroup}>
-          <Form.Label column sm={3} className="text-center">
-            Password
-          </Form.Label>
-          <Col sm={9}>
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              required
-              minLength="6"
-              onChange={onChange}
-              value={values.password}
-            />
-            <Form.Control.Feedback type="invalid">
-              Please provide a password with at least 6 characters.
-            </Form.Control.Feedback>
-          </Col>
-        </Form.Group>
-
-        <Button variant="primary" type="submit" className="d-block mx-auto">
-          Login
-        </Button>
-      </Form>
-    </Container>
-  );
+    return (
+        <div className={styles.container}>
+            <form id={styles.contact} action="" method="post" onSubmit={onSubmit}>
+                <h3 className={styles.h3}>Login</h3>
+                <h4 className={styles.h4}>Enter your login credentials!</h4>
+                <fieldset className={styles.fieldset}>
+                    <input
+                        placeholder="Your Email Address"
+                        type="email"
+                        tabIndex={2}
+                        required
+                        name='email'
+                        className={styles.input}
+                        onChange={onChange}
+                        value={values.email}
+                    />
+                </fieldset>
+                <fieldset className={styles.fieldset}>
+                    <input
+                        placeholder="Your password"
+                        type="password"
+                        tabIndex={1}
+                        required
+                        autoFocus
+                        name='password'
+                        className={styles.input}
+                        onChange={onChange}
+                        value={values.password}
+                    />
+                </fieldset>
+                <fieldset>
+                    <button
+                        name="submit"
+                        type="submit"
+                        id="contact-submit"
+                        data-submit="...Sending"
+                    >
+                        Submit
+                    </button>
+                </fieldset>
+            </form>
+        </div>
+    );
 }
 
 export default Login;
