@@ -9,6 +9,7 @@ import Create from "./components/create/Create"
 import Home from "./components/home/Home"
 import Login from "./components/login/Login"
 import PostDetails from "./components/postDetails/PostDetails"
+import AuthGuard from "./guards/AuthGuard"
 
 function App() {
 
@@ -32,7 +33,11 @@ function App() {
                   <Route path='/user/logout' element={<Logout />} />
                   <Route path='/posts/details/:postId' element={<PostDetails />} />
 
-                  <Route path='/posts/create' element={<Create />} />
+                  <Route path='/posts/create' element={
+                    <AuthGuard>
+                      <Create />
+                    </AuthGuard>
+                  } />
 
                   <Route path="*" element={<h1>Not Found</h1>} />
                 </Routes>
