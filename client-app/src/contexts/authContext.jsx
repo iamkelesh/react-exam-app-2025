@@ -11,15 +11,30 @@ export const AuthProvider = ({ children }) => {
     const [authState, setAuthState] = useState({})
 
     const registerSubmitHandler = async (data) => {
-        const result = await register(data)
-        setAuthState(result)
-        navigate('/')
+
+        try {
+            const result = await register(data)
+            setAuthState(result)
+            navigate('/')
+
+        } catch (error) {
+            console.log(error)
+            alert(error.message)
+        }
+
     }
 
     const loginSubmitHandler = async (data) => {
-        const result = await login(data)
-        setAuthState(result)
-        navigate('/')
+        try {
+            const result = await login(data)
+            console.log('everything should be fine')
+            setAuthState(result)
+            navigate('/')
+        } catch (error) {
+            console.log(error)
+            alert(error.message)
+        }
+
     }
 
     const logoutHandler = () => {
@@ -34,7 +49,7 @@ export const AuthProvider = ({ children }) => {
         fullName: authState.fullName,
         email: authState.email,
         userId: authState._id,
-        accessToken: authState.accessToken 
+        accessToken: authState.accessToken
 
     }
 

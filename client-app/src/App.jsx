@@ -31,7 +31,7 @@ function App() {
                   <Route path='/user/register' element={<Register />} />
                   <Route path='/user/logout' element={<Logout />} />
 
-                  <Route path='/create-discusion' element={<Create />} />
+                  <Route path='/posts/create' element={<Create />} />
 
                   <Route path="*" element={<h1>Not Found</h1>} />
                 </Routes>
