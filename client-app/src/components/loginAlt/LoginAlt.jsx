@@ -1,76 +1,60 @@
-function LoginAlt() {
-    return (
-        <>
-            <div className="form">
-                <ul className="tab-group">
-                    <li className="tab active">
-                        <a href="#signup">Sign Up</a>
-                    </li>
-                    <li className="tab">
-                        <a href="#login">Log In</a>
-                    </li>
-                </ul>
-                <div className="tab-content">
-                    <div id="signup">
-                        <h1>Sign Up for Free</h1>
-                        <form action="/" method="post">
-                            <div className="top-row">
-                                <div className="field-wrap">
-                                    <label>
-                                        First Name<span className="req">*</span>
-                                    </label>
-                                    <input type="text" required="" autoComplete="off" />
-                                </div>
-                                <div className="field-wrap">
-                                    <label>
-                                        Last Name<span className="req">*</span>
-                                    </label>
-                                    <input type="text" required="" autoComplete="off" />
-                                </div>
-                            </div>
-                            <div className="field-wrap">
-                                <label>
-                                    Email Address<span className="req">*</span>
-                                </label>
-                                <input type="email" required="" autoComplete="off" />
-                            </div>
-                            <div className="field-wrap">
-                                <label>
-                                    Set A Password<span className="req">*</span>
-                                </label>
-                                <input type="password" required="" autoComplete="off" />
-                            </div>
-                            <button type="submit" className="button button-block">
-                                Get Started
-                            </button>
-                        </form>
-                    </div>
-                    <div id="login">
-                        <h1>Welcome Back!</h1>
-                        <form action="/" method="post">
-                            <div className="field-wrap">
-                                <label>
-                                    Email Address<span className="req">*</span>
-                                </label>
-                                <input type="email" required="" autoComplete="off" />
-                            </div>
-                            <div className="field-wrap">
-                                <label>
-                                    Password<span className="req">*</span>
-                                </label>
-                                <input type="password" required="" autoComplete="off" />
-                            </div>
-                            <p className="forgot">
-                                <a href="#">Forgot Password?</a>
-                            </p>
-                            <button className="button button-block">Log In</button>
-                        </form>
-                    </div>
-                </div>
-                {/* tab-content */}
-            </div>{" "}
-            {/* /form */}
-        </>
+import styles from './LoginAlt.module.css';
+import { useContext } from 'react';
+import AuthContext from '../../contexts/authContext';
+import { useForm } from '../../hooks/useForm';
 
-    )
+const initialValues = {
+    email: '',
+    password: '',
 }
+
+function LoginAlt() {
+    const { loginSubmitHandler } = useContext(AuthContext)
+    const { values, onChange, onSubmit } = useForm(loginSubmitHandler, initialValues)
+
+    return (
+        <div className={styles.container}>
+            <form id={styles.contact} action="" method="post" onSubmit={onSubmit}>
+                <h3 className={styles.h3}>Login</h3>
+                <h4 className={styles.h4}>Enter your login credentials!</h4>
+                <fieldset className={styles.fieldset}>
+                    <input
+                        placeholder="Your Email Address"
+                        type="email"
+                        tabIndex={2}
+                        required
+                        name='email'
+                        className={styles.input}
+                        onChange={onChange}
+                        value={values.email}
+                    />
+                </fieldset>
+                <fieldset className={styles.fieldset}>
+                    <input
+                        placeholder="Your password"
+                        type="password"
+                        tabIndex={1}
+                        required
+                        autoFocus
+                        name='password'
+                        className={styles.input}
+                        onChange={onChange}
+                        value={values.password}
+                    />
+                </fieldset>
+                <fieldset>
+                    <button
+                        name="submit"
+                        type="submit"
+                        id="contact-submit"
+                        data-submit="...Sending"
+                    >
+                        Submit
+                    </button>
+                </fieldset>
+            </form>
+        </div>
+    );
+}
+
+export default LoginAlt;
