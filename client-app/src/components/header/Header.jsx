@@ -50,13 +50,18 @@ function Header() {
                         <li className="nav-item">
                             <Link to="/home" className="nav-link" >Home</Link>
                         </li>
+
+                        {isAuthenticated &&
+                            <li className="nav-item">
+                                <Link to="/posts/create" className="nav-link" >Create post</Link>
+                            </li>
+                        }
+
                         {!isAuthenticated &&
                             <li className="nav-item">
                                 <Link to="/user/login" className="nav-link" >Login</Link>
                             </li>
                         }
-
-
                         {!isAuthenticated &&
                             <li className="nav-item">
                                 <Link to="/user/register" className="nav-link" >Register</Link>
