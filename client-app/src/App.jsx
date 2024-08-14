@@ -7,8 +7,8 @@ import Register from "./components/register/Register"
 import Logout from "./components/logout/Logout"
 import Create from "./components/create/Create"
 import Home from "./components/home/Home"
-import Header3Strap from "./components/header/Header"
 import Login from "./components/login/Login"
+import PostDetails from "./components/postDetails/PostDetails"
 
 function App() {
 
@@ -30,6 +30,7 @@ function App() {
                   <Route path="/user/login" element={<Login />} />
                   <Route path='/user/register' element={<Register />} />
                   <Route path='/user/logout' element={<Logout />} />
+                  <Route path='/posts/details/:postId' element={<PostDetails />} />
 
                   <Route path='/posts/create' element={<Create />} />
 

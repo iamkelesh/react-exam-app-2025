@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom"
+import { getOneService } from "../../services/postsServices"
+
 function SmallPostTemplate({_id, title, body}) {
     return (
         <div className="item mb-5" id={_id}>
@@ -21,9 +24,10 @@ function SmallPostTemplate({_id, title, body}) {
                     <div className="intro">
                         {(body.length > 100) ? body.substring(0, 200) + '...' : body}
                     </div>
-                    <a className="more-link" href="blog-post.html">
+                    {/* <a className="more-link" href="blog-post.html">
                         Read more →
-                    </a>
+                    </a> */}
+                    <Link to={`/posts/details/${_id}`} className="more-link" >Read more</Link>
                 </div>
             </div>
         </div>

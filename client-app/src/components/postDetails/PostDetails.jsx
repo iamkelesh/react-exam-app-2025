@@ -1,0 +1,82 @@
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import { getOneService } from "../../services/postsServices"
+import Button from 'react-bootstrap/Button';
+
+
+function PostDetails() {
+    const [dataState, setDataState] = useState({})
+
+    const { postId } = useParams()
+    useEffect(() => {
+        getOneService(postId)
+            .then(result => {
+                const date = new Date(result._createdOn)
+                const humanDate = date.toDateString()
+                setDataState({ ...result, humanDate })
+            })
+            .catch(err => console.error(err))
+    }, [])
+    return (
+        <article className="blog-post px-3 py-5 p-md-5">
+            <div className="container">
+                <header className="blog-post-header">
+                    <h2 className="title mb-2">Why Every Developer Should Have A Blog</h2>
+                    <div className="meta mb-3">
+                        <span className="date">Published on {dataState.humanDate}</span>
+                        {/* <span className="comment">
+                            <a href="#">4 comments</a>
+                        </span> */}
+                        <Button type="button">Like</Button>{' '}
+                        <Button type="button">Edit</Button>{' '}
+                        <Button type="button">Delete</Button>{' '}
+
+                    </div>
+                </header>
+                <div className="blog-post-body">
+                    <figure className="blog-banner">
+                        {/* <a href="https://made4dev.com">
+                            <img
+                                className="img-fluid"
+                                src="assets/images/blog/blog-post-banner.jpg"
+                                alt="image"
+                            />
+                        </a> */}
+                    </figure>
+                    <p>
+                        {dataState.body}
+                    </p>
+                </div>
+                {/* <nav className="blog-nav nav nav-justified my-5">
+                    <a
+                        className="nav-link-prev nav-item nav-link rounded-left"
+                        href="index.html"
+                    >
+                        Previous
+                        <i className="arrow-prev fas fa-long-arrow-alt-left" />
+                    </a>
+                    <a
+                        className="nav-link-next nav-item nav-link rounded-right"
+                        href="blog-list.html"
+                    >
+                        Next
+                        <i className="arrow-next fas fa-long-arrow-alt-right" />
+                    </a>
+                </nav> */}
+                <div className="blog-comments-section">
+                    <div id="disqus_thread" />
+                    <noscript>
+                        Please enable JavaScript to view the &lt;a
+                        href="https://disqus.com/?ref_noscript" rel="nofollow"&gt; comments
+                        powered by Disqus. &lt;/a&gt;
+                    </noscript>
+                </div>
+                {/*//blog-comments-section*/}
+            </div>
+            {/*//container*/}
+        </article>
+
+    )
+}
+
+export default PostDetails
