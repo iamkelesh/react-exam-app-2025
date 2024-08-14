@@ -41,3 +41,6 @@ export const editService = async (gameId, gameData) => {
 
     return result
 };
+
+
+export const removeService = async (postId) => requester.remove(`${baseUrl}/${postId}`)
