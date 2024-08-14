@@ -23,19 +23,25 @@ const requester = async (method, url, data, accessToken) => {
         };
     }
 
-    let response = await fetch(url, { method, ...options })
-    // console.log(response)
-    if (response.status === 204) {
-        return {};
-    }
+    try {
+        let response = await fetch(url, { method, ...options })
+        // console.log(response)
+        if (response.status === 204) {
+            return {};
+        }
 
-    let result = await response.json()
-    // console.log(result.email)
-    if (!response.ok) {
+        let result = await response.json()
+        // console.log(result.email)
+        if (!response.ok) {
+            throw result;
+        }
+
+        return result
+    } catch (error) {
+        console.error(error)
+        alert(error.message)
         throw result;
     }
-
-    return result
 }
 
 
