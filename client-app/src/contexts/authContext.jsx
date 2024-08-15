@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }) => {
     const loginSubmitHandler = async ({values}) => {
         try {
             const result = await login({values})
-            console.log('everything should be fine')
             setAuthState(result)
             navigate('/')
         } catch (error) {

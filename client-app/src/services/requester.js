@@ -14,9 +14,6 @@ const requester = async (method, {url, values, accessToken}) => {
 
     }
     if (accessToken) {
-        console.log(accessToken)
-    }
-    if (accessToken) {
         options.headers = {
             ...options.headers,
             'X-Authorization': accessToken

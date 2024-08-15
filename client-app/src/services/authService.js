@@ -4,7 +4,6 @@ const baseUrl = 'http://localhost:3030/users';
 
 
 export const register = async ({ values }) => {
-    console.log(values)
     return await requester.post({ url: `${baseUrl}/register`, values })
 }
 

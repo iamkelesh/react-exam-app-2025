@@ -1,15 +1,24 @@
-import { createCommentService } from "../../services/commentService"
 import { useForm } from "../../hooks/useForm"
+import { useContext } from 'react';
+import { useNavigate } from "react-router-dom";
+
 import styles from './AddComment.module.css';
+import AuthContext from '../../contexts/authContext';
+import { createCommentService } from "../../services/commentService"
+import { useParams } from "react-router";
+
 const initialValues = {
-   text: '',
+    text: '',
 }
 
-function AddComment () {
-
+function AddComment() {
+    const { accessToken } = useContext(AuthContext)
+    const navigate = useNavigate()
+    const {postId} = useParams()
+    // console.log(postId)
     // const { loginSubmitHandler } = useContext(AuthContext)
-    const { values, onChange, onSubmit } = useForm({submitHandler:createCommentService, initialValues})
-    
+    const { values, onChange, onSubmit } = useForm({ submitHandler: createCommentService, initialValues, accessToken, postId, navigate})
+
     return (
         <div className={styles.container}>
             <form id={styles.contact} action="" method="post" onSubmit={onSubmit}>
