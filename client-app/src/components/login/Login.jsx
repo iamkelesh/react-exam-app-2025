@@ -10,7 +10,7 @@ const initialValues = {
 
 function Login() {
     const { loginSubmitHandler } = useContext(AuthContext)
-    const { values, onChange, onSubmit } = useForm(loginSubmitHandler, initialValues)
+    const { values, onChange, onSubmit } = useForm({submitHandler:loginSubmitHandler, initialValues})
 
     return (
         <div className={styles.container}>

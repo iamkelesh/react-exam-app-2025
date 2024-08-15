@@ -15,7 +15,7 @@ const initialValues = {
 function Create() {
   const navigate = useNavigation();
   const { accessToken } = useContext(AuthContext)
-  const { values, onChange, onSubmit } = useForm(createService, initialValues, accessToken, navigate);
+  const { values, onChange, onSubmit } = useForm({submitHandler:createService, initialValues, accessToken, navigate});
 
   return (
     <div className={styles.container}>

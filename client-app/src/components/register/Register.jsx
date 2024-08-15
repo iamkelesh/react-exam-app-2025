@@ -14,7 +14,7 @@ const initialValues = {
 function Register() {
 
     const { registerSubmitHandler } = useContext(AuthContext)
-    const { values, onChange, onSubmit } = useForm(registerSubmitHandler, initialValues)
+    const { values, onChange, onSubmit } = useForm({submitHandler:registerSubmitHandler, initialValues})
 
     return (
         <div className={styles.container}>

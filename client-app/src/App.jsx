@@ -6,9 +6,9 @@ import Header from "./components/header/Header"
 import Register from "./components/register/Register"
 import Logout from "./components/logout/Logout"
 import Create from "./components/create/Create"
+import UpdatePost from "./components/updatePost/UpdatePost"
 import Home from "./components/home/Home"
 import Login from "./components/login/Login"
-import SmallPostTemplate from "./components/smallPostTemplate/SmallPostTemplate"
 import UsersPosts from "./components/usersPosts/UsersPosts"
 import PostDetails from "./components/postDetails/PostDetails"
 
@@ -51,6 +51,14 @@ function App() {
                       <Create />
                     </AuthGuard>
                   } />
+
+                  {/* <Route path='/posts/edit/:postId' element={
+                    <AuthGuard>
+                      <UpdatePost />
+                    </AuthGuard>
+                  } /> */}
+
+                  <Route path='/posts/edit/:postId' element={<UpdatePost/>} />
 
                   <Route path="*" element={<h1>Not Found</h1>} />
                 </Routes>

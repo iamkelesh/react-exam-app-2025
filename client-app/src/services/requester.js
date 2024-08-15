@@ -1,13 +1,13 @@
 // import AuthContext from "../contexts/authContext"
 // import { useContext } from "react"
 
-const requester = async (method, url, data, accessToken) => {
+const requester = async (method, {url, values, accessToken}) => {
     // let { accessToken } = useContext(AuthContext)
     let options = {}
     // console.log(data)
 
-    if (data) {
-        options.body = JSON.stringify(data)
+    if (values) {
+        options.body = JSON.stringify(values)
         options.headers = {
             'Content-Type': 'application/json'
         }

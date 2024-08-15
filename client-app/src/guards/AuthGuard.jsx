@@ -5,7 +5,6 @@ import AuthContext from '../contexts/authContext';
 
 const AuthGuard = ({ children }) => {
     const { accessToken } = useContext(AuthContext)
-
     if (!accessToken) {
         return <Navigate to="/user/login" />;
     }

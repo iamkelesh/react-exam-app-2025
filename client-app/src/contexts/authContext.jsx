@@ -10,10 +10,10 @@ export const AuthProvider = ({ children }) => {
     const navigate = useNavigate()
     const [authState, setAuthState] = useState({})
 
-    const registerSubmitHandler = async (data) => {
+    const registerSubmitHandler = async ({values}) => {
 
         try {
-            const result = await register(data)
+            const result = await register({values})
             setAuthState(result)
             navigate('/')
 
@@ -24,9 +24,9 @@ export const AuthProvider = ({ children }) => {
 
     }
 
-    const loginSubmitHandler = async (data) => {
+    const loginSubmitHandler = async ({values}) => {
         try {
-            const result = await login(data)
+            const result = await login({values})
             console.log('everything should be fine')
             setAuthState(result)
             navigate('/')
