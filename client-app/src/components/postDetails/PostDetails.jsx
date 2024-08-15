@@ -15,11 +15,11 @@ function PostDetails() {
     const navigate = useNavigate()
 
     // console.log(isAuthenticated)
-    if (isAuthenticated) {
-        console.log('You are authenticated')
-    } else {
-        console.log('You are not authenticated')
-    }
+    // if (isAuthenticated) {
+    //     console.log('You are authenticated')
+    // } else {
+    //     console.log('You are not authenticated')
+    // }
 
     const deletePostHandler = async () => {
         const confirmDelete = window.confirm('Are you sure you want to delete this post?')
@@ -35,7 +35,12 @@ function PostDetails() {
         }
     }
 
+    const redirectToEdit = () => {
+        navigate(`/posts/edit/${postId}`)
+    }
+
     const { postId } = useParams()
+    console.log(postId)
     useEffect(() => {
         getOneService(postId)
             .then(result => {
@@ -62,9 +67,12 @@ function PostDetails() {
 
 
                         {dataState._ownerId === userId && (
-                            <Button onClick={deletePostHandler} variant="danger">Delete</Button>
+                            <>
+                                <Button onClick={redirectToEdit} variant="danger">Edit</Button>{' '}
+                                <Button onClick={deletePostHandler} variant="danger">Delete</Button>{' '}
+                            </>
                         )}
-                        
+
                     </div>
                 </header>
                 <div className="blog-post-body">
