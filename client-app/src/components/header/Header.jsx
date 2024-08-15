@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 
 function Header() {
-    const { isAuthenticated, userId} = useContext(AuthContext)
+    const { isAuthenticated, userId } = useContext(AuthContext)
 
     return (
         <header className="header text-center">
@@ -34,10 +34,7 @@ function Header() {
                             // here you can add users profile image
                         /> */}
                         <div className="bio mb-3">
-                            Hi, my name is Anthony Doe. Briefly introduce yourself here. You can
-                            also provide a link to the about page.
-                            <br />
-                            <a href="about.html">Find out more about me</a>
+                            Hi, this web app is in alpha version. Please report any bugs to the developer.
                         </div>
                         {/*//bio*/}
 
@@ -53,7 +50,7 @@ function Header() {
 
                         {isAuthenticated &&
                             <li className="nav-item">
-                                <Link to={ `/user/posts/${userId}`} className="nav-link" >My posts</Link>
+                                <Link to={`/user/posts/${userId}`} className="nav-link" >My posts</Link>
                                 <Link to="/posts/create" className="nav-link" >Create post</Link>
                                 <Link to="/user/logout" className="nav-link" >Logout</Link>
                             </li>
@@ -71,15 +68,7 @@ function Header() {
                         }
 
                     </ul>
-                    <div className="my-2 my-md-3">
-                        <a
-                            className="btn btn-primary"
-                            href="https://themes.3rdwavemedia.com/"
-                            target="_blank"
-                        >
-                            Get in Touch
-                        </a>
-                    </div>
+
                 </div>
             </nav>
         </header>
