@@ -26,7 +26,17 @@ export const createService = async (postData, accessToken, navigate) => {
     console.log(error)
     alert(error.message)
   }
-
+}
+export const getByUserId = async (userId) => {
+  try {
+    const result = await requester.get(`${baseUrl}?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc`)
+    console.log(result)
+    return result
+  } catch (error) {
+    console.log(error.message)
+    alert(error.message)
+    return []
+  }
 }
 
 export const getOneService = async (id) => {

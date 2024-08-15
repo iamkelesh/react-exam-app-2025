@@ -8,9 +8,11 @@ import Logout from "./components/logout/Logout"
 import Create from "./components/create/Create"
 import Home from "./components/home/Home"
 import Login from "./components/login/Login"
+import SmallPostTemplate from "./components/smallPostTemplate/SmallPostTemplate"
+import UsersPosts from "./components/usersPosts/UsersPosts"
 import PostDetails from "./components/postDetails/PostDetails"
-import AuthGuard from "./guards/AuthGuard"
 
+import AuthGuard from "./guards/AuthGuard"
 function App() {
 
 
@@ -30,8 +32,19 @@ function App() {
                   <Route path='/home' element={<Home />} />
                   <Route path="/user/login" element={<Login />} />
                   <Route path='/user/register' element={<Register />} />
-                  <Route path='/user/logout' element={<Logout />} />
+
+                  <Route path='/user/posts/:userId' element={
+                    <AuthGuard>
+                      <UsersPosts />
+                    </AuthGuard>} />
+
+                  <Route path='/user/logout' element={
+                    <AuthGuard>
+                      <Logout />
+                    </AuthGuard>
+                  } />
                   <Route path='/posts/details/:postId' element={<PostDetails />} />
+
 
                   <Route path='/posts/create' element={
                     <AuthGuard>

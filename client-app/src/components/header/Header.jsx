@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 
 function Header() {
-    const { isAuthenticated } = useContext(AuthContext)
+    const { isAuthenticated, userId} = useContext(AuthContext)
 
     return (
         <header className="header text-center">
@@ -53,7 +53,9 @@ function Header() {
 
                         {isAuthenticated &&
                             <li className="nav-item">
+                                <Link to={ `/user/posts/${userId}`} className="nav-link" >My posts</Link>
                                 <Link to="/posts/create" className="nav-link" >Create post</Link>
+                                <Link to="/user/logout" className="nav-link" >Logout</Link>
                             </li>
                         }
 
