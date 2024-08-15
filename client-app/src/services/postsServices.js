@@ -18,7 +18,7 @@ export const getLatest = async () => {
   }
 }
 
-export const createService = async ({ values, accessToken, navigate }) => {
+export const createPostService = async ({ values, accessToken, navigate }) => {
   try {
     const result = await requester.post({ url: baseUrl, values, accessToken })
     navigate('/')
@@ -27,6 +27,7 @@ export const createService = async ({ values, accessToken, navigate }) => {
     alert(error.message)
   }
 }
+
 export const getByUserId = async (userId) => {
   try {
     const result = await requester.get({ url: `${baseUrl}?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc` })
