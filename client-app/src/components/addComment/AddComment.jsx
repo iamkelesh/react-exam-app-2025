@@ -1,43 +1,29 @@
-
-
+import { createCommentService } from "../../services/commentService"
+import { useForm } from "../../hooks/useForm"
+import styles from './AddComment.module.css';
 const initialValues = {
-    email: '',
-    password: '',
+   text: '',
 }
 
 function AddComment () {
 
-    const { loginSubmitHandler } = useContext(AuthContext)
-    const { values, onChange, onSubmit } = useForm({submitHandler:loginSubmitHandler, initialValues})
+    // const { loginSubmitHandler } = useContext(AuthContext)
+    const { values, onChange, onSubmit } = useForm({submitHandler:createCommentService, initialValues})
     
     return (
         <div className={styles.container}>
             <form id={styles.contact} action="" method="post" onSubmit={onSubmit}>
-                <h3 className={styles.h3}>Login</h3>
-                <h4 className={styles.h4}>Enter your login credentials!</h4>
+                <h4 className={styles.h4}>Enter your comment.</h4>
                 <fieldset className={styles.fieldset}>
                     <input
-                        placeholder="Your Email Address"
-                        type="email"
+                        placeholder="Your comment"
+                        type="text"
                         tabIndex={2}
                         required
-                        name='email'
+                        name='text'
                         className={styles.input}
                         onChange={onChange}
                         value={values.email}
-                    />
-                </fieldset>
-                <fieldset className={styles.fieldset}>
-                    <input
-                        placeholder="Your password"
-                        type="password"
-                        tabIndex={1}
-                        required
-                        autoFocus
-                        name='password'
-                        className={styles.input}
-                        onChange={onChange}
-                        value={values.password}
                     />
                 </fieldset>
                 <fieldset>

@@ -7,6 +7,7 @@ import { useContext } from "react";
 import { getOneService } from "../../services/postsServices"
 import { removeService } from "../../services/postsServices"
 import AuthContext from "../../contexts/authContext";
+import AddComment from "../addComment/AddComment";
 
 
 function PostDetails() {
@@ -106,12 +107,7 @@ function PostDetails() {
                     </a>
                 </nav> */}
                 <div className="blog-comments-section">
-                    <div id="disqus_thread" />
-                    <noscript>
-                        Please enable JavaScript to view the &lt;a
-                        href="https://disqus.com/?ref_noscript" rel="nofollow"&gt; comments
-                        powered by Disqus. &lt;/a&gt;
-                    </noscript>
+                    <AddComment/>
                 </div>
                 {/*//blog-comments-section*/}
             </div>
