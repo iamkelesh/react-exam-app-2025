@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react"
-import { Navigate, useParams } from "react-router-dom"
-import { getOneService } from "../../services/postsServices"
+import { useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
+import { useContext } from "react";
+
+import { getOneService } from "../../services/postsServices"
 import { removeService } from "../../services/postsServices"
 import AuthContext from "../../contexts/authContext";
-import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+
+
 function PostDetails() {
     const [dataState, setDataState] = useState({})
-    const { accessToken } = useContext(AuthContext)
+    const { accessToken, userId, isAuthenticated } = useContext(AuthContext)
     const navigate = useNavigate()
 
+    // console.log(isAuthenticated)
+    if (isAuthenticated) {
+        console.log('You are authenticated')
+    } else {
+        console.log('You are not authenticated')
+    }
 
     const deletePostHandler = async () => {
         const confirmDelete = window.confirm('Are you sure you want to delete this post?')
@@ -35,21 +44,23 @@ function PostDetails() {
                 setDataState({ ...result, humanDate })
             })
             .catch(err => console.error(err))
-    }, [])
+    }, [postId])
     return (
         <article className="blog-post px-3 py-5 p-md-5">
             <div className="container">
                 <header className="blog-post-header">
-                    <h2 className="title mb-2">Why Every Developer Should Have A Blog</h2>
+                    <h2 className="title mb-2">{dataState.title}</h2>
                     <div className="meta mb-3">
                         <span className="date">Published on {dataState.humanDate}</span>
                         {/* <span className="comment">
                             <a href="#">4 comments</a>
                         </span> */}
-                        <Button type="button">Like</Button>{' '}
-                        <Button type="button">Edit</Button>{' '}
-                        <Button type="button" onClick={deletePostHandler}>Delete</Button>{' '}
 
+
+                        {dataState._ownerId === userId && (
+                            <Button onClick={deletePostHandler} variant="danger">Delete</Button>
+                        )}
+                        
                     </div>
                 </header>
                 <div className="blog-post-body">
