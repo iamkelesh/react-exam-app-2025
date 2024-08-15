@@ -43,7 +43,11 @@ function PostDetails() {
                 const humanDate = date.toDateString()
                 setDataState({ ...result, humanDate })
             })
-            .catch(err => console.error(err))
+            .catch(err => {
+                console.error(err)
+                alert('Post not found!')
+                navigate('/*')
+            })
     }, [postId])
     return (
         <article className="blog-post px-3 py-5 p-md-5">
