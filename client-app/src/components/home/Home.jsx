@@ -45,7 +45,7 @@ function Home() {
             <section className="blog-list px-3 py-5 p-md-5">
                 <div className="container">
                     {/* <SmallPostTemplate /> */}
-                    {latestPosts.map(data => <SmallPostTemplate {...data} />)}
+                    {latestPosts.map(data => <SmallPostTemplate key={data._id} {...data} />)}
 
                     {/* <nav className="blog-nav nav nav-justified my-5">
                         <a
