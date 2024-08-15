@@ -3,7 +3,7 @@ import { useForm } from '../../hooks/useForm';
 
 import { useNavigation } from '../../contexts/navigationContext';
 import styles from './Create.module.css';
-import { createService } from '../../services/postsServices';
+import { createPostService } from '../../services/postsServices';
 import AuthContext from '../../contexts/authContext';
 
 
@@ -15,7 +15,7 @@ const initialValues = {
 function Create() {
   const navigate = useNavigation();
   const { accessToken } = useContext(AuthContext)
-  const { values, onChange, onSubmit } = useForm({submitHandler:createService, initialValues, accessToken, navigate});
+  const { values, onChange, onSubmit } = useForm({submitHandler:createPostService, initialValues, accessToken, navigate});
 
   return (
     <div className={styles.container}>
