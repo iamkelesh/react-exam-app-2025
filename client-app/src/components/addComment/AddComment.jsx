@@ -11,13 +11,13 @@ const initialValues = {
     text: '',
 }
 
-function AddComment() {
+function AddComment({ updateComments }) {
     const { accessToken } = useContext(AuthContext)
     const navigate = useNavigate()
-    const {postId} = useParams()
-    // console.log(postId)
-    // const { loginSubmitHandler } = useContext(AuthContext)
-    const { values, onChange, onSubmit } = useForm({ submitHandler: createCommentService, initialValues, accessToken, postId, navigate})
+    const { postId } = useParams()
+    // console.log(updateComments)
+
+    const { values, onChange, onSubmit } = useForm({ submitHandler: createCommentService, initialValues, accessToken, postId, navigate, updateComments })
 
     return (
         <div className={styles.container}>
@@ -32,7 +32,7 @@ function AddComment() {
                         name='text'
                         className={styles.input}
                         onChange={onChange}
-                        value={values.email}
+                        value={values.text}
                     />
                 </fieldset>
                 <fieldset>

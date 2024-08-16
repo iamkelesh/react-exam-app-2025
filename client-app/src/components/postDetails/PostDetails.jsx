@@ -7,16 +7,13 @@ import { useContext } from "react";
 import { getOneService } from "../../services/postsServices"
 import { removeService } from "../../services/postsServices"
 import AuthContext from "../../contexts/authContext";
-import AddComment from "../addComment/AddComment";
 import Comments from "../comments/Comments";
-import { getCommentsForPost } from "../../services/commentService";
 
 
 function PostDetails() {
     const [dataState, setDataState] = useState({})
-    const { accessToken, userId, isAuthenticated } = useContext(AuthContext)
+    const { accessToken, userId } = useContext(AuthContext)
     const navigate = useNavigate()
-    const [commentsState, setCommentsState] = useState([])
 
     const deletePostHandler = async () => {
         const confirmDelete = window.confirm('Are you sure you want to delete this post?')
@@ -33,7 +30,7 @@ function PostDetails() {
     }
 
     const redirectToEdit = () => {
-        navigate(`/posts/edit/${postId}`).then(result => console.log(result))
+        navigate(`/posts/edit/${postId}`)/*.then(result => console.log(result))*/
     }
 
 
@@ -51,12 +48,7 @@ function PostDetails() {
                 alert('Post not found!')
                 navigate('/*')
             })
-        getCommentsForPost(postId).then(result => { 
-            // console.log(result)
-            setCommentsState(result) 
-        })
     }, [postId])
-
 
 
     return (
@@ -85,13 +77,8 @@ function PostDetails() {
                     </p>
                 </div>
 
-                {isAuthenticated &&
-                    <div className="blog-comments-section">
-                        <AddComment />
-                    </div>}
-
                 <div className="blog-comments-section">
-                    <Comments commentsState={commentsState}/>
+                    <Comments />
                 </div>
             </div>
         </article>

@@ -1,9 +1,38 @@
+import { useEffect } from "react";
 import SingleComment from "../singleComment/SingleComment";
-import style from "./Comments.module.css";
+import { useParams } from "react-router-dom"
+import { useContext } from "react";
 
-function Comments({commentsState}) {
-  // console.log('comments.jsx')
-  // console.log(commentsState)
+
+import { getCommentsForPost } from "../../services/commentService"
+import { useState } from "react";
+import AuthContext from "../../contexts/authContext";
+import AddComment from "../addComment/AddComment";
+
+
+function Comments() {
+  const [commentsState, setCommentsState] = useState([])
+  const { postId } = useParams()
+
+  const { isAuthenticated } = useContext(AuthContext)
+
+  const updateComments = (newComment) => {
+    // console.log(newComment)
+    // console.log(commentsState)
+    let newCommentsState = [...commentsState, newComment]
+
+    setCommentsState(newCommentsState)
+    console.log(commentsState)
+  }
+  useEffect(() => {
+    getCommentsForPost({ postId, updateComments })
+  }, [postId])
+  // useEffect(() => {console.log(commentsState)})
+  function demoButtonHandler() {
+    console.log(commentsState.length)
+    console.log(commentsState)
+
+  }
   return (
     <div className="container mt-5">
       <div className="row  d-flex justify-content-center">
@@ -17,25 +46,24 @@ function Comments({commentsState}) {
             </div>
           </div>
 
+          {isAuthenticated && (
+            <div className="blog-comments-section">
+              <AddComment updateComments={updateComments} />
+            </div>)}
 
-          {commentsState.length > 0 && commentsState.map((commentData) => (
-              <SingleComment key={commentData._id} 
-              text={commentData.text} 
-              author={commentData.author} 
-              _createdOn={commentData._createdOn}  />
-            ))
-          }
+            {commentsState.map((comment, index) => (
+              <SingleComment key={index} comment={comment} />
+            ))}
 
-          {commentsState.length === 0 && (
-            <p className="no-comment">No comments.</p>
+          {commentsState.length > 0 && (
+            <p className="no-comment">show comments or smth.</p>
           )}
 
-
+          <button onClick={demoButtonHandler}>Demo</button>
 
         </div>
       </div>
     </div>
-
   )
 }
 export default Comments

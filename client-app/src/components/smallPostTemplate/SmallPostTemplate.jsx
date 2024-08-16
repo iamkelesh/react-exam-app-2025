@@ -2,6 +2,9 @@ import { Link } from "react-router-dom"
 import { getOneService } from "../../services/postsServices"
 
 function SmallPostTemplate({_id, title, body}) {
+    // console.log(_id)
+    // console.log(title)
+    // console.log(body)
     return (
         <div className="item mb-5" id={_id}>
             <div className="media">
