@@ -6,11 +6,11 @@ import App from './App.jsx'
 import { NavigationProvider } from './contexts/navigationContext.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  // <StrictMode>
     <BrowserRouter>
       <NavigationProvider>
         <App />
       </NavigationProvider>
     </BrowserRouter>
-  </StrictMode >
+  // </StrictMode >
 )

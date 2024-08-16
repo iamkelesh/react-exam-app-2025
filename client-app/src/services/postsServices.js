@@ -31,7 +31,6 @@ export const createPostService = async ({ values, accessToken, navigate }) => {
 export const getByUserId = async (userId) => {
   try {
     const result = await requester.get({ url: `${baseUrl}?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc` })
-    console.log(result)
     return result
   } catch (error) {
     console.log(error.message)
