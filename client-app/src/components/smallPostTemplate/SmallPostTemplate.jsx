@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
-import { getOneService } from "../../services/postsServices"
+// import { getOneService } from "../../services/postsServices"
 
+// eslint-disable-next-line react/prop-types
 function SmallPostTemplate({_id, title, body}) {
     // console.log(_id)
     // console.log(title)

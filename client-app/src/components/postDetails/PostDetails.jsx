@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
-import { useNavigate } from "react-router-dom";
+import {useEffect, useState} from "react"
+import {useParams} from "react-router-dom"
+import {useNavigate} from "react-router-dom";
 import Button from 'react-bootstrap/Button';
-import { useContext } from "react";
+import {useContext} from "react";
 
-import { getOneService } from "../../services/postsServices"
-import { removeService } from "../../services/postsServices"
+import {getOneService} from "../../services/postsServices"
+import {removeService} from "../../services/postsServices"
 import AuthContext from "../../contexts/authContext";
 import Comments from "../comments/Comments";
 
 
 function PostDetails() {
     const [dataState, setDataState] = useState({})
-    const { accessToken, userId } = useContext(AuthContext)
+    const {accessToken, userId} = useContext(AuthContext)
     const navigate = useNavigate()
 
     const deletePostHandler = async () => {
@@ -34,21 +34,21 @@ function PostDetails() {
     }
 
 
-    const { postId } = useParams()
+    const {postId} = useParams()
 
     useEffect(() => {
         getOneService(postId)
             .then(result => {
                 const date = new Date(result._createdOn)
                 const humanDate = date.toDateString()
-                setDataState({ ...result, humanDate })
+                setDataState({...result, humanDate})
             })
             .catch(err => {
                 console.error(err)
                 alert('Post not found!')
                 navigate('/*')
             })
-    }, [postId])
+    }, [postId, navigate])
 
 
     return (
@@ -78,7 +78,7 @@ function PostDetails() {
                 </div>
 
                 <div className="blog-comments-section">
-                    <Comments />
+                    <Comments/>
                 </div>
             </div>
         </article>

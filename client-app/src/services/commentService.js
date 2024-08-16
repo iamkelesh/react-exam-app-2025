@@ -8,7 +8,7 @@ export const createCommentService = async ({ values, accessToken, postId, update
     try {
 
         const result = await requester.post({ url: baseUrl, values: { ...values, postId }, accessToken })
-        updateComments(result)
+        updateComments([result])
     } catch (error) {
         console.log(error)
         alert(error.message)

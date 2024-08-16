@@ -11,7 +11,8 @@ const initialValues = {
     text: '',
 }
 
-function AddComment({ updateComments }) {
+// eslint-disable-next-line react/prop-types
+function AddComment({updateComments} ) {
     const { accessToken } = useContext(AuthContext)
     const navigate = useNavigate()
     const { postId } = useParams()
