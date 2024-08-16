@@ -1,15 +1,25 @@
-import { createCommentService } from "../../services/commentService"
 import { useForm } from "../../hooks/useForm"
+import { useContext } from 'react';
+import { useNavigate } from "react-router-dom";
+
 import styles from './AddComment.module.css';
+import AuthContext from '../../contexts/authContext';
+import { createCommentService } from "../../services/commentService"
+import { useParams } from "react-router";
+
 const initialValues = {
-   text: '',
+    text: '',
 }
 
-function AddComment () {
+// eslint-disable-next-line react/prop-types
+function AddComment({updateComments} ) {
+    const { accessToken } = useContext(AuthContext)
+    const navigate = useNavigate()
+    const { postId } = useParams()
+    // console.log(updateComments)
 
-    // const { loginSubmitHandler } = useContext(AuthContext)
-    const { values, onChange, onSubmit } = useForm({submitHandler:createCommentService, initialValues})
-    
+    const { values, onChange, onSubmit } = useForm({ submitHandler: createCommentService, initialValues, accessToken, postId, navigate, updateComments })
+
     return (
         <div className={styles.container}>
             <form id={styles.contact} action="" method="post" onSubmit={onSubmit}>
@@ -23,7 +33,7 @@ function AddComment () {
                         name='text'
                         className={styles.input}
                         onChange={onChange}
-                        value={values.email}
+                        value={values.text}
                     />
                 </fieldset>
                 <fieldset>

@@ -20,7 +20,7 @@ export const getLatest = async () => {
 
 export const createPostService = async ({ values, accessToken, navigate }) => {
   try {
-    const result = await requester.post({ url: baseUrl, values, accessToken })
+    await requester.post({ url: baseUrl, values, accessToken })
     navigate('/')
   } catch (error) {
     console.log(error)
@@ -31,7 +31,6 @@ export const createPostService = async ({ values, accessToken, navigate }) => {
 export const getByUserId = async (userId) => {
   try {
     const result = await requester.get({ url: `${baseUrl}?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc` })
-    console.log(result)
     return result
   } catch (error) {
     console.log(error.message)
@@ -47,7 +46,7 @@ export const getOneService = async (id) => {
 
 export const editService = async ({ values, accessToken, navigate, postId }) => {
   try {
-    const result = await requester.put({url:`${baseUrl}/${postId}`, values, accessToken})
+    await requester.put({url:`${baseUrl}/${postId}`, values, accessToken})
     navigate('/')
   } catch (error) {
     console.log(error)
@@ -56,4 +55,4 @@ export const editService = async ({ values, accessToken, navigate, postId }) => 
 };
 
 
-export const removeService = async (postId, accessToken) => requester.remove(`${baseUrl}/${postId}`, undefined, accessToken)
+export const removeService = async (postId, accessToken) => requester.remove({url:`${baseUrl}/${postId}`, accessToken})

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import  { useContext } from 'react';
 import styles from './Register.module.css'
 import AuthContext from '../../contexts/authContext'
 import { useForm } from '../../hooks/useForm';
