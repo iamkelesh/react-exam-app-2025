@@ -52,15 +52,13 @@ function App() {
                     </AuthGuard>
                   } />
 
-                  {/* <Route path='/posts/edit/:postId' element={
+                  <Route path='/posts/edit/:postId' element={
                     <AuthGuard>
                       <UpdatePost />
                     </AuthGuard>
-                  } /> */}
+                  } />
 
-                  <Route path='/posts/edit/:postId' element={<UpdatePost/>} />
-
-                  <Route path="*" element={<h1>Not Found</h1>} />
+                  <Route path="*" element={<h1>ERROR! something went wrong!!!</h1>} />
                 </Routes>
               </div>
             </main>
