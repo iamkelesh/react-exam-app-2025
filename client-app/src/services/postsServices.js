@@ -8,7 +8,18 @@ export const getAll = async () => {
 
 export const getLatest = async () => {
   try {
-    return await requester.get({url: `${baseUrl}?sortBy=_createdOn%20desc&pageSize=999`})
+    return await requester.get({url: `${baseUrl}?sortBy=_createdOn%20desc&pageSize=6`})
+  } catch (error) {
+    console.log(error.message)
+    // alert(error.message)
+    return []
+  }
+}
+
+export const getPerPage = async (page) => {
+  try {
+    const offset = Number(page) * 5
+    return await requester.get({url: `${baseUrl}?sortBy=_createdOn%20desc&offset=${offset}&pageSize=6`})
   } catch (error) {
     console.log(error.message)
     // alert(error.message)
