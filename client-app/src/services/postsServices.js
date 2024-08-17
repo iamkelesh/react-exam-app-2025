@@ -3,14 +3,12 @@ import * as requester from './requester'
 const baseUrl = 'http://localhost:3030/data/posts'
 
 export const getAll = async () => {
-  const result = await requester.get({ url: baseUrl })
-  return result
+  return await requester.get({url: baseUrl})
 }
 
 export const getLatest = async () => {
   try {
-    const result = await requester.get({ url: `${baseUrl}?sortBy=_createdOn%20desc&offset=0&pageSize=5` })
-    return result
+    return await requester.get({url: `${baseUrl}?sortBy=_createdOn%20desc&pageSize=999`})
   } catch (error) {
     console.log(error.message)
     // alert(error.message)
@@ -30,8 +28,7 @@ export const createPostService = async ({ values, accessToken, navigate }) => {
 
 export const getByUserId = async (userId) => {
   try {
-    const result = await requester.get({ url: `${baseUrl}?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc` })
-    return result
+    return await requester.get({url: `${baseUrl}?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc&pageSize=999`})
   } catch (error) {
     console.log(error.message)
     alert(error.message)
@@ -40,8 +37,7 @@ export const getByUserId = async (userId) => {
 }
 
 export const getOneService = async (id) => {
-  const result = await requester.get({ url: `${baseUrl}/${id} ` })
-  return result
+  return await requester.get({url: `${baseUrl}/${id} `})
 }
 
 export const editService = async ({ values, accessToken, navigate, postId }) => {

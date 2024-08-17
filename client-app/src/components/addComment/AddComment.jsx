@@ -2,10 +2,11 @@ import { useForm } from "../../hooks/useForm"
 import { useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 
+import { useParams } from "react-router";
+
 import styles from './AddComment.module.css';
 import AuthContext from '../../contexts/authContext';
 import { createCommentService } from "../../services/commentService"
-import { useParams } from "react-router";
 
 const initialValues = {
     text: '',

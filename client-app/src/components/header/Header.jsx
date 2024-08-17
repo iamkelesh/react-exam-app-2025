@@ -1,8 +1,7 @@
 import  { useContext } from "react";
-import AuthContext from "../../contexts/authContext";
-
 import { Link } from "react-router-dom";
 
+import AuthContext from "../../contexts/authContext";
 
 function Header() {
     const { isAuthenticated, userId } = useContext(AuthContext)
@@ -26,22 +25,14 @@ function Header() {
                 </button>
                 <div id="navigation" className="collapse navbar-collapse flex-column">
                     <div className="profile-section pt-3 pt-lg-0">
-                        {/* <img
-                            className="profile-image mb-3 rounded-circle mx-auto"
-                            src="public/images/profile.png"
-                            alt="profile picture"
 
-                            // here you can add users profile image
-                        /> */}
                         <div className="bio mb-3">
                             Hi, this web app is in alpha version. Please report any bugs to the developer.
                         </div>
-                        {/*//bio*/}
 
-                        {/*//social-list*/}
                         <hr />
                     </div>
-                    {/*//profile-section*/}
+
                     <ul className="navbar-nav flex-column text-left">
 
                         <li className="nav-item">

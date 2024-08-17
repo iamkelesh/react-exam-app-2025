@@ -17,7 +17,7 @@ export const createCommentService = async ({ values, accessToken, postId, update
 
 export const getCommentsForPost = async ({ postId, updateComments }) => {
     try {
-        let result = await requester.get({ url: `${baseUrl}?where%3DpostId%3D=${postId}owner%3D_ownerId%3Ausers` })
+        let result = await requester.get({ url: `${baseUrl}?where%3DpostId%3D=${postId}%22&load=author%3D_ownerId%3Ausers` })
         updateComments(result)
     } catch (error) {
         console.log(error.message)

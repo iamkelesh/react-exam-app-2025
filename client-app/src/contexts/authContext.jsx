@@ -1,7 +1,7 @@
-import { createContext } from "react"
+import { createContext, useState} from "react"
 import { useNavigate } from "react-router"
+
 import { login, register } from "../services/authService"
-import { useState } from "react"
 
 const AuthContext = createContext()
 

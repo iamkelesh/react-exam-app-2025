@@ -8,8 +8,7 @@ export const register = async ({ values }) => {
 }
 
 export const login = async ({ values }) => {
-    const authData = await requester.post({ url: `${baseUrl}/login`, values })
-    return authData
+    return await requester.post({url: `${baseUrl}/login`, values})
 }
 
 export const logout = () => requester.get(`${baseUrl}/logout`)
