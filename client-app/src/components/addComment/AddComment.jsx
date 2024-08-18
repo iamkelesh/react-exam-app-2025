@@ -1,6 +1,5 @@
 import { useForm } from "../../hooks/useForm"
-import { useContext } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect } from 'react';
 
 import { useParams } from "react-router";
 
@@ -12,15 +11,33 @@ const initialValues = {
     text: '',
 }
 
-// eslint-disable-next-line react/prop-types
-function AddComment({updateComments} ) {
+function AddComment({fetchComments}) {
     const { accessToken } = useContext(AuthContext)
-    const navigate = useNavigate()
     const { postId } = useParams()
     // console.log(updateComments)
+    // const { values, onChange, onSubmit } = useForm({ submitHandler: createCommentService, 
+    //     initialValues, accessToken, postId })
 
-    const { values, onChange, onSubmit } = useForm({ submitHandler: createCommentService, initialValues, accessToken, postId, navigate, updateComments })
+    const { values, onChange, onSubmit } = useForm({
+        // submitHandler: async (values) => {
+        //     await createCommentService({ values, accessToken, postId });
+        //     fetchComments();
+        // },
+        submitHandler:createCommentService,
+        createCommentService,
+        initialValues,
+        accessToken,
+        postId,
+        fetchComments
+    });
 
+    useEffect(() => {
+        console.log('mounted')
+
+        return () => {
+            console.log('unmounted')
+        }
+    })
     return (
         <div className={styles.container}>
             <form id={styles.contact} action="" method="post" onSubmit={onSubmit}>

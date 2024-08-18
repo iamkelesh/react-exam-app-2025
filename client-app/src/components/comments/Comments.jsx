@@ -7,29 +7,45 @@ import {getCommentsForPost} from "../../services/commentService"
 import AuthContext from "../../contexts/authContext";
 import AddComment from "../addComment/AddComment";
 
+// import { useNavigation } from '../../contexts/navigationContext';
+
 
 function Comments() {
     const [commentsState, setCommentsState] = useState([])
     const {postId} = useParams()
+    // const navigate = useNavigation();
 
     const {isAuthenticated} = useContext(AuthContext)
 
-    const updateComments = (newComment) => {
+    // const updateComments = (newComment) => {
+    //     if (newComment.length > 0) {
+    //         let newCommentsState = [...commentsState, ...newComment]
+    //         setCommentsState(newCommentsState)
 
-        if (newComment.length > 0) {
-            let newCommentsState = [...commentsState, ...newComment]
-            setCommentsState(newCommentsState)
-        }
-        console.log(commentsState)
-    }
+    //     } else {
+    //         getCommentsForPost({postId, updateComments}).catch(error => console.log(error))
+    //     }
+
+    // }
+
+    const fetchComments = () => {
+        getCommentsForPost({ postId })
+            .then(result => {
+                setCommentsState(result);
+            })
+            .catch(error => console.log(error));
+    };
 
     useEffect(() => {
-        getCommentsForPost({postId, updateComments}).catch(error => console.log(error))
-    }, [postId])
+        getCommentsForPost({postId}).then(result => {
+            setCommentsState(result)
+        }).catch(error => console.log(error))
+    }, [])
 
-    useEffect(() => {
-        console.log(commentsState)
-    })
+
+    // useEffect(() => {
+    //     console.log(commentsState)
+    // })
 
     return (
         <div className="container mt-5">
@@ -37,21 +53,20 @@ function Comments() {
                 <div className="col-md-8">
                     <div className="headings d-flex justify-content-between align-items-center mb-3">
                         <div className="buttons">
-              <span className="badge bg-white d-flex flex-row align-items-center">
-
-              </span>
+                            <span className="badge bg-white d-flex flex-row align-items-center"></span>
                         </div>
                     </div>
 
                     {isAuthenticated && (
                         <div className="blog-comments-section">
-                            <AddComment updateComments={updateComments}/>
+                            <AddComment fetchComments={fetchComments}/>
                         </div>)}
 
                     <h5>User comments</h5>
                     {commentsState.map((commentData) => {
                         return <SingleComment key={commentData.id} text={commentData.text}
-                                              _createdOn={commentData._createdOn} commentData={commentData}/>
+                                              _createdOn={commentData._createdOn}
+                                              authorName={commentData.author.fullname} allInfo={commentData}/>
                     })}
 
                     {commentsState.length === 0 && (

@@ -1,14 +1,13 @@
 // eslint-disable-next-line react/prop-types
-function SingleComment({text, _createdOn, commentData}) {
-    console.log(commentData);
+function SingleComment({text, _createdOn, allInfo}) {
+// console.log(allInfo)
     return (
         <div className="card p-3" >
             <div className="d-flex justify-content-between align-items-center">
                 <div className="user d-flex flex-row align-items-center">
                     <span>
                         <small className="font-weight-bold text-primary">
-                            {/* eslint-disable-next-line react/prop-types */}
-                            {commentData.author.fullName}
+                            {allInfo.author.fullName}
                         </small>{" "}
                         <small className="font-weight-bold">
                             {text}
