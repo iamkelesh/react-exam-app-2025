@@ -4,12 +4,13 @@ import * as requester from './requester'
 
 const baseUrl = 'http://localhost:3030/data/comments';
 
-export const createCommentService = async ({values, accessToken, postId, fetchComments}) => {
+export const createCommentService = async ({values, accessToken, postId, fetchComments, clearState}) => {
     try {
         const result = await requester.post({url: baseUrl, values: {...values, postId}, accessToken})
         console.log('Comment created')
         console.log(result)
         fetchComments()
+        clearState()
 
     } catch (error) {
         console.log(error)

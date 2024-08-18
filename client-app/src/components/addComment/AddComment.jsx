@@ -18,7 +18,7 @@ function AddComment({fetchComments}) {
     // const { values, onChange, onSubmit } = useForm({ submitHandler: createCommentService, 
     //     initialValues, accessToken, postId })
 
-    const { values, onChange, onSubmit } = useForm({
+    const { values, onChange, onSubmit, clearState } = useForm({
         // submitHandler: async (values) => {
         //     await createCommentService({ values, accessToken, postId });
         //     fetchComments();
@@ -28,7 +28,7 @@ function AddComment({fetchComments}) {
         initialValues,
         accessToken,
         postId,
-        fetchComments
+        fetchComments,
     });
 
     useEffect(() => {

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useForm = ({ submitHandler, initialValues, accessToken, navigate, postId, updateComments, fetchComments, createCommentService  }) => {
+export const useForm = ({ submitHandler, initialValues, accessToken, navigate, postId, updateComments, fetchComments, createCommentService }) => {
     const [values, setValues] = useState(initialValues)
 
     const onChange = (e) => {
@@ -8,6 +8,10 @@ export const useForm = ({ submitHandler, initialValues, accessToken, navigate, p
             ...x,
             [e.target.name]: e.target.value
         }))
+    }
+
+    const clearState = () => {
+        setValues(initialValues)
     }
 
     const onSubmit = (e) => {
@@ -19,16 +23,17 @@ export const useForm = ({ submitHandler, initialValues, accessToken, navigate, p
         }
 
         if (Object.values(values).every(value => value !== '')) {
-            submitHandler({ values, accessToken, navigate, postId, updateComments, fetchComments, createCommentService})
+            submitHandler({ values, accessToken, navigate, postId, updateComments, fetchComments, createCommentService , clearState})
         } else {
             alert('Please fill in all fields')
         }
 
     }
 
+
     return ({
         values,
         onChange,
-        onSubmit
+        onSubmit,
     })
 }
