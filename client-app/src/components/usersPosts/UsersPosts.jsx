@@ -57,6 +57,8 @@ function Home() {
             <section className="blog-list px-3 py-5 p-md-5">
                 <div className="container">
                     {posts.map(data => <SmallPostTemplate key={data._id} {...data} />)}
+                    {posts.length === 0 ? <h1>There are no posts!</h1> : ''}
+
                     <nav className="blog-nav nav nav-justified my-5">
 
                         {currentPage > 0 ? <Link

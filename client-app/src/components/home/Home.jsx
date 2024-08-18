@@ -50,7 +50,7 @@ function Home() {
                 <div className="container">
 
                     {posts.map(data => <SmallPostTemplate key={data._id} {...data} />)}
-
+                    {posts.length === 0 ? <h1>There are no posts!</h1> : ''}
                     <nav className="blog-nav nav nav-justified my-5">
 
 
