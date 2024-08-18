@@ -58,7 +58,7 @@ function Home() {
                             className={"nav-link-prev nav-item nav-link  rounded-left"}
                             // className={`nav-link-prev nav-item nav-link` + (currentPage > 0 ? ' ' : 'd-none') + `rounded-left`}
 
-                            to={`/home/page/${currentPage - 1}`}
+                            to={`/home/${currentPage - 1}`}
                         >
                             Previous
                             <i className="arrow-prev fas fa-long-arrow-alt-left"/>
@@ -66,7 +66,7 @@ function Home() {
                         {moreAvailable === true ?
                             <Link
                                 className="nav-link-next nav-item nav-link rounded"
-                                to={`/home/page/${currentPage + 1}`}
+                                to={`/home/${currentPage + 1}`}
                             >
                                 Next
                                 <i className="arrow-next fas fa-long-arrow-alt-right"/>

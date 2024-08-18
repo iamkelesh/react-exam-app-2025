@@ -30,12 +30,17 @@ function App() {
                 <Routes>
                   <Route path='/' element={<Home />} />
                   <Route path='/home' element={<Home />} />
-                  <Route path='/home/page/:pageNumber' element={<Home />} />
+                  <Route path='/home/:pageNumber' element={<Home />} />
 
                   <Route path="/user/login" element={<Login />} />
                   <Route path='/user/register' element={<Register />} />
 
-                  <Route path='/user/posts/:userId' element={
+                  <Route path='/user/posts' element={
+                    <AuthGuard>
+                      <UsersPosts />
+                    </AuthGuard>} />
+
+                  <Route path='/user/posts/:pageNumber' element={
                     <AuthGuard>
                       <UsersPosts />
                     </AuthGuard>} />
@@ -60,7 +65,7 @@ function App() {
                     </AuthGuard>
                   } />
 
-                  <Route path="*" element={<h1>ERROR! something went wrong!!!</h1>} />
+                  <Route path="*" element={<h1> something went wrong!!!</h1>} />
                 </Routes>
               </div>
             </main>
