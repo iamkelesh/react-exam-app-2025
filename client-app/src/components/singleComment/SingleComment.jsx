@@ -1,8 +1,7 @@
 // eslint-disable-next-line react/prop-types
 function SingleComment({text, _createdOn, allInfo}) {
-// console.log(allInfo)
     return (
-        <div className="card p-3" >
+        <div className="card p-3">
             <div className="d-flex justify-content-between align-items-center">
                 <div className="user d-flex flex-row align-items-center">
                     <span>

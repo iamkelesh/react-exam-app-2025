@@ -64,7 +64,7 @@ function Comments() {
 
                     <h5>User comments</h5>
                     {commentsState.map((commentData) => {
-                        return <SingleComment key={commentData.id} text={commentData.text}
+                        return <SingleComment key={commentData._id} text={commentData.text}
                                               _createdOn={commentData._createdOn}
                                               authorName={commentData.author.fullname} allInfo={commentData}/>
                     })}
