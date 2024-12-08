@@ -35,7 +35,7 @@ function AddComment({fetchComments}) {
         console.log('mounted')
 
         return () => {
-            console.log('unmounted')
+            console.log('add comment unmounted')
         }
     })
     return (

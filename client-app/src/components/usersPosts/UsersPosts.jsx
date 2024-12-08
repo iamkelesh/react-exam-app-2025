@@ -15,7 +15,7 @@ function Home() {
     const {pageNumber} = useParams()
 
     const {userId} = useContext(AuthContext)
-    console.log(userId)
+    // console.log(userId)
     useEffect(() => {
         getLatestByUserId(userId).then(res => {
             if (res.length > 5) {
