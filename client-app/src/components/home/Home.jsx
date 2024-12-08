@@ -18,6 +18,7 @@ function Home() {
         getLatest().then(res => {
             if (res.length > 5) {
                 SetMoreAvailable(true)
+                res = res.slice(0, 5)
             }
             setPosts(res)
         })
