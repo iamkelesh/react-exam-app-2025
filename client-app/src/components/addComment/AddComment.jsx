@@ -32,7 +32,7 @@ function AddComment({fetchComments}) {
     });
 
     useEffect(() => {
-        console.log('mounted')
+        console.log('add comment mounted')
 
         return () => {
             console.log('add comment unmounted')
