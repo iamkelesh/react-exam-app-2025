@@ -1,51 +1,62 @@
-import {useParams} from "react-router-dom"
-import {useContext, useState, useEffect} from "react";
-
+import { useParams } from "react-router-dom"
+import { useContext, useState, useEffect } from "react";
 
 import SingleComment from "../singleComment/SingleComment";
-import {getCommentsForPost} from "../../services/commentService"
+import { getLatestsComments, getMoreComments } from "../../services/commentService"
 import AuthContext from "../../contexts/authContext";
 import AddComment from "../addComment/AddComment";
 
-// import { useNavigation } from '../../contexts/navigationContext';
-
-
 function Comments() {
     const [commentsState, setCommentsState] = useState([])
-    const {postId} = useParams()
-    // const navigate = useNavigation();
-
-    const {isAuthenticated} = useContext(AuthContext)
-
-    // const updateComments = (newComment) => {
-    //     if (newComment.length > 0) {
-    //         let newCommentsState = [...commentsState, ...newComment]
-    //         setCommentsState(newCommentsState)
-
-    //     } else {
-    //         getCommentsForPost({postId, updateComments}).catch(error => console.log(error))
-    //     }
-
-    // }
+    const [commentsBlock, setCommentsBlock] = useState(5);
+    const [moreAvailable, SetMoreAvailable] = useState(false);
+    const { postId } = useParams()
+    const { isAuthenticated } = useContext(AuthContext)
 
     const fetchComments = () => {
-        getCommentsForPost({ postId })
+        getLatestsComments({ postId })
             .then(result => {
+                if (result.length > 5) {
+                    result = result.slice(0, 5)
+                    SetMoreAvailable(true)
+                }
                 setCommentsState(result);
+                setCommentsBlock(5)
             })
             .catch(error => console.log(error));
     };
 
+    const getMoreCommentsHandler = () => {
+
+        getMoreComments({ postId, commentsBlock, setCommentsBlock}).then(result => {
+
+            if (result.length > 5) {
+                result = result.slice(0, 5)
+                SetMoreAvailable(true)
+            } else (
+                SetMoreAvailable(false)
+            )
+            let newCommentsState = [...commentsState, ...result]
+            let newBlock = commentsBlock + 5
+            newCommentsState.sort((a, b) => new Date(b._createdOn) - new Date(a._createdOn));
+            setCommentsState(newCommentsState);
+            setCommentsBlock(newBlock)
+
+
+        })
+    }
+
     useEffect(() => {
-        getCommentsForPost({postId}).then(result => {
+        getLatestsComments({ postId }).then(result => {
+            
+            if (result.length > 5) {
+                SetMoreAvailable(true)
+                result = result.slice(0, 5)
+            }
+
             setCommentsState(result)
         }).catch(error => console.log(error))
     }, [])
-
-
-    // useEffect(() => {
-    //     console.log(commentsState)
-    // })
 
     return (
         <div className="container mt-5">
@@ -59,14 +70,14 @@ function Comments() {
 
                     {isAuthenticated && (
                         <div className="blog-comments-section">
-                            <AddComment fetchComments={fetchComments}/>
+                            <AddComment fetchComments={fetchComments} />
                         </div>)}
 
                     <h5>User comments</h5>
                     {commentsState.map((commentData) => {
                         return <SingleComment key={commentData._id} text={commentData.text}
-                                              _createdOn={commentData._createdOn}
-                                              authorName={commentData.author.fullname} allInfo={commentData}/>
+                            _createdOn={commentData._createdOn}
+                            authorName={commentData.author.fullname} allInfo={commentData} />
                     })}
 
                     {commentsState.length === 0 && (
@@ -75,6 +86,10 @@ function Comments() {
 
                 </div>
             </div>
+            {moreAvailable === true ?
+                <button onClick={getMoreCommentsHandler} >
+                    <a> Load more comments</a>
+                </button> : ""}
         </div>
     )
 }

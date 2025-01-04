@@ -14,15 +14,9 @@ const initialValues = {
 function AddComment({fetchComments}) {
     const { accessToken } = useContext(AuthContext)
     const { postId } = useParams()
-    // console.log(updateComments)
-    // const { values, onChange, onSubmit } = useForm({ submitHandler: createCommentService, 
-    //     initialValues, accessToken, postId })
 
     const { values, onChange, onSubmit, clearState } = useForm({
-        // submitHandler: async (values) => {
-        //     await createCommentService({ values, accessToken, postId });
-        //     fetchComments();
-        // },
+
         submitHandler:createCommentService,
         createCommentService,
         initialValues,
@@ -31,13 +25,6 @@ function AddComment({fetchComments}) {
         fetchComments,
     });
 
-    useEffect(() => {
-        console.log('add comment mounted')
-
-        return () => {
-            console.log('add comment unmounted')
-        }
-    })
     return (
         <div className={styles.container}>
             <form id={styles.contact} action="" method="post" onSubmit={onSubmit}>

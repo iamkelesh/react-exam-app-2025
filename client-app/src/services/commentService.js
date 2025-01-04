@@ -4,11 +4,9 @@ import * as requester from './requester'
 
 const baseUrl = 'http://localhost:3030/data/comments';
 
-export const createCommentService = async ({values, accessToken, postId, fetchComments, clearState}) => {
+export const createCommentService = async ({ values, accessToken, postId, fetchComments, clearState }) => {
     try {
-        const result = await requester.post({url: baseUrl, values: {...values, postId}, accessToken})
-        // console.log('Comment created')
-        // console.log(result)
+        await requester.post({ url: baseUrl, values: { ...values, postId }, accessToken })
         fetchComments()
         clearState()
 
@@ -18,17 +16,30 @@ export const createCommentService = async ({values, accessToken, postId, fetchCo
     }
 }
 
-export const getCommentsForPost = async ({postId, updateComments}) => {
+export const getLatestsComments = async ({ postId, updateComments }) => {
+    
     try {
         let result = await requester.get({
-            url: `${baseUrl}/?where=postId%3D%22${postId}%22&load=author%3D_ownerId%3Ausers`
+            url: `${baseUrl}/?where=postId%3D%22${postId}%22&load=author%3D_ownerId%3Ausers&pageSize=6`
         })
-        // console.log(result)
-        // updateComments(result)
+
         return result
     } catch (error) {
+
         console.log(error.message)
         alert(error.message)
         return []
+    }
+}
+
+export const getMoreComments = async ({ postId, commentsBlock, }) => {
+    try {
+        
+        let result = await requester.get({url: `${baseUrl}/?where=postId%3D%22${postId}%22&load=author%3D_ownerId%3Ausers&pageSize=6&offset=${commentsBlock}`})
+        console.log(result)
+        return result
+
+    } catch (error) {
+        console.log(error.message)
     }
 }

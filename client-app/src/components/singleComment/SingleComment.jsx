@@ -1,5 +1,10 @@
 // eslint-disable-next-line react/prop-types
 function SingleComment({text, _createdOn, allInfo}) {
+
+    function deleteHandler() {
+        console.log('delete')
+    }
+
     return (
         <div className="card p-3">
             <div className="d-flex justify-content-between align-items-center">
@@ -21,6 +26,7 @@ function SingleComment({text, _createdOn, allInfo}) {
                     <i className="fa fa-check-circle-o check-icon" />
                 </div>
             </div>
+            <button onClick={deleteHandler}>Delete</button>
         </div>
     )
 }
