@@ -28,7 +28,7 @@ function Comments() {
 
     const getMoreCommentsHandler = () => {
 
-        getMoreComments({ postId, commentsBlock, setCommentsBlock}).then(result => {
+        getMoreComments({ postId, commentsBlock, setCommentsBlock }).then(result => {
 
             if (result.length > 5) {
                 result = result.slice(0, 5)
@@ -48,7 +48,7 @@ function Comments() {
 
     useEffect(() => {
         getLatestsComments({ postId }).then(result => {
-            
+
             if (result.length > 5) {
                 SetMoreAvailable(true)
                 result = result.slice(0, 5)
@@ -76,8 +76,10 @@ function Comments() {
                     <h5>User comments</h5>
                     {commentsState.map((commentData) => {
                         return <SingleComment key={commentData._id} text={commentData.text}
+                            _ownerId={commentData._ownerId}
                             _createdOn={commentData._createdOn}
-                            authorName={commentData.author.fullname} allInfo={commentData} />
+                            authorName={commentData.author.fullname} allInfo={commentData} 
+                            fetchComments={fetchComments}/>
                     })}
 
                     {commentsState.length === 0 && (

@@ -1,8 +1,23 @@
 // eslint-disable-next-line react/prop-types
-function SingleComment({text, _createdOn, allInfo}) {
+import AuthContext from "../../contexts/authContext"
+import { useContext } from "react"
+import { deleteComment } from "../../services/commentService"
 
-    function deleteHandler() {
-        console.log('delete')
+function SingleComment({ text, _createdOn, allInfo, _ownerId, fetchComments }) {
+
+    const { accessToken, userId } = useContext(AuthContext)
+
+    async function deleteHandler() {
+        const confirmDelete = window.confirm('Are you sure you want to delete this post?')
+
+        if (confirmDelete) {
+            try {
+                await deleteComment(allInfo._id, accessToken)
+                fetchComments()
+            } catch (error) {
+                console.error(error)
+            }
+        }
     }
 
     return (
@@ -26,7 +41,9 @@ function SingleComment({text, _createdOn, allInfo}) {
                     <i className="fa fa-check-circle-o check-icon" />
                 </div>
             </div>
-            <button onClick={deleteHandler}>Delete</button>
+            {_ownerId === userId ? (
+                <button onClick={deleteHandler}>Delete</button>
+            ) : ''}
         </div>
     )
 }
