@@ -1,10 +1,10 @@
-import  { useContext } from "react";
+// import  { useContext } from "react";
 import { Link } from "react-router-dom";
 
-import AuthContext from "../../contexts/authContext";
+// import AuthContext from "../../contexts/authContext";
 
 function Header() {
-    const { isAuthenticated } = useContext(AuthContext)
+    // const { isAuthenticated } = useContext(AuthContext)
 
     return (
         <header className="header text-center">
@@ -38,25 +38,25 @@ function Header() {
                         <li className="nav-item">
                             <Link to="/home" className="nav-link" >Home</Link>
                         </li>
-
+{/* 
                         {isAuthenticated &&
                             <li className="nav-item">
                                 <Link to={`/user/posts/`} className="nav-link" >My posts</Link>
                                 <Link to="/posts/create" className="nav-link" >Create post</Link>
                                 <Link to="/user/logout" className="nav-link" >Logout</Link>
                             </li>
-                        }
+                        } */}
 
-                        {!isAuthenticated &&
+                        {/* {!isAuthenticated &&
                             <li className="nav-item">
                                 <Link to="/user/login" className="nav-link" >Login</Link>
                             </li>
-                        }
-                        {!isAuthenticated &&
+                        } */}
+                        {/* {!isAuthenticated &&
                             <li className="nav-item">
                                 <Link to="/user/register" className="nav-link" >Register</Link>
                             </li>
-                        }
+                        } */}
 
                     </ul>
 
