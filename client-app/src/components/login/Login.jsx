@@ -1,23 +1,23 @@
-// import { useContext } from 'react';
+import { useContext } from 'react';
 
 import styles from './Login.module.css';
 
-// import AuthContext from '../../contexts/authContext';
-// import { useForm } from '../../hooks/useForm';
+import AuthContext from '../../contexts/authContext';
+import { useForm } from '../../hooks/useForm';
 
-// const initialValues = {
-//     email: '',
-//     password: '',
-// }
+const initialValues = {
+    email: '',
+    password: '',
+}
 
 function Login() {
-    // const { loginSubmitHandler } = useContext(AuthContext)
-    // const { values, onChange, onSubmit } = useForm({submitHandler:loginSubmitHandler, initialValues})
+    const { newLoginHandler } = useContext(AuthContext)
+    const { values, onChange, onSubmit } = useForm({submitHandler:newLoginHandler, initialValues})
 
     return (
         <div className={styles.container}>
             <form id={styles.contact} action="" method="post" 
-            // onSubmit={onSubmit}
+            onSubmit={onSubmit}
             >
                 <h3 className={styles.h3}>Login</h3>
                 <h4 className={styles.h4}>Enter your login credentials!</h4>
@@ -29,8 +29,8 @@ function Login() {
                         required
                         name='email'
                         className={styles.input}
-                        // onChange={onChange}
-                        // value={values.email}
+                        onChange={onChange}
+                        value={values.email}
                     />
                 </fieldset>
                 <fieldset className={styles.fieldset}>
@@ -42,8 +42,8 @@ function Login() {
                         autoFocus
                         name='password'
                         className={styles.input}
-                        // onChange={onChange}
-                        // value={values.password}
+                        onChange={onChange}
+                        value={values.password}
                     />
                 </fieldset>
                 <fieldset>

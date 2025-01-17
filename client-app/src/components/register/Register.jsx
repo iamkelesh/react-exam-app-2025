@@ -1,9 +1,10 @@
-// import  { useContext } from 'react';
+import  { useContext } from 'react';
 
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import styles from './Register.module.css'
-// import { useForm } from '../../hooks/useForm';
-// import AuthContext from '../../contexts/authContext'
+import { useForm } from '../../hooks/useForm';
+import AuthContext from '../../contexts/authContext'
+// import {newRegisterSubmitHandler} from '../../firebase-services/auth-service'
 
 const initialValues = {
     fullName: '',
@@ -17,12 +18,20 @@ const initialValues = {
 function Register() {
 
     // const { registerSubmitHandler } = useContext(AuthContext)
-    // const { values, onChange, onSubmit } = useForm({submitHandler:registerSubmitHandler, initialValues})
+    const { newRegisterHandler } = useContext(AuthContext)
+
+    const { 
+        values, 
+        onChange, 
+        onSubmit } = useForm({
+            submitHandler:newRegisterHandler, 
+            initialValues
+        })
 
     return (
         <div className={styles.container}>
             <form id={styles.contact} action="" method="post" 
-            // onSubmit={onSubmit}
+            onSubmit={onSubmit}
             >
                 <h3 className={styles.h3}>Login</h3>
                 <h4 className={styles.h4}>Enter your login credentials!</h4>
@@ -34,8 +43,8 @@ function Register() {
                         required
                         name='fullName'
                         className={styles.input}
-                        // onChange={onChange}
-                        // value={values.fullName}
+                        onChange={onChange}
+                        value={values.fullName}
                     />
                 </fieldset>
                 <fieldset className={styles.fieldset}>
@@ -47,8 +56,8 @@ function Register() {
                         autoFocus
                         name='email'
                         className={styles.input}
-                        // onChange={onChange}
-                        // value={values.email}
+                        onChange={onChange}
+                        value={values.email}
                     />
                 </fieldset>
                 <fieldset className={styles.fieldset}>
@@ -60,8 +69,8 @@ function Register() {
                         autoFocus
                         name='password'
                         className={styles.input}
-                        // onChange={onChange}
-                        // value={values.password}
+                        onChange={onChange}
+                        value={values.password}
                     />
                 </fieldset>
                 <fieldset className={styles.fieldset}>
@@ -73,8 +82,8 @@ function Register() {
                         autoFocus
                         name='repeatPassword'
                         className={styles.input}
-                        // onChange={onChange}
-                        // value={values.repeatPassword}
+                        onChange={onChange}
+                        value={values.repeatPassword}
                     />
                 </fieldset>
                 <fieldset>

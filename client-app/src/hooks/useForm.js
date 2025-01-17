@@ -18,9 +18,9 @@ export const useForm = ({ submitHandler,
         }))
     }
 
-    const clearState = () => {
-        setValues(initialValues)
-    }
+    // const clearState = () => {
+    //     setValues(initialValues)
+    // }
 
     const onSubmit = (e) => {
         e.preventDefault()
@@ -39,7 +39,7 @@ export const useForm = ({ submitHandler,
                 // updateComments, 
                 // fetchComments, 
                 // createCommentService , 
-                clearState
+                // clearState
             })
         } else {
             alert('Please fill in all fields')
