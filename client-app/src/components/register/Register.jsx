@@ -1,5 +1,6 @@
 // import  { useContext } from 'react';
 
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import styles from './Register.module.css'
 // import { useForm } from '../../hooks/useForm';
 // import AuthContext from '../../contexts/authContext'
@@ -10,6 +11,7 @@ const initialValues = {
     password: '',
     repeatPassword: ''
 }
+
 
 
 function Register() {
