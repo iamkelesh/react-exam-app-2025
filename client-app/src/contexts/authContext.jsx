@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router"
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth"
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth"
 import firebaseApp from "../firebase/config"
 
 const AuthContext = createContext()
@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
                 setAuthState({
                     uid: user.uid,
                     email: user.email,
+                    accessToken: user.accessToken,
                     // Add other properties as needed
                 })
                 console.log('User is signed in:', user)
@@ -40,6 +41,7 @@ export const AuthProvider = ({ children }) => {
                 setAuthState({
                     uid: user.uid,
                     email: user.email,
+                    accessToken: user.accessToken,  
                     // Add other properties as needed
                 })
                 navigate('/')
@@ -50,8 +52,14 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const logoutHandler = () => {
-        setAuthState({})
+    const newLogoutHandler = () => {
+        signOut(auth).then(() => {
+            setAuthState(null)
+            console.log('User signed out')
+        }).catch((error) => {
+            console.error('Error signing out:', error)
+            alert(error.message)
+        })
     }
 
     const newLoginHandler = async ({ values }) => {
@@ -74,10 +82,11 @@ export const AuthProvider = ({ children }) => {
     const values = {
         newRegisterHandler,
         newLoginHandler,
-        logoutHandler,
+        newLogoutHandler,
         isAuthenticated: !!authState.uid,
         email: authState.email,
         userId: authState.uid,
+        accessToken: authState.accessToken,
         // Add other properties as needed
     }
 
