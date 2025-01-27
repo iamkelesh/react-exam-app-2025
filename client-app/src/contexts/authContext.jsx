@@ -1,56 +1,47 @@
-import { createContext, useState } from "react"
+import { createContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router"
-
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword} from "firebase/auth"
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth"
 import firebaseApp from "../firebase/config"
-
-// import { login, register } from "../services/authService"
-// import { get } from "../services/requester"
 
 const AuthContext = createContext()
 
 const auth = getAuth(firebaseApp)
 // eslint-disable-next-line react/prop-types
 export const AuthProvider = ({ children }) => {
-
     const navigate = useNavigate()
     const [authState, setAuthState] = useState({})
 
-    // OLD REGISTER HANDLER
-    // const registerSubmitHandler = async ({values}) => {
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                setAuthState({
+                    uid: user.uid,
+                    email: user.email,
+                    // Add other properties as needed
+                })
+                console.log('User is signed in:', user)
+            } else {
+                // No user is signed in
+                setAuthState({})
+                console.log('No user is signed in')
+            }
+        })
 
-    //     try {
-    //         const result = await register({values})
-    //         setAuthState(result)
-    //         navigate('/')
-
-    //     } catch (error) {
-    //         console.log(error)
-    //         alert(error.message)
-    //     }
-
-    // }
-
-    // OLD LOGIN HANDLER
-    // const loginSubmitHandler = async ({values}) => {
-    //     try {
-    //         const result = await login({values})
-    //         setAuthState(result)
-    //         navigate('/')
-    //     } catch (error) {
-    //         console.log(error)
-    //         alert(error.message)
-    //     }
-    // }
-
+        // Cleanup subscription on unmount
+        return () => unsubscribe()
+    }, [])
 
     const newRegisterHandler = async ({ values }) => {
         try {
             const { email, password } = values
             createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
-
-                const user = userCredential.user;
-                setAuthState(user)
+                const user = userCredential.user
+                setAuthState({
+                    uid: user.uid,
+                    email: user.email,
+                    // Add other properties as needed
+                })
                 navigate('/')
             })
         } catch (error) {
@@ -58,39 +49,36 @@ export const AuthProvider = ({ children }) => {
             alert(error.message)
         }
     }
-    const logoutHandler = () => {
-        setAuthState({});
-    };
 
+    const logoutHandler = () => {
+        setAuthState({})
+    }
 
     const newLoginHandler = async ({ values }) => {
         try {
             const { email, password } = values
-
-            signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-
-                    const user = userCredential.user;
-                    setAuthState(user)
-                    navigate('/')
-                })
+            const userCredential = await signInWithEmailAndPassword(auth, email, password)
+            const user = userCredential.user
+            setAuthState({
+                uid: user.uid,
+                email: user.email,
+                // Add other properties as needed
+            })
+            navigate('/')
         } catch (error) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
+            console.log(error)
+            alert(error.message)
         }
     }
+
     const values = {
-        // registerSubmitHandler,
-        // loginSubmitHandler,
         newRegisterHandler,
         newLoginHandler,
         logoutHandler,
-        isAuthenticated: !!authState.accessToken,
-        fullName: authState.fullName,
+        isAuthenticated: !!authState.uid,
         email: authState.email,
-        userId: authState._id,
-        accessToken: authState.accessToken
-
+        userId: authState.uid,
+        // Add other properties as needed
     }
 
     return (
