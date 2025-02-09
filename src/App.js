@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -22,10 +22,29 @@ function App() {
     return () => unsubscribe();
   }, []);
 
+  const handleLogout = () => {
+    const auth = getAuth();
+    signOut(auth).then(() => {
+      // Sign-out successful
+      setUser(null);
+      console.log('User signed out');
+    }).catch((error) => {
+      // An error happened
+      console.error('Error signing out:', error);
+    });
+  };
+
   return (
     <div className="App">
       {/* ...existing code... */}
-      {user ? <p>Welcome, {user.email}</p> : <p>Please sign in</p>}
+      {user ? (
+        <>
+          <p>Welcome, {user.email}</p>
+          <button onClick={handleLogout}>Logout</button>
+        </>
+      ) : (
+        <p>Please sign in</p>
+      )}
       {/* ...existing code... */}
     </div>
   );
