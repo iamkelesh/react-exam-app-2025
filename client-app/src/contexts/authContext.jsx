@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth"
-import firebaseApp from "../firebase/config"
+import {firebaseApp} from "../firebase/config"
 
 const AuthContext = createContext()
 
@@ -53,9 +53,10 @@ export const AuthProvider = ({ children }) => {
     }
 
     const newLogoutHandler = () => {
-        signOut(auth).then(() => {
-            setAuthState(null)
+        return signOut(auth).then(() => {
+            setAuthState({})
             console.log('User signed out')
+            // navigate('/')
         }).catch((error) => {
             console.error('Error signing out:', error)
             alert(error.message)
@@ -70,7 +71,7 @@ export const AuthProvider = ({ children }) => {
             setAuthState({
                 uid: user.uid,
                 email: user.email,
-                // Add other properties as needed
+                accessToken: user.accessToken,  
             })
             navigate('/')
         } catch (error) {

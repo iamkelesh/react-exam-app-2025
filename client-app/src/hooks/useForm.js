@@ -2,8 +2,8 @@ import { useState } from "react";
 
 export const useForm = ({ submitHandler, 
     initialValues, 
-    // accessToken, 
-    // navigate, 
+    accessToken, 
+    navigate, 
     // postId, 
     // updateComments, 
     // fetchComments, 
@@ -33,8 +33,8 @@ export const useForm = ({ submitHandler,
         if (Object.values(values).every(value => value !== '')) {
             submitHandler({ 
                 values, 
-                // accessToken, 
-                // navigate, 
+                accessToken, 
+                navigate, 
                 // postId, 
                 // updateComments, 
                 // fetchComments, 
