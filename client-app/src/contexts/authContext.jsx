@@ -53,10 +53,10 @@ export const AuthProvider = ({ children }) => {
     }
 
     const newLogoutHandler = () => {
+        navigate('/')
         return signOut(auth).then(() => {
             setAuthState({})
             console.log('User signed out')
-            // navigate('/')
         }).catch((error) => {
             console.error('Error signing out:', error)
             alert(error.message)
