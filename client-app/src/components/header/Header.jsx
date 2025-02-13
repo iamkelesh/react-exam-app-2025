@@ -41,8 +41,8 @@ function Header() {
 
                         {isAuthenticated &&
                             <li className="nav-item">
-                                {/* <Link to={`/user/posts/`} className="nav-link" >My posts</Link>
-                                <Link to="/posts/create" className="nav-link" >Create post</Link> */}
+                                {/* <Link to={`/user/posts/`} className="nav-link" >My posts</Link> */}
+                                <Link to="/posts/create" className="nav-link" >Create post</Link>
                                 <Link to="/user/logout" className="nav-link" >Logout</Link>
                             </li>
                         }
