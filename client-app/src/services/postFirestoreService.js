@@ -1,4 +1,4 @@
-import { collection, addDoc, getDocs, serverTimestamp, orderBy, doc , getDoc    } from 'firebase/firestore';
+import { collection, addDoc, getDocs, serverTimestamp, doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { firestoreDB } from '../firebase/config';
 import { mainPagePostsQuery } from './queries';
 
@@ -71,5 +71,27 @@ export const getPostsDetails = async (postId) => {
         return { _id: docSnap.id, ...docSnap.data() }
     } else {
         throw new Error('No such document!')
+    }
+}
+
+export const updatePostDetails = async ({ postId, values, navigate }) => {
+    const docRef = doc(firestoreDB, 'user-posts-test1', postId)
+
+    try {
+        await updateDoc(docRef, values)
+        navigate('/')
+    } catch (error) {
+        throw new Error("Error while updating post details at service: ", error)
+    }
+} 
+
+export const deletePost= async (postId0) => {
+    const docRef = doc(firestoreDB, 'user-posts-test1', postId0)
+
+    try {
+        await deleteDoc(docRef)
+        alert('Post deleted successfull')
+    } catch (error) {
+        throw new Error("Error while deleting post at service: ", error)
     }
 }

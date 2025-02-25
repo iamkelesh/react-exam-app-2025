@@ -5,18 +5,31 @@ import Button from 'react-bootstrap/Button';
 import { useContext } from "react";
 
 import { getPostsDetails } from "../../services/postFirestoreService"
-// import { getOneService } from "../../services/postsServices"
-// import { removeService } from "../../services/postsServices"
 import AuthContext from "../../contexts/authContext";
-// import Comments from "../comments/Comments";
+import Comments from "../comments/Comments";
 
+import { deletePost } from "../../services/postFirestoreService"
 
 function PostDetails() {
     const [dataState, setDataState] = useState({})
-    const {accessToken, userId} = useContext(AuthContext)
+    const { userId } = useContext(AuthContext)
     const navigate = useNavigate()
 
     const { postId } = useParams()
+
+    function deletePostHandler() {
+        deletePost(postId)
+            .then(() => {
+                navigate('/home')
+            })
+            .catch(error => {
+                console.error("Error while deleting post at PostDetails.jsx: ", error)
+            })
+    }
+
+    function redirectToEdit() {
+        navigate(`/posts/edit/${postId}`)
+    }
 
     useEffect(() => {
         getPostsDetails(postId)
@@ -38,10 +51,10 @@ function PostDetails() {
 
                         {dataState.ownerId === userId && (
                             <>
-                                {/* <Button onClick={redirectToEdit} variant="danger">Edit</Button>{' '} */}
-                                {/* <Button onClick={deletePostHandler} variant="danger">Delete</Button>{' '} */}
+                                <Button onClick={redirectToEdit} variant="danger">Edit</Button>{' '}
+                                <Button onClick={deletePostHandler} variant="danger">Delete</Button>{' '}
                             </>
-                        )} 
+                        )}
 
                     </div>
                 </header>
