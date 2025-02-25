@@ -1,4 +1,4 @@
-import { collection, addDoc, getDocs, serverTimestamp, orderBy } from 'firebase/firestore';
+import { collection, addDoc, getDocs, serverTimestamp, orderBy, doc , getDoc    } from 'firebase/firestore';
 import { firestoreDB } from '../firebase/config';
 import { mainPagePostsQuery } from './queries';
 
@@ -58,5 +58,18 @@ export const getMainPostsPerPage = async (pageNumber) => {
 
     } catch (error) {
         console.error("Error while getting posts at service: ", error)
+    }
+}
+
+export const getPostsDetails = async (postId) => {
+
+    const docRef = doc(firestoreDB, 'user-posts-test1', postId)
+
+    const docSnap = await getDoc(docRef)
+
+    if (docSnap.exists()) {
+        return { _id: docSnap.id, ...docSnap.data() }
+    } else {
+        throw new Error('No such document!')
     }
 }
