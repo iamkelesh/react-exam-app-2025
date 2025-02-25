@@ -68,7 +68,7 @@ function PostDetails() {
                 </div>
 
                 <div className="blog-comments-section">
-                    {/* <Comments /> */}
+                    <Comments />
                 </div>
             </div>
         </article>

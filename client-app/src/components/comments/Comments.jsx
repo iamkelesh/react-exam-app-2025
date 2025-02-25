@@ -7,55 +7,55 @@ import AuthContext from "../../contexts/authContext";
 import AddComment from "../addComment/AddComment";
 
 function Comments() {
-    const [commentsState, setCommentsState] = useState([])
-    const [commentsBlock, setCommentsBlock] = useState(5);
-    const [moreAvailable, SetMoreAvailable] = useState(false);
+    // const [commentsState, setCommentsState] = useState([])
+    // const [commentsBlock, setCommentsBlock] = useState(5);
+    // const [moreAvailable, SetMoreAvailable] = useState(false);
     const { postId } = useParams()
     const { isAuthenticated } = useContext(AuthContext)
 
-    const fetchComments = () => {
-        getLatestsComments({ postId })
-            .then(result => {
-                if (result.length > 5) {
-                    result = result.slice(0, 5)
-                    SetMoreAvailable(true)
-                }
-                setCommentsState(result);
-                setCommentsBlock(5)
-            })
-            .catch(error => console.log(error));
-    };
+    // const fetchComments = () => {
+    //     getLatestsComments({ postId })
+    //         .then(result => {
+    //             if (result.length > 5) {
+    //                 result = result.slice(0, 5)
+    //                 SetMoreAvailable(true)
+    //             }
+    //             setCommentsState(result);
+    //             setCommentsBlock(5)
+    //         })
+    //         .catch(error => console.log(error));
+    // };
 
-    const getMoreCommentsHandler = () => {
+    // const getMoreCommentsHandler = () => {
 
-        getMoreComments({ postId, commentsBlock, setCommentsBlock }).then(result => {
+    //     getMoreComments({ postId, commentsBlock, setCommentsBlock }).then(result => {
 
-            if (result.length > 5) {
-                result = result.slice(0, 5)
-                SetMoreAvailable(true)
-            } else (
-                SetMoreAvailable(false)
-            )
-            let newCommentsState = [...commentsState, ...result]
-            let newBlock = commentsBlock + 5
-            newCommentsState.sort((a, b) => new Date(b._createdOn) - new Date(a._createdOn));
-            setCommentsState(newCommentsState);
-            setCommentsBlock(newBlock)
+    //         if (result.length > 5) {
+    //             result = result.slice(0, 5)
+    //             SetMoreAvailable(true)
+    //         } else (
+    //             SetMoreAvailable(false)
+    //         )
+    //         let newCommentsState = [...commentsState, ...result]
+    //         let newBlock = commentsBlock + 5
+    //         newCommentsState.sort((a, b) => new Date(b._createdOn) - new Date(a._createdOn));
+    //         setCommentsState(newCommentsState);
+    //         setCommentsBlock(newBlock)
 
 
-        })
-    }
+    //     })
+    // }
 
     useEffect(() => {
-        getLatestsComments({ postId }).then(result => {
+        // getLatestsComments({ postId }).then(result => {
 
-            if (result.length > 5) {
-                SetMoreAvailable(true)
-                result = result.slice(0, 5)
-            }
+        //     if (result.length > 5) {
+        //         SetMoreAvailable(true)
+        //         result = result.slice(0, 5)
+        //     }
 
-            setCommentsState(result)
-        }).catch(error => console.log(error))
+        //     setCommentsState(result)
+        // }).catch(error => console.log(error))
     }, [])
 
     return (
@@ -70,28 +70,30 @@ function Comments() {
 
                     {isAuthenticated && (
                         <div className="blog-comments-section">
-                            <AddComment fetchComments={fetchComments} />
+                            <AddComment 
+                            // fetchComments={fetchComments} 
+                            />
                         </div>)}
 
                     <h5>User comments</h5>
-                    {commentsState.map((commentData) => {
+                    {/* {commentsState.map((commentData) => {
                         return <SingleComment key={commentData._id} text={commentData.text}
                             _ownerId={commentData._ownerId}
                             _createdOn={commentData._createdOn}
                             authorName={commentData.author.fullname} allInfo={commentData} 
                             fetchComments={fetchComments}/>
-                    })}
+                    })} */}
 
-                    {commentsState.length === 0 && (
+                    {/* {commentsState.length === 0 && (
                         <p className="no-comment">There are no comments.</p>
-                    )}
+                    )} */}
 
                 </div>
             </div>
-            {moreAvailable === true ?
+            {/* {moreAvailable === true ?
                 <button onClick={getMoreCommentsHandler} >
                     <a> Load more comments</a>
-                </button> : ""}
+                </button> : ""} */}
         </div>
     )
 }

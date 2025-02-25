@@ -1,28 +1,36 @@
 import { useForm } from "../../hooks/useForm"
-import { useContext, useEffect } from 'react';
+// import { useContext, useEffect } from 'react';
 
 import { useParams } from "react-router";
 
 import styles from './AddComment.module.css';
-import AuthContext from '../../contexts/authContext';
-import { createCommentService } from "../../services/commentService"
+// import AuthContext from '../../contexts/authContext';
+// import { createCommentService } from "../../services/commentService"
 
+import { addComment } from "../../services/commentsFirestoreService";
 const initialValues = {
     text: '',
 }
 
-function AddComment({fetchComments}) {
-    const { accessToken } = useContext(AuthContext)
+function AddComment({ 
+    // fetchComments 
+}) {
+    // const { accessToken } = useContext(AuthContext)
     const { postId } = useParams()
 
-    const { values, onChange, onSubmit, clearState } = useForm({
+    const {
+        values,
+        onChange,
+        onSubmit,
+        //  clearState 
+    } = useForm({
 
-        submitHandler:createCommentService,
-        createCommentService,
+        submitHandler: addComment,
+        // createCommentService,
         initialValues,
-        accessToken,
+        // accessToken,
         postId,
-        fetchComments,
+        // fetchComments,
     });
 
     return (
