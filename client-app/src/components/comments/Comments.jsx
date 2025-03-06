@@ -10,43 +10,11 @@ import { deleteComment } from "../../services/commentsFirestoreService";
 
 function Comments({ currentUser }) {
     const [commentsState, setCommentsState] = useState([])
-    // const [commentsBlock, setCommentsBlock] = useState(5);
     const [moreAvailable, SetMoreAvailable] = useState(false);
     const { postId } = useParams()
     const { isAuthenticated } = useContext(AuthContext)
 
-    // const fetchComments = () => {
-    //     getLatestsComments({ postId })
-    //         .then(result => {
-    //             if (result.length > 5) {
-    //                 result = result.slice(0, 5)
-    //                 SetMoreAvailable(true)
-    //             }
-    //             setCommentsState(result);
-    //             setCommentsBlock(5)
-    //         })
-    //         .catch(error => console.log(error));
-    // };
 
-    // const getMoreCommentsHandler = () => {
-
-    //     getMoreComments({ postId, commentsBlock, setCommentsBlock }).then(result => {
-
-    //         if (result.length > 5) {
-    //             result = result.slice(0, 5)
-    //             SetMoreAvailable(true)
-    //         } else (
-    //             SetMoreAvailable(false)
-    //         )
-    //         let newCommentsState = [...commentsState, ...result]
-    //         let newBlock = commentsBlock + 5
-    //         newCommentsState.sort((a, b) => new Date(b._createdOn) - new Date(a._createdOn));
-    //         setCommentsState(newCommentsState);
-    //         setCommentsBlock(newBlock)
-
-
-    //     })
-    // }
 
     const getMoreCommentsHandler = () => {
 
@@ -56,11 +24,11 @@ function Comments({ currentUser }) {
 
         getMoreComments({ postId, lastCommentId })
             .then(({ newComments, moreAvailable }) => {
-                
+
                 const oldComments = commentsState
-                
+
                 setCommentsState([...oldComments, ...newComments])
-                
+
                 SetMoreAvailable(moreAvailable)
             })
             .catch(error => {
@@ -84,12 +52,16 @@ function Comments({ currentUser }) {
 
 
     function addNewToState(newComment) {
+
         let currentState = commentsState
+
         let newState = [newComment, ...currentState]
+        
         setCommentsState(newState)
     }
 
     useEffect(() => {
+
         getlatestsComments({ postId }).then(({ comments, moreAvailable }) => {
             setCommentsState(comments)
             SetMoreAvailable(moreAvailable)
@@ -99,16 +71,7 @@ function Comments({ currentUser }) {
                 window.alert(error.message)
             })
 
-        // getLatestsComments({ postId }).then(result => {
-
-        //     if (result.length > 5) {
-        //         SetMoreAvailable(true)
-        //         result = result.slice(0, 5)
-        //     }
-
-        //     setCommentsState(result)
-        // }).catch(error => console.log(error))
-    }, [])
+    }, [postId])
 
     return (
         <div className="container mt-5">
