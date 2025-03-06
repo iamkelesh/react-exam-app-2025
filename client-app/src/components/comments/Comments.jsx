@@ -5,7 +5,7 @@ import SingleComment from "../singleComment/SingleComment";
 // import { getLatestsComments, getMoreComments } from "../../services/commentService"
 import AuthContext from "../../contexts/authContext";
 import AddComment from "../addComment/AddComment";
-import { getlatestsComments } from "../../services/commentsFirestoreService";
+import { getlatestsComments, getMoreComments } from "../../services/commentsFirestoreService";
 import { deleteComment } from "../../services/commentsFirestoreService";
 
 function Comments({ currentUser }) {
@@ -48,11 +48,27 @@ function Comments({ currentUser }) {
     //     })
     // }
 
-    const getMoreCommentsHandler = (postId, commentId) => {
+    const getMoreCommentsHandler = () => {
+
         console.log('getMoreCommentsHandler')
+
+        const lastCommentId = commentsState[commentsState.length - 1]._id
+
+        getMoreComments({ postId, lastCommentId })
+            .then(({ newComments, moreAvailable }) => {
+                
+                const oldComments = commentsState
+                
+                setCommentsState([...oldComments, ...newComments])
+                
+                SetMoreAvailable(moreAvailable)
+            })
+            .catch(error => {
+                console.error("Error while getting more comments at Comments.jsx: ", error)
+            })
     }
 
-    function deletehandler({postId, commentId}) {
+    function deletehandler({ postId, commentId }) {
         deleteComment({ postId, commentId })
             .then(() => {
                 console.log('deleted comment')
