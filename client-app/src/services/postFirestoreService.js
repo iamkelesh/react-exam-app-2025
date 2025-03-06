@@ -51,8 +51,6 @@ export const getMainPostsPerPage = async (pageNumber) => {
             latestPostResult = latestPostResult.slice(0, 5)
         }
 
-        console.log("latestPostResult: ", latestPostResult)
-
         return { latestPostResult, morePostsAvailableResult }
 
 

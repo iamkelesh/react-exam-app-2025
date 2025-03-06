@@ -10,7 +10,6 @@ const latestMainPostsQuery = query(
 )
 
 export async function mainPagePostsQuery(pageNumber) {
-    console.log("pageNumber: ", pageNumber)
     if (!isNaN(pageNumber) && pageNumber > 0) {
 
         const previousPageQuery = query(postCollectionRef, orderBy('createdAt', 'desc'), limit(5 * pageNumber))
