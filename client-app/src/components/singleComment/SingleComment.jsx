@@ -8,7 +8,10 @@ function SingleComment({
     createdAt,
     // allInfo, 
     currentUser,
-    ownerId, 
+    ownerId,
+    deletehandler,
+    commentId,
+    postId,
     // fetchComments 
 }) {
 
@@ -27,10 +30,18 @@ function SingleComment({
     //     }
     // }
 
+    const formatedDate = (date) => {
+        if( date instanceof Date) {
+            return date.toDateString()
+        } else if( date && date.toDate) {
+            return date.toDate().toDateString()
+        } else {
+            return 'Invalid Date'
+        }
+    }
 
     function newDeleteHandler() {
-        // deleteComment(currentUser, ownerId)
-        console.log('deleted comment')
+        deletehandler({postId, commentId})
     }
     return (
         <div className="card p-3">
@@ -45,7 +56,7 @@ function SingleComment({
                         </small>
                     </span>
                 </div>
-                <small>{createdAt.toDate().toDateString()}</small>
+                <small>{formatedDate(createdAt)}</small>
             </div>
             <div className="action d-flex justify-content-between mt-2 align-items-center">
                 <div className="icons align-items-center">

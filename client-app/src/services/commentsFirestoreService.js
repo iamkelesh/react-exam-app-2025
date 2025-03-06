@@ -3,18 +3,26 @@ import { firestoreDB } from '../firebase/config';
 // import { mainPagePostsQuery } from './queries';
 
 
-export const addComment = async ({ postId, values }) => {
+export const addComment = async ({ postId, values, addNewToState }) => {
 
     const commentsCollectionRef = collection(firestoreDB, `user-posts-test1/${postId}/comments`)
 
     try {
-        await addDoc(commentsCollectionRef, {
+        const docRef = await addDoc(commentsCollectionRef, {
             ...values,
             createdAt: serverTimestamp()
         })
-        console.log('Comment added successfully!')
+
+        const newComment = {
+            _id: docRef.id,
+            ...values,
+            createdAt: new Date()
+        }
+        addNewToState(newComment)
+
     } catch (error) {
-        console.error("Error while adding comment: ", error)
+        window.alert("Error while adding comment: ", error)
+        console.error(error)
     }
 }
 
@@ -37,4 +45,15 @@ export const getlatestsComments = async ({ postId }) => {
     }
 
     return { comments, moreAvailable }
+}
+
+
+export const deleteComment = async ({postId, commentId}) => {
+    const commentRef =  doc(firestoreDB, `user-posts-test1/${postId}/comments/${commentId}`)
+
+    try {
+        await deleteDoc(commentRef)
+    } catch (error) {
+        console.error("Error while deleting comment: ", error)
+    }
 }

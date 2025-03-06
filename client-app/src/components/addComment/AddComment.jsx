@@ -10,8 +10,9 @@ import styles from './AddComment.module.css';
 import { addComment } from "../../services/commentsFirestoreService";
 
 
-function AddComment({ 
-    currentUser
+function AddComment({
+    currentUser,
+    addNewToState
     // fetchComments 
 }) {
     // const { accessToken } = useContext(AuthContext)
@@ -19,9 +20,12 @@ function AddComment({
 
     const initialValues = {
         text: '',
-        ownerId: currentUser,   
+        ownerId: currentUser,
     }
 
+    function resetAfterAdding() {
+
+    }
     const {
         values,
         onChange,
@@ -33,6 +37,7 @@ function AddComment({
         // createCommentService,
         initialValues,
         // accessToken,
+        addNewToState,
         postId,
         // fetchComments,
     });

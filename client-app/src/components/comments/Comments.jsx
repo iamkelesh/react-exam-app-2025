@@ -6,6 +6,7 @@ import SingleComment from "../singleComment/SingleComment";
 import AuthContext from "../../contexts/authContext";
 import AddComment from "../addComment/AddComment";
 import { getlatestsComments } from "../../services/commentsFirestoreService";
+import { deleteComment } from "../../services/commentsFirestoreService";
 
 function Comments({ currentUser }) {
     const [commentsState, setCommentsState] = useState([])
@@ -47,6 +48,31 @@ function Comments({ currentUser }) {
     //     })
     // }
 
+    const getMoreCommentsHandler = (postId, commentId) => {
+        console.log('getMoreCommentsHandler')
+    }
+
+    function deletehandler({postId, commentId}) {
+        deleteComment({ postId, commentId })
+            .then(() => {
+                console.log('deleted comment')
+                let oldComments = commentsState
+                let newComments = oldComments.filter(predicate => predicate._id !== commentId)
+                setCommentsState(newComments)
+            })
+            .catch(error => {
+                console.error("Error while deleting comment at Comments.jsx: ", error)
+            }
+            )
+    }
+
+
+    function addNewToState(newComment) {
+        let currentState = commentsState
+        let newState = [newComment, ...currentState]
+        setCommentsState(newState)
+    }
+
     useEffect(() => {
         getlatestsComments({ postId }).then(({ comments, moreAvailable }) => {
             setCommentsState(comments)
@@ -82,6 +108,7 @@ function Comments({ currentUser }) {
                         <div className="blog-comments-section">
                             <AddComment
                                 currentUser={currentUser}
+                                addNewToState={addNewToState}
                             // fetchComments={fetchComments} 
                             />
                         </div>)}
@@ -94,6 +121,9 @@ function Comments({ currentUser }) {
                             text={commentData.text}
                             ownerId={commentData.ownerId}
                             createdAt={commentData.createdAt}
+                            deletehandler={deletehandler}
+                            commentId={commentData._id}
+                            postId={postId}
                         // authorName={commentData.author.fullname} allInfo={commentData} 
                         // fetchComments={fetchComments}
                         />
@@ -105,10 +135,10 @@ function Comments({ currentUser }) {
 
                 </div>
             </div>
-            {/* {moreAvailable === true ?
+            {moreAvailable === true ?
                 <button onClick={getMoreCommentsHandler} >
                     <a> Load more comments</a>
-                </button> : ""} */}
+                </button> : ""}
         </div>
     )
 }
