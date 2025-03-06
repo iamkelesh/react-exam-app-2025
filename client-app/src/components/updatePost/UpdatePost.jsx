@@ -30,10 +30,8 @@ function UpdatePost() {
     //   onChange({ target: { name: 'title', value: postData.title } })
     //   onChange({ target: { name: 'body', value: postData.body } })
     // }).catch(err => { console.error(err) })
-    console.log("postId: ", postId)
     getPostsDetails(postId)
       .then(postData => {
-        console.log("postData: ", postData)
         onChange({ target: { name: 'title', value: postData.title } })
         onChange({ target: { name: 'body', value: postData.body } })
       })

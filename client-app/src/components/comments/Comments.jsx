@@ -2,14 +2,15 @@ import { useParams } from "react-router-dom"
 import { useContext, useState, useEffect } from "react";
 
 import SingleComment from "../singleComment/SingleComment";
-import { getLatestsComments, getMoreComments } from "../../services/commentService"
+// import { getLatestsComments, getMoreComments } from "../../services/commentService"
 import AuthContext from "../../contexts/authContext";
 import AddComment from "../addComment/AddComment";
+import { getlatestsComments } from "../../services/commentsFirestoreService";
 
-function Comments() {
-    // const [commentsState, setCommentsState] = useState([])
+function Comments({ currentUser }) {
+    const [commentsState, setCommentsState] = useState([])
     // const [commentsBlock, setCommentsBlock] = useState(5);
-    // const [moreAvailable, SetMoreAvailable] = useState(false);
+    const [moreAvailable, SetMoreAvailable] = useState(false);
     const { postId } = useParams()
     const { isAuthenticated } = useContext(AuthContext)
 
@@ -47,6 +48,15 @@ function Comments() {
     // }
 
     useEffect(() => {
+        getlatestsComments({ postId }).then(({ comments, moreAvailable }) => {
+            setCommentsState(comments)
+            SetMoreAvailable(moreAvailable)
+        })
+            .catch(error => {
+                console.log(error)
+                window.alert(error.message)
+            })
+
         // getLatestsComments({ postId }).then(result => {
 
         //     if (result.length > 5) {
@@ -70,19 +80,24 @@ function Comments() {
 
                     {isAuthenticated && (
                         <div className="blog-comments-section">
-                            <AddComment 
+                            <AddComment
+                                currentUser={currentUser}
                             // fetchComments={fetchComments} 
                             />
                         </div>)}
 
                     <h5>User comments</h5>
-                    {/* {commentsState.map((commentData) => {
-                        return <SingleComment key={commentData._id} text={commentData.text}
-                            _ownerId={commentData._ownerId}
-                            _createdOn={commentData._createdOn}
-                            authorName={commentData.author.fullname} allInfo={commentData} 
-                            fetchComments={fetchComments}/>
-                    })} */}
+                    {commentsState.map((commentData) => {
+                        return <SingleComment
+                            key={commentData._id}
+                            currentUser={currentUser}
+                            text={commentData.text}
+                            ownerId={commentData.ownerId}
+                            createdAt={commentData.createdAt}
+                        // authorName={commentData.author.fullname} allInfo={commentData} 
+                        // fetchComments={fetchComments}
+                        />
+                    })}
 
                     {/* {commentsState.length === 0 && (
                         <p className="no-comment">There are no comments.</p>

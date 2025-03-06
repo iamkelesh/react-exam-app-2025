@@ -8,15 +8,19 @@ import styles from './AddComment.module.css';
 // import { createCommentService } from "../../services/commentService"
 
 import { addComment } from "../../services/commentsFirestoreService";
-const initialValues = {
-    text: '',
-}
+
 
 function AddComment({ 
+    currentUser
     // fetchComments 
 }) {
     // const { accessToken } = useContext(AuthContext)
     const { postId } = useParams()
+
+    const initialValues = {
+        text: '',
+        ownerId: currentUser,   
+    }
 
     const {
         values,

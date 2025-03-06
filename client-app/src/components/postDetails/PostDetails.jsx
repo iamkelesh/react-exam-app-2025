@@ -68,7 +68,7 @@ function PostDetails() {
                 </div>
 
                 <div className="blog-comments-section">
-                    <Comments />
+                    <Comments currentUser={userId}/>
                 </div>
             </div>
         </article>
