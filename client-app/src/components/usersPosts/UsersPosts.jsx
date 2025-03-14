@@ -37,7 +37,11 @@ function Home() {
         } else tempPageNumber = Number(pageNumber)
 
 
-        // if (currentPage === Number(pageNumber) || typeof pageNumber === 'undefined') return
+        if(isNaN(tempPageNumber)) {
+            window.alert('Error with URL. Please try again.')
+            return
+        }
+
         getMyPostsPerPage(userId, tempPageNumber)
         .then(({ moreMyPostsAvailableResult, latestMyPostResult }) => {
             setCurrentPage(Number(pageNumber))
@@ -52,30 +56,26 @@ function Home() {
 
 
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        let tempPageNumber = pageNumber
+    //     let tempPageNumber = pageNumber
 
-        if (typeof pageNumber === 'undefined') {
-            tempPageNumber = 0
-        }
+    //     if (typeof pageNumber === 'undefined') {
+    //         tempPageNumber = 0
+    //     }
 
-        getMyPostsPerPage(userId, tempPageNumber)
-            .then(result => console.log(result))
-            // .then(({ latestMyPostResult, moreMyPostsAvailableResult }) => {
-            //     setPosts(latestMyPostResult)
-            //     SetMoreAvailable(moreMyPostsAvailableResult)
-            // })
-            .catch(error => {
-                console.error(error)
-                window.alert('Error while getting posts')
-            })
-    }, [])
+    //     getMyPostsPerPage(userId, tempPageNumber)
+    //         .then(result => console.log(result))
+    //         // .then(({ latestMyPostResult, moreMyPostsAvailableResult }) => {
+    //         //     setPosts(latestMyPostResult)
+    //         //     SetMoreAvailable(moreMyPostsAvailableResult)
+    //         // })
+    //         .catch(error => {
+    //             console.error(error)
+    //             window.alert('Error while getting posts')
+    //         })
+    // }, [])
 
-    useEffect(() => {
-        if (currentPage === Number(pageNumber) || typeof pageNumber === 'undefined') return
-
-    })
     // useEffect(() => {
     //     if (currentPage === Number(pageNumber) || typeof pageNumber === 'undefined') return
     //     getPerPageByUser(userId, Number(pageNumber)).then(res => {
