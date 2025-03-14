@@ -1,6 +1,6 @@
 import { collection, addDoc, getDocs, serverTimestamp, doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { firestoreDB } from '../firebase/config';
-import { mainPagePostsQuery } from './queries';
+import { mainPagePostsQuery, myPostsQuery } from './queries';
 
 export const createNewPost = async ({ values, accessToken, navigate }) => {
 
@@ -26,7 +26,6 @@ export const createNewPost = async ({ values, accessToken, navigate }) => {
     }
 }
 
-
 export const getMainPostsPerPage = async (pageNumber) => {
 
     try {
@@ -51,6 +50,7 @@ export const getMainPostsPerPage = async (pageNumber) => {
             latestPostResult = latestPostResult.slice(0, 5)
         }
 
+
         return { latestPostResult, morePostsAvailableResult }
 
 
@@ -72,6 +72,37 @@ export const getPostsDetails = async (postId) => {
     }
 }
 
+export const getMyPostsPerPage = async (userId, pageNumber) => {
+    try {
+
+        const neededQuery = myPostsQuery(userId, pageNumber)
+
+        const querySnapshot = await getDocs(neededQuery)
+
+        let latestMyPostResult = querySnapshot.docs.map(doc => {
+
+            const docData = doc.data()
+
+            const docId = doc.id
+
+            return { _id: docId, ...docData }
+        })
+
+        let moreMyPostsAvailableResult = false
+
+        if (latestMyPostResult.length > 5) {
+            moreMyPostsAvailableResult = true
+            latestMyPostResult = latestMyPostResult.slice(0, 5)
+        }
+
+        return { moreMyPostsAvailableResult, latestMyPostResult }
+
+
+    } catch {
+        console.error("Error while getting posts at service: ", error)
+    }
+}
+
 export const updatePostDetails = async ({ postId, values, navigate }) => {
     const docRef = doc(firestoreDB, 'user-posts-test1', postId)
 
@@ -81,9 +112,9 @@ export const updatePostDetails = async ({ postId, values, navigate }) => {
     } catch (error) {
         throw new Error("Error while updating post details at service: ", error)
     }
-} 
+}
 
-export const deletePost= async (postId0) => {
+export const deletePost = async (postId0) => {
     const docRef = doc(firestoreDB, 'user-posts-test1', postId0)
 
     try {
