@@ -17,7 +17,18 @@ function Home() {
 
     useEffect(() => {
 
-        if (currentPage === Number(pageNumber) || typeof pageNumber === 'undefined') return
+        let tempPageNumber = pageNumber
+
+        if (typeof pageNumber === 'undefined') {
+            tempPageNumber = 0
+        } else tempPageNumber = Number(pageNumber)
+
+        if(isNaN(tempPageNumber)) {
+            window.alert('Error with URL. Please try again.')
+            return
+        }
+
+        // if (currentPage === Number(pageNumber) || typeof pageNumber === 'undefined') return
 
         getMainPostsPerPage(Number(pageNumber))
         .then(({latestPostResult, morePostsAvailableResult }) => {
@@ -27,7 +38,7 @@ function Home() {
                 SetMoreAvailable(false)
             }
 
-            setCurrentPage(Number(pageNumber))
+            setCurrentPage(Number(tempPageNumber))
             SetMoreAvailable(morePostsAvailableResult)
             setPosts(latestPostResult)
 
@@ -35,28 +46,28 @@ function Home() {
         
     }, [pageNumber, currentPage])
 
-    useEffect(() => {
-        let tempPageNumber = pageNumber
+    // useEffect(() => {
+    //     let tempPageNumber = pageNumber
 
-        if (typeof pageNumber === 'undefined') {
-            tempPageNumber = 0
-        }
+    //     if (typeof pageNumber === 'undefined') {
+    //         tempPageNumber = 0
+    //     }
 
-        const gettingLatestPosts = async () => {
+    //     const gettingLatestPosts = async () => {
 
-            try {
+    //         try {
 
-                let { latestPostResult, morePostsAvailableResult } = await getMainPostsPerPage(tempPageNumber)
+    //             let { latestPostResult, morePostsAvailableResult } = await getMainPostsPerPage(tempPageNumber)
 
-                setPosts(latestPostResult)
-                SetMoreAvailable(morePostsAvailableResult)
+    //             setPosts(latestPostResult)
+    //             SetMoreAvailable(morePostsAvailableResult)
 
-            } catch (error) {
-                console.error("Error while getting latest posts at Home.jsx: ", error)
-            }
-        }
-        gettingLatestPosts()
-    }, [])
+    //         } catch (error) {
+    //             console.error("Error while getting latest posts at Home.jsx: ", error)
+    //         }
+    //     }
+    //     gettingLatestPosts()
+    // }, [])
 
     return (
         <div className="main-wrapper">
