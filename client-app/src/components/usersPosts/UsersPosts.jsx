@@ -44,7 +44,7 @@ function Home() {
 
         getMyPostsPerPage(userId, tempPageNumber)
         .then(({ moreMyPostsAvailableResult, latestMyPostResult }) => {
-            setCurrentPage(Number(pageNumber))
+            setCurrentPage(Number(tempPageNumber))
             setMyPosts(latestMyPostResult)
             SetMoreAvailable(moreMyPostsAvailableResult)
         })
