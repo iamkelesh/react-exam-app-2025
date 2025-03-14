@@ -4,11 +4,10 @@ import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import { useContext } from "react";
 
-import { getPostsDetails } from "../../services/postFirestoreService"
+import { getPostsDetails, deletePost } from "../../services/postFirestoreService"
 import AuthContext from "../../contexts/authContext";
 import Comments from "../comments/Comments";
-
-import { deletePost } from "../../services/postFirestoreService"
+import AddToFavourites from "../addToFavourites/AddToFavourites";
 
 function PostDetails() {
     const [dataState, setDataState] = useState({})
@@ -31,6 +30,7 @@ function PostDetails() {
         navigate(`/posts/edit/${postId}`)
     }
 
+
     useEffect(() => {
         getPostsDetails(postId)
             .then(result => {
@@ -44,6 +44,7 @@ function PostDetails() {
     return (
         <article className="blog-post px-3 py-5 p-md-5">
             <div className="container">
+
                 <header className="blog-post-header">
                     <h2 className="title mb-2">{dataState.title}</h2>
                     <div className="meta mb-3">
@@ -58,6 +59,7 @@ function PostDetails() {
 
                     </div>
                 </header>
+
                 <div className="blog-post-body">
                     <figure className="blog-banner">
 
@@ -67,9 +69,16 @@ function PostDetails() {
                     </p>
                 </div>
 
+                <AddToFavourites 
+                    userId={userId} 
+                    postId={postId} 
+                    ownerId={dataState.ownerId}
+                />
+
                 <div className="blog-comments-section">
-                    <Comments currentUser={userId}/>
+                    <Comments currentUser={userId} />
                 </div>
+
             </div>
         </article>
 
