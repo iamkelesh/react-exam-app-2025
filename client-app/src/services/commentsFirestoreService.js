@@ -2,10 +2,13 @@ import { collection, addDoc, getDocs, serverTimestamp, doc, getDoc, updateDoc, d
 import { firestoreDB } from '../firebase/config';
 // import { mainPagePostsQuery } from './queries';
 
+function getCommentsCollectionRef(postId) {
+    return collection(firestoreDB, `user-posts-test1/${postId}/comments`)
+}
 
 export const addComment = async ({ postId, values, addNewToState }) => {
 
-    const commentsCollectionRef = collection(firestoreDB, `user-posts-test1/${postId}/comments`)
+    const commentsCollectionRef = getCommentsCollectionRef(postId)
 
     try {
         const docRef = await addDoc(commentsCollectionRef, {
@@ -28,7 +31,7 @@ export const addComment = async ({ postId, values, addNewToState }) => {
 
 export const getlatestsComments = async ({ postId }) => {
 
-    const commentsCollectionRef = collection(firestoreDB, `user-posts-test1/${postId}/comments`)
+    const commentsCollectionRef = getCommentsCollectionRef(postId)
 
     const commentsQuery = query(commentsCollectionRef, orderBy('createdAt', 'desc'), limit(11))
 
@@ -60,7 +63,7 @@ export const deleteComment = async ({ postId, commentId }) => {
 
 export const getMoreComments = async ({ postId, lastCommentId }) => {
 
-    const commentsCollectionRef = collection(firestoreDB, `user-posts-test1/${postId}/comments`)
+    const commentsCollectionRef = getCommentsCollectionRef(postId)
 
     const lastSnapshot = await getDoc(doc(firestoreDB, `user-posts-test1/${postId}/comments/${lastCommentId}`))
 
