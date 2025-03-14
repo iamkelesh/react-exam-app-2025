@@ -31,6 +31,16 @@ function PostDetails() {
     }
 
 
+    const formatedDate = (date) => {
+        if( date instanceof Date) {
+            return date.toDateString()
+        } else if( date && date.toDate) {
+            return date.toDate().toDateString()
+        } else {
+            return 'Invalid Date'
+        }
+    }
+
     useEffect(() => {
         getPostsDetails(postId)
             .then(result => {
@@ -48,7 +58,7 @@ function PostDetails() {
                 <header className="blog-post-header">
                     <h2 className="title mb-2">{dataState.title}</h2>
                     <div className="meta mb-3">
-                        <span className="date">Published on {dataState.humanDate}</span>
+                        <span className="date">Published on {formatedDate(dataState.createdAt)}</span>
 
                         {dataState.ownerId === userId && (
                             <>
@@ -69,9 +79,9 @@ function PostDetails() {
                     </p>
                 </div>
 
-                <AddToFavourites 
-                    userId={userId} 
-                    postId={postId} 
+                <AddToFavourites
+                    userId={userId}
+                    postId={postId}
                     ownerId={dataState.ownerId}
                 />
 
