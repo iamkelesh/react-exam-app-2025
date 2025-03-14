@@ -17,7 +17,7 @@ export const addComment = async ({ postId, values, addNewToState }) => {
         })
 
         const newComment = {
-            _id: docRef.id,
+            id: docRef.id,
             ...values,
             createdAt: new Date()
         }
@@ -38,7 +38,7 @@ export const getlatestsComments = async ({ postId }) => {
     const documentSnapshot = await getDocs(commentsQuery)
 
     let comments = documentSnapshot.docs.map(doc => {
-        return { _id: doc.id, ...doc.data() }
+        return { id: doc.id, ...doc.data() }
     })
 
     let moreAvailable = comments.length > 10
@@ -72,7 +72,7 @@ export const getMoreComments = async ({ postId, lastCommentId }) => {
     const newCommentsSnapshot = await getDocs(newCommentsQuery)
 
     let newComments = newCommentsSnapshot.docs.map(doc => {
-        return { _id: doc.id, ...doc.data() }
+        return { id: doc.id, ...doc.data() }
     })
 
     let moreAvailable = newComments.length > 10

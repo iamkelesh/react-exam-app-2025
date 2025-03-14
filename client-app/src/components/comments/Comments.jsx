@@ -18,9 +18,7 @@ function Comments({ currentUser }) {
 
     const getMoreCommentsHandler = () => {
 
-        console.log('getMoreCommentsHandler')
-
-        const lastCommentId = commentsState[commentsState.length - 1]._id
+        const lastCommentId = commentsState[commentsState.length - 1].id
 
         getMoreComments({ postId, lastCommentId })
             .then(({ newComments, moreAvailable }) => {
@@ -39,9 +37,10 @@ function Comments({ currentUser }) {
     function deletehandler({ postId, commentId }) {
         deleteComment({ postId, commentId })
             .then(() => {
-                console.log('deleted comment')
                 let oldComments = commentsState
-                let newComments = oldComments.filter(predicate => predicate._id !== commentId)
+
+                let newComments = oldComments.filter(predicate => predicate.id !== commentId)
+
                 setCommentsState(newComments)
             })
             .catch(error => {
@@ -95,13 +94,13 @@ function Comments({ currentUser }) {
                     <h5>User comments</h5>
                     {commentsState.map((commentData) => {
                         return <SingleComment
-                            key={commentData._id}
+                            key={commentData.id}
                             currentUser={currentUser}
                             text={commentData.text}
                             ownerId={commentData.ownerId}
                             createdAt={commentData.createdAt}
                             deletehandler={deletehandler}
-                            commentId={commentData._id}
+                            commentId={commentData.id}
                             postId={postId}
                         // authorName={commentData.author.fullname} allInfo={commentData} 
                         // fetchComments={fetchComments}

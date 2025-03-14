@@ -105,7 +105,7 @@ function Home() {
             </section>
             <section className="blog-list px-3 py-5 p-md-5">
                 <div className="container">
-                    {myPosts.map(data => <SmallPostTemplate key={data._id} {...data} />)}
+                    {myPosts.map(data => <SmallPostTemplate key={data.id} {...data} />)}
                     {myPosts.length === 0 ? <h1>There are no posts!</h1> : ''}
 
                     <nav className="blog-nav nav nav-justified my-5">

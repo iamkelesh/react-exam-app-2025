@@ -40,7 +40,7 @@ export const getMainPostsPerPage = async (pageNumber) => {
 
             const docId = doc.id
 
-            return { _id: docId, ...docData }
+            return { id: docId, ...docData }
         })
 
         let morePostsAvailableResult = false
@@ -66,7 +66,7 @@ export const getPostsDetails = async (postId) => {
     const docSnap = await getDoc(docRef)
 
     if (docSnap.exists()) {
-        return { _id: docSnap.id, ...docSnap.data() }
+        return { id: docSnap.id, ...docSnap.data() }
     } else {
         throw new Error('No such document!')
     }
@@ -85,7 +85,7 @@ export const getMyPostsPerPage = async (userId, pageNumber) => {
 
             const docId = doc.id
 
-            return { _id: docId, ...docData }
+            return { id: docId, ...docData }
         })
 
         let moreMyPostsAvailableResult = false
