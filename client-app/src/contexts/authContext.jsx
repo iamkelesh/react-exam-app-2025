@@ -21,11 +21,9 @@ export const AuthProvider = ({ children }) => {
                     accessToken: user.accessToken,
                     // Add other properties as needed
                 })
-                console.log('User is signed in:', user)
             } else {
                 // No user is signed in
                 setAuthState({})
-                console.log('No user is signed in')
             }
         })
 
@@ -56,7 +54,6 @@ export const AuthProvider = ({ children }) => {
         navigate('/')
         return signOut(auth).then(() => {
             setAuthState({})
-            console.log('User signed out')
         }).catch((error) => {
             console.error('Error signing out:', error)
             alert(error.message)

@@ -41,7 +41,6 @@ export const getMoreComments = async ({ postId, commentsBlock, }) => {
     try {
 
         let result = await requester.get({ url: `${baseUrl}/?where=postId%3D%22${postId}%22&load=author%3D_ownerId%3Ausers&pageSize=6&offset=${commentsBlock}` })
-        console.log(result)
         return result
 
     } catch (error) {
