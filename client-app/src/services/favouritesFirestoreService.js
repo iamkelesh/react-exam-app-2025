@@ -1,14 +1,16 @@
 import { collection, addDoc, getDocs, serverTimestamp, query, doc, getDoc, updateDoc, deleteDoc, where } from 'firebase/firestore';
 import { firestoreDB } from '../firebase/config';
 
-export async function addToFavourites({ postId, userId }) {
+export async function addToFavourites({ postId, userId, postData }) {
+
     const collectionref = collection(firestoreDB, `user-info/${userId}/favourite-posts`)
 
     try {
 
         await addDoc(collectionref, {
             postId: postId,
-            addedAt: serverTimestamp()
+            addedAt: serverTimestamp(),
+            ...postData
         })
 
     } catch (error) {
@@ -22,17 +24,23 @@ export async function checkForFavourite({ postId, userId }) {
 
     let canBeFavourite = false
     let canBeRemoved = false
-
+    let postData = {}
     const collectionref = collection(firestoreDB, `user-info/${userId}/favourite-posts`)
 
     const q = query(collectionref, where("postId", "==", postId))
 
     try {
         const querySnapshot = await getDocs(q)
-        console.log(querySnapshot.empty)
+
         canBeFavourite = !!querySnapshot.empty
+
         canBeRemoved = !canBeFavourite
-        return { canBeFavourite, canBeRemoved }
+
+        postData = querySnapshot.docs.map(doc => {
+            return { postId: doc.id, ...doc.data() }
+        })
+
+        return { canBeFavourite, canBeRemoved, postData }
 
     } catch (error) {
         console.error("Error while checking for favourite: ", error)
@@ -55,13 +63,22 @@ export async function removeFromFavorites({ postId, userId }) {
     }
 }
 
-export async function getAllFavourites({ userId }) {
+export async function getAllFavourites(userId, pageNumber) {
+
     const colelctionRef = collection(firestoreDB, `user-info/${userId}/favourite-posts`)
 
     const querySnapshot = await getDocs(colelctionRef)
 
     let favouritePosts = querySnapshot.docs.map(doc => {
-        return { _id: doc.id, ...doc.data() }
+        return { id: doc.id, ...doc.data() }
     })
 
+    if (favouritePosts.length > 5) {
+
+        favouritePosts = favouritePosts.slice(0, 5)
+
+        return { moreFavPostsAvailableResult: true, latestFavPostResult: favouritePosts }
+    } else {
+        return { moreFavPostsAvailableResult: false, latestFavPostResult: favouritePosts }
+    }
 }
