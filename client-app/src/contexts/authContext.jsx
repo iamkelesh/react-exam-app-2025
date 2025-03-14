@@ -84,7 +84,7 @@ export const AuthProvider = ({ children }) => {
         newRegisterHandler,
         newLoginHandler,
         newLogoutHandler,
-        isAuthenticated: !!authState.uid,
+        isAuthenticated: !!authState.accessToken,
         email: authState.email,
         userId: authState.uid,
         accessToken: authState.accessToken,

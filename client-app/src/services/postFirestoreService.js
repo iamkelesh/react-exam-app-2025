@@ -75,7 +75,7 @@ export const getPostsDetails = async (postId) => {
 export const getMyPostsPerPage = async (userId, pageNumber) => {
     try {
 
-        const neededQuery = myPostsQuery(userId, pageNumber)
+        const neededQuery = await myPostsQuery(userId, pageNumber)
 
         const querySnapshot = await getDocs(neededQuery)
 
@@ -98,7 +98,7 @@ export const getMyPostsPerPage = async (userId, pageNumber) => {
         return { moreMyPostsAvailableResult, latestMyPostResult }
 
 
-    } catch {
+    } catch (error) {
         console.error("Error while getting posts at service: ", error)
     }
 }
