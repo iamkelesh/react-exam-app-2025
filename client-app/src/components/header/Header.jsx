@@ -44,6 +44,7 @@ function Header() {
                                 <Link to="/user/posts/" className="nav-link" >My posts</Link>
                                 <Link to="/posts/create" className="nav-link" >Create post</Link>
                                 <Link to="/user/logout" className="nav-link" >Logout</Link>
+                                <Link to="/user/favourites" className="nav-link" >Favourites</Link>
                             </li>
                         }
 
