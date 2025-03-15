@@ -1,6 +1,5 @@
 import { collection, addDoc, getDocs, serverTimestamp, doc, getDoc, updateDoc, deleteDoc, query, orderBy, limit, DocumentSnapshot, startAfter } from 'firebase/firestore';
 import { firestoreDB } from '../firebase/config';
-// import { mainPagePostsQuery } from './queries';
 
 function getCommentsCollectionRef(postId) {
     return collection(firestoreDB, `user-posts-test1/${postId}/comments`)

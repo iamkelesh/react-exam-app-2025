@@ -12,12 +12,12 @@ const initialValues = {
 
 function Login() {
     const { newLoginHandler } = useContext(AuthContext)
-    const { values, onChange, onSubmit } = useForm({submitHandler:newLoginHandler, initialValues})
+    const { values, onChange, onSubmit } = useForm({ submitHandler: newLoginHandler, initialValues })
 
     return (
         <div className={styles.container}>
-            <form id={styles.contact} action="" method="post" 
-            onSubmit={onSubmit}
+            <form id={styles.contact} action="" method="post"
+                onSubmit={onSubmit}
             >
                 <h3 className={styles.h3}>Login</h3>
                 <h4 className={styles.h4}>Enter your login credentials!</h4>

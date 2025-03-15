@@ -1,4 +1,4 @@
-import { collection, addDoc, getDocs, serverTimestamp, query, doc, getDoc, updateDoc, deleteDoc, where } from 'firebase/firestore';
+import { collection, addDoc, getDocs, serverTimestamp, query, deleteDoc, where } from 'firebase/firestore';
 import { firestoreDB } from '../firebase/config';
 
 export async function addToFavourites({ postId, userId, body, title }) {
@@ -68,7 +68,9 @@ export async function removeFromFavorites({ postId, userId }) {
 
     }
     catch (error) {
+
         console.error("Error while removing from favourites: ", error)
+
         alert('Post removing from favourites failed. Please try again.')
     }
 }

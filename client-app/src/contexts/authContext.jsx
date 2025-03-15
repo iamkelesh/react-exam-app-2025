@@ -1,12 +1,13 @@
 import { createContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth"
-import {firebaseApp} from "../firebase/config"
+
+import { firebaseApp } from "../firebase/config"
 
 const AuthContext = createContext()
 
 const auth = getAuth(firebaseApp)
-// eslint-disable-next-line react/prop-types
+
 export const AuthProvider = ({ children }) => {
     const navigate = useNavigate()
     const [authState, setAuthState] = useState({})
@@ -14,15 +15,13 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
-                // User is signed in
+
                 setAuthState({
                     uid: user.uid,
                     email: user.email,
                     accessToken: user.accessToken,
-                    // Add other properties as needed
                 })
             } else {
-                // No user is signed in
                 setAuthState({})
             }
         })
@@ -39,7 +38,7 @@ export const AuthProvider = ({ children }) => {
                 setAuthState({
                     uid: user.uid,
                     email: user.email,
-                    accessToken: user.accessToken,  
+                    accessToken: user.accessToken,
                     // Add other properties as needed
                 })
                 navigate('/')
@@ -51,10 +50,15 @@ export const AuthProvider = ({ children }) => {
     }
 
     const newLogoutHandler = () => {
+
         navigate('/')
+
         return signOut(auth).then(() => {
+
             setAuthState({})
+
         }).catch((error) => {
+
             console.error('Error signing out:', error)
             alert(error.message)
         })
@@ -62,15 +66,19 @@ export const AuthProvider = ({ children }) => {
 
     const newLoginHandler = async ({ values }) => {
         try {
+
             const { email, password } = values
             const userCredential = await signInWithEmailAndPassword(auth, email, password)
             const user = userCredential.user
+
             setAuthState({
                 uid: user.uid,
                 email: user.email,
-                accessToken: user.accessToken,  
+                accessToken: user.accessToken,
             })
+
             navigate('/')
+
         } catch (error) {
             console.log(error)
             alert(error.message)
@@ -85,7 +93,6 @@ export const AuthProvider = ({ children }) => {
         email: authState.email,
         userId: authState.uid,
         accessToken: authState.accessToken,
-        // Add other properties as needed
     }
 
     return (

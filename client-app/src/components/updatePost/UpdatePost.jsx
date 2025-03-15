@@ -22,16 +22,10 @@ function UpdatePost() {
 
 
   useEffect(() => {
-    // getOneService(postId).then(postData => {
-    //   if (postData._ownerId !== userId) {
-    //     alert('Post with this id does not exist!');
-    //     navigate('/home')
-    //   }
-    //   onChange({ target: { name: 'title', value: postData.title } })
-    //   onChange({ target: { name: 'body', value: postData.body } })
-    // }).catch(err => { console.error(err) })
+
     getPostsDetails(postId)
       .then(postData => {
+
         onChange({ target: { name: 'title', value: postData.title } })
         onChange({ target: { name: 'body', value: postData.body } })
       })

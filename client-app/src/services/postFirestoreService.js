@@ -18,8 +18,11 @@ export const createNewPost = async ({ values, accessToken, navigate }) => {
         }
 
         await addDoc(collectionRef, postData)
+
         alert('Post created successfully!')
+
         navigate('/')
+
     } catch (error) {
         console.log(error.message);
         alert('Post creation failed. Please try again.')
@@ -91,7 +94,9 @@ export const getMyPostsPerPage = async (userId, pageNumber) => {
         let moreMyPostsAvailableResult = false
 
         if (latestMyPostResult.length > 5) {
+
             moreMyPostsAvailableResult = true
+
             latestMyPostResult = latestMyPostResult.slice(0, 5)
         }
 
@@ -108,13 +113,16 @@ export const updatePostDetails = async ({ postId, values, navigate }) => {
 
     try {
         await updateDoc(docRef, values)
+
         navigate('/')
+
     } catch (error) {
         throw new Error("Error while updating post details at service: ", error)
     }
 }
 
 export const deletePost = async (postId0) => {
+
     const docRef = doc(firestoreDB, 'user-posts-test1', postId0)
 
     try {

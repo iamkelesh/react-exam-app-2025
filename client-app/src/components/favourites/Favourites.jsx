@@ -1,11 +1,10 @@
 import { useEffect, useState, useContext } from "react";
-
-import SmallPostTemplate from "../smallPostTemplate/SmallPostTemplate";
-// import { getLatestByUserId, getPerPageByUser } from "../../services/postsServices";
-import AuthContext from "../../contexts/authContext";
 import { Link, useParams } from "react-router-dom";
+
+import AuthContext from "../../contexts/authContext";
 import { getAllFavourites } from "../../services/favouritesFirestoreService";
 
+import SmallPostTemplate from "../smallPostTemplate/SmallPostTemplate";
 
 function Favourites() {
 
@@ -16,16 +15,6 @@ function Favourites() {
     const { pageNumber } = useParams()
 
     const { userId } = useContext(AuthContext)
-    // console.log(userId)
-    // useEffect(() => {
-    //     getLatestByUserId(userId).then(res => {
-    //         if (res.length > 5) {
-    //             SetMoreAvailable(true)
-    //         }
-    //         setPosts(res)
-    //     })
-    //         .catch(err => console.error(err))
-    // }, [userId])
 
 
     useEffect(() => {
@@ -43,8 +32,11 @@ function Favourites() {
 
         getAllFavourites(userId, tempPageNumber)
             .then(({ moreFavPostsAvailableResult, latestFavPostResult }) => {
+
                 setCurrentPage(Number(tempPageNumber))
+
                 setFavPosts(latestFavPostResult)
+
                 SetMoreAvailable(moreFavPostsAvailableResult)
             })
             .catch(err => console.error(err))
@@ -52,51 +44,6 @@ function Favourites() {
 
 
     }, [pageNumber, currentPage])
-
-
-
-    // useEffect(() => {
-
-    //     let tempPageNumber = pageNumber
-
-    //     if (typeof pageNumber === 'undefined') {
-    //         tempPageNumber = 0
-    //     }
-
-    //     getAllFavourites(userId, tempPageNumber)
-    //         .then(result => console.log(result))
-    //         // .then(({ latestMyPostResult, moreMyPostsAvailableResult }) => {
-    //         //     setPosts(latestMyPostResult)
-    //         //     SetMoreAvailable(moreMyPostsAvailableResult)
-    //         // })
-    //         .catch(error => {
-    //             console.error(error)
-    //             window.alert('Error while getting posts')
-    //         })
-    // }, [])
-
-    // useEffect(() => {
-    //     if (currentPage === Number(pageNumber) || typeof pageNumber === 'undefined') return
-
-    // })
-    // useEffect(() => {
-    //     if (currentPage === Number(pageNumber) || typeof pageNumber === 'undefined') return
-    //     getPerPageByUser(userId, Number(pageNumber)).then(res => {
-    //         if (res.length > 5) {
-    //             SetMoreAvailable(true)
-    //         } else {
-    //             SetMoreAvailable(false)
-    //         }
-    //         // const newPage = Number(currentPage) + 1
-    //         setCurrentPage(Number(pageNumber))
-    //         setPosts(res)
-    //     }).catch(err => console.error(err))
-    // })
-
-    // useEffect(() => {
-    //     getByUserId(userId).then(res => setLatestPosts(res)).catch(err => console.error(err))
-    // }, [userId])
-
 
     return (
         <div className="main-wrapper">
@@ -115,7 +62,6 @@ function Favourites() {
 
                         {currentPage > 0 ? <Link
                             className={"nav-link-prev nav-item nav-link  rounded-left"}
-                            // className={`nav-link-prev nav-item nav-link` + (currentPage > 0 ? ' ' : 'd-none') + `rounded-left`}
 
                             to={`/user/posts/${currentPage - 1}`}
                         >

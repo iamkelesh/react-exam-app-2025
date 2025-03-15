@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 const NavigationContext = createContext();
 
-// eslint-disable-next-line react/prop-types
 export const NavigationProvider = ({ children }) => {
   const navigate = useNavigate();
   return (

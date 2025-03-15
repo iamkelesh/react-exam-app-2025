@@ -1,47 +1,31 @@
-// eslint-disable-next-line react/prop-types
-import AuthContext from "../../contexts/authContext"
-import { useContext } from "react"
-import { deleteComment } from "../../services/commentService"
-
 function SingleComment({
     text,
     createdAt,
-    // allInfo, 
     currentUser,
     ownerId,
     deletehandler,
     commentId,
     postId,
-    // fetchComments 
 }) {
 
-    // const { accessToken, userId } = useContext(AuthContext)
-
-    // async function deleteHandler() {
-    //     const confirmDelete = window.confirm('Are you sure you want to delete this post?')
-
-    //     if (confirmDelete) {
-    //         try {
-    //             await deleteComment(allInfo._id, accessToken)
-    //             fetchComments()
-    //         } catch (error) {
-    //             console.error(error)
-    //         }
-    //     }
-    // }
 
     const formatedDate = (date) => {
-        if( date instanceof Date) {
+
+        if (date instanceof Date) {
+
             return date.toDateString()
-        } else if( date && date.toDate) {
+
+        } else if (date && date.toDate) {
+
             return date.toDate().toDateString()
+
         } else {
             return 'Invalid Date'
         }
     }
 
     function newDeleteHandler() {
-        deletehandler({postId, commentId})
+        deletehandler({ postId, commentId })
     }
     return (
         <div className="card p-3">

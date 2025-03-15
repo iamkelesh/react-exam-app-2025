@@ -55,7 +55,7 @@ function Comments({ currentUser }) {
         let currentState = commentsState
 
         let newState = [newComment, ...currentState]
-        
+
         setCommentsState(newState)
     }
 

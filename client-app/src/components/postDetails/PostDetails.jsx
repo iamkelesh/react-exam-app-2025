@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState, useContext } from "react"
+import { useParams, useNavigate } from "react-router-dom"
 import Button from 'react-bootstrap/Button';
-import { useContext } from "react";
 
 import { getPostsDetails, deletePost } from "../../services/postFirestoreService"
 import AuthContext from "../../contexts/authContext";
+
 import Comments from "../comments/Comments";
 import AddToFavourites from "../addToFavourites/AddToFavourites";
 

@@ -9,12 +9,6 @@ const latestMainPostsQuery = query(
     limit(6)
 )
 
-// const myPostsQuery = (userId) => query(
-//     postCollectionRef,
-//     orderBy("createdAt", "desc"),
-//     where("ownerId", "==", userId),
-//     limit(6)
-// )
 
 export async function mainPagePostsQuery(pageNumber) {
     if (!isNaN(pageNumber) && pageNumber > 0) {
@@ -33,7 +27,7 @@ export async function mainPagePostsQuery(pageNumber) {
 }
 
 export async function myPostsQuery(userId, pageNumber) {
-    
+
     if (!isNaN(pageNumber) && pageNumber > 0) {
         const previousPageQuery = query(postCollectionRef, orderBy('createdAt', 'desc'), where("ownerId" == userId), limit(5 * pageNumber))
 

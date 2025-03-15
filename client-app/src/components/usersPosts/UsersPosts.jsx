@@ -1,11 +1,10 @@
 import { useEffect, useState, useContext } from "react";
-
-import SmallPostTemplate from "../smallPostTemplate/SmallPostTemplate";
-// import { getLatestByUserId, getPerPageByUser } from "../../services/postsServices";
-import AuthContext from "../../contexts/authContext";
 import { Link, useParams } from "react-router-dom";
+
+import AuthContext from "../../contexts/authContext";
 import { getMyPostsPerPage } from "../../services/postFirestoreService";
 
+import SmallPostTemplate from "../smallPostTemplate/SmallPostTemplate";
 
 function Home() {
 
@@ -16,17 +15,6 @@ function Home() {
     const { pageNumber } = useParams()
 
     const { userId } = useContext(AuthContext)
-    // console.log(userId)
-    // useEffect(() => {
-    //     getLatestByUserId(userId).then(res => {
-    //         if (res.length > 5) {
-    //             SetMoreAvailable(true)
-    //         }
-    //         setPosts(res)
-    //     })
-    //         .catch(err => console.error(err))
-    // }, [userId])
-
 
     useEffect(() => {
 
@@ -37,20 +25,23 @@ function Home() {
         } else tempPageNumber = Number(pageNumber)
 
 
-        if(isNaN(tempPageNumber)) {
+        if (isNaN(tempPageNumber)) {
             window.alert('Error with URL. Please try again.')
             return
         }
 
         getMyPostsPerPage(userId, tempPageNumber)
-        .then(({ moreMyPostsAvailableResult, latestMyPostResult }) => {
-            setCurrentPage(Number(tempPageNumber))
-            setMyPosts(latestMyPostResult)
-            SetMoreAvailable(moreMyPostsAvailableResult)
-        })
-        .catch(err => console.error(err))
+            .then(({ moreMyPostsAvailableResult, latestMyPostResult }) => {
 
-        
+                setCurrentPage(Number(tempPageNumber))
+
+                setMyPosts(latestMyPostResult)
+
+                SetMoreAvailable(moreMyPostsAvailableResult)
+            })
+            .catch(err => console.error(err))
+
+
 
     }, [pageNumber, currentPage])
 

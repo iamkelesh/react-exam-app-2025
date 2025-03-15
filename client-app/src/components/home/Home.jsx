@@ -23,51 +23,30 @@ function Home() {
             tempPageNumber = 0
         } else tempPageNumber = Number(pageNumber)
 
-        if(isNaN(tempPageNumber)) {
+        if (isNaN(tempPageNumber)) {
             window.alert('Error with URL. Please try again.')
             return
         }
 
-        // if (currentPage === Number(pageNumber) || typeof pageNumber === 'undefined') return
 
         getMainPostsPerPage(Number(pageNumber))
-        .then(({latestPostResult, morePostsAvailableResult }) => {
-            if (latestPostResult.length > 5) {
-                SetMoreAvailable(true)
-            } else {
-                SetMoreAvailable(false)
-            }
+            .then(({ latestPostResult, morePostsAvailableResult }) => {
 
-            setCurrentPage(Number(tempPageNumber))
-            SetMoreAvailable(morePostsAvailableResult)
-            setPosts(latestPostResult)
+                if (latestPostResult.length > 5) {
+                    SetMoreAvailable(true)
+                } else {
+                    SetMoreAvailable(false)
+                }
 
-        }).catch(err => console.error(err))
-        
+                setCurrentPage(Number(tempPageNumber))
+
+                SetMoreAvailable(morePostsAvailableResult)
+
+                setPosts(latestPostResult)
+
+            }).catch(err => console.error(err))
+
     }, [pageNumber, currentPage])
-
-    // useEffect(() => {
-    //     let tempPageNumber = pageNumber
-
-    //     if (typeof pageNumber === 'undefined') {
-    //         tempPageNumber = 0
-    //     }
-
-    //     const gettingLatestPosts = async () => {
-
-    //         try {
-
-    //             let { latestPostResult, morePostsAvailableResult } = await getMainPostsPerPage(tempPageNumber)
-
-    //             setPosts(latestPostResult)
-    //             SetMoreAvailable(morePostsAvailableResult)
-
-    //         } catch (error) {
-    //             console.error("Error while getting latest posts at Home.jsx: ", error)
-    //         }
-    //     }
-    //     gettingLatestPosts()
-    // }, [])
 
     return (
         <div className="main-wrapper">
@@ -87,7 +66,6 @@ function Home() {
 
                         {currentPage > 0 ? <Link
                             className={"nav-link-prev nav-item nav-link  rounded-left"}
-                            // className={`nav-link-prev nav-item nav-link` + (currentPage > 0 ? ' ' : 'd-none') + `rounded-left`}
 
                             to={`/home/${currentPage - 1}`}
                         >

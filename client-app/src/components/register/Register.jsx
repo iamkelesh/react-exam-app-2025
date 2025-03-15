@@ -1,10 +1,8 @@
-import  { useContext } from 'react';
+import { useContext } from 'react';
 
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 import styles from './Register.module.css'
 import { useForm } from '../../hooks/useForm';
 import AuthContext from '../../contexts/authContext'
-// import {newRegisterSubmitHandler} from '../../firebase-services/auth-service'
 
 const initialValues = {
     fullName: '',
@@ -17,21 +15,20 @@ const initialValues = {
 
 function Register() {
 
-    // const { registerSubmitHandler } = useContext(AuthContext)
     const { newRegisterHandler } = useContext(AuthContext)
 
-    const { 
-        values, 
-        onChange, 
+    const {
+        values,
+        onChange,
         onSubmit } = useForm({
-            submitHandler:newRegisterHandler, 
+            submitHandler: newRegisterHandler,
             initialValues
         })
 
     return (
         <div className={styles.container}>
-            <form id={styles.contact} action="" method="post" 
-            onSubmit={onSubmit}
+            <form id={styles.contact} action="" method="post"
+                onSubmit={onSubmit}
             >
                 <h3 className={styles.h3}>Register</h3>
                 <h4 className={styles.h4}>Enter your login credentials!</h4>
