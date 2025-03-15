@@ -1,7 +1,7 @@
 import { collection, addDoc, getDocs, serverTimestamp, query, doc, getDoc, updateDoc, deleteDoc, where } from 'firebase/firestore';
 import { firestoreDB } from '../firebase/config';
 
-export async function addToFavourites({ postId, userId, postData }) {
+export async function addToFavourites({ postId, userId, body, title }) {
 
     const collectionref = collection(firestoreDB, `user-info/${userId}/favourite-posts`)
 
@@ -10,7 +10,8 @@ export async function addToFavourites({ postId, userId, postData }) {
         await addDoc(collectionref, {
             postId: postId,
             addedAt: serverTimestamp(),
-            ...postData
+            body,
+            title
         })
 
     } catch (error) {
@@ -24,7 +25,7 @@ export async function checkForFavourite({ postId, userId }) {
 
     let canBeFavourite = false
     let canBeRemoved = false
-    let postData = {}
+
     const collectionref = collection(firestoreDB, `user-info/${userId}/favourite-posts`)
 
     const q = query(collectionref, where("postId", "==", postId))
@@ -36,11 +37,7 @@ export async function checkForFavourite({ postId, userId }) {
 
         canBeRemoved = !canBeFavourite
 
-        postData = querySnapshot.docs.map(doc => {
-            return { postId: doc.id, ...doc.data() }
-        })
-
-        return { canBeFavourite, canBeRemoved, postData }
+        return { canBeFavourite, canBeRemoved }
 
     } catch (error) {
         console.error("Error while checking for favourite: ", error)
@@ -51,11 +48,24 @@ export async function checkForFavourite({ postId, userId }) {
 
 export async function removeFromFavorites({ postId, userId }) {
 
-    const favouritePostRef = doc(firestoreDB, `user-info/${userId}/favourite-posts/${postId}`)
+    const collectionRef = collection(firestoreDB, `user-info/${userId}/favourite-posts/`)
+
+    const q = query(collectionRef, where("postId", "==", postId))
 
     try {
-        await deleteDoc(favouritePostRef)
-        alert('Post removed from favourites successfully!')
+        const querySnapshot = await getDocs(q)
+
+        if (!querySnapshot.empty) {
+
+            const docRef = querySnapshot.docs[0].ref
+
+            await deleteDoc(docRef)
+
+            alert('Post removed from favourites successfully!')
+        } else {
+            alert('No such favourite post found.')
+        }
+
     }
     catch (error) {
         console.error("Error while removing from favourites: ", error)

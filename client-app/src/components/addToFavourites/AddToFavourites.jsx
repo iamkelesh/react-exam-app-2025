@@ -6,13 +6,13 @@ import Button from 'react-bootstrap/Button';
 import { addToFavourites, checkForFavourite, removeFromFavorites } from "../../services/favouritesFirestoreService";
 
 
-function AddToFavourites({ userId, postId, ownerId }) {
+function AddToFavourites({ userId, postId, body, title}) {
     const [canAddFavorite, setCanAddFavorite] = useState(false)
     const [canBeRemoved, setCanBeRemoved] = useState(false)
 
     function addFavouritesHandler() {
-        // Add to favourites
-        addToFavourites({ postId, userId })
+        // Add to favouritespostData
+        addToFavourites({ postId, userId, body, title })
             .then(() => {
                 setCanAddFavorite(false)
                 setCanBeRemoved(true)
@@ -33,7 +33,7 @@ function AddToFavourites({ userId, postId, ownerId }) {
 
 
     useEffect(() => {
-
+        console.log(postId, userId)
         checkForFavourite({ postId, userId })
             .then(({ canBeFavourite, canBeRemoved }) => {
                 setCanAddFavorite(canBeFavourite)
