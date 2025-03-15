@@ -1,9 +1,10 @@
-import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom"
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom"
 
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import SmallPostTemplate from "../smallPostTemplate/SmallPostTemplate";
-import {getLatest, getPerPage} from "../../services/postsServices";
+
+import { getMainPostsPerPage } from "../../services/postFirestoreService";
 
 
 function Home() {
@@ -12,33 +13,40 @@ function Home() {
     const [moreAvailable, SetMoreAvailable] = useState(false);
     const [currentPage, setCurrentPage] = useState(0);
 
-    const {pageNumber} = useParams()
+    const { pageNumber } = useParams()
 
     useEffect(() => {
-        getLatest().then(res => {
-            if (res.length > 5) {
-                SetMoreAvailable(true)
-                res = res.slice(0, 5)
-            }
-            setPosts(res)
-        })
-            .catch(err => console.error(err))
-    }, [])
+
+        let tempPageNumber = pageNumber
+
+        if (typeof pageNumber === 'undefined') {
+            tempPageNumber = 0
+        } else tempPageNumber = Number(pageNumber)
+
+        if (isNaN(tempPageNumber)) {
+            window.alert('Error with URL. Please try again.')
+            return
+        }
 
 
-    useEffect(() => {
-        if(currentPage === Number(pageNumber) || typeof pageNumber === 'undefined') return
-        getPerPage(Number(pageNumber)).then(res => {
-            if (res.length > 5) {
-                SetMoreAvailable(true)
-            } else {
-                SetMoreAvailable(false)
-            }
-            // const newPage = Number(currentPage) + 1
-            setCurrentPage(Number(pageNumber))
-            setPosts(res)
-        }).catch(err => console.error(err))
-    })
+        getMainPostsPerPage(Number(pageNumber))
+            .then(({ latestPostResult, morePostsAvailableResult }) => {
+
+                if (latestPostResult.length > 5) {
+                    SetMoreAvailable(true)
+                } else {
+                    SetMoreAvailable(false)
+                }
+
+                setCurrentPage(Number(tempPageNumber))
+
+                SetMoreAvailable(morePostsAvailableResult)
+
+                setPosts(latestPostResult)
+
+            }).catch(err => console.error(err))
+
+    }, [pageNumber, currentPage])
 
     return (
         <div className="main-wrapper">
@@ -50,19 +58,19 @@ function Home() {
             <section className="blog-list px-3 py-5 p-md-5">
                 <div className="container">
 
-                    {posts.map(data => <SmallPostTemplate key={data._id} {...data} />)}
+                    {posts.map(data => <SmallPostTemplate key={data.id} {...data} />)}
                     {posts.length === 0 ? <h1>There are no posts!</h1> : ''}
-                    <nav className="blog-nav nav nav-justified my-5">
 
+
+                    <nav className="blog-nav nav nav-justified my-5">
 
                         {currentPage > 0 ? <Link
                             className={"nav-link-prev nav-item nav-link  rounded-left"}
-                            // className={`nav-link-prev nav-item nav-link` + (currentPage > 0 ? ' ' : 'd-none') + `rounded-left`}
 
                             to={`/home/${currentPage - 1}`}
                         >
                             Previous
-                            <i className="arrow-prev fas fa-long-arrow-alt-left"/>
+                            <i className="arrow-prev fas fa-long-arrow-alt-left" />
                         </Link> : ''}
                         {moreAvailable === true ?
                             <Link
@@ -70,13 +78,12 @@ function Home() {
                                 to={`/home/${currentPage + 1}`}
                             >
                                 Next
-                                <i className="arrow-next fas fa-long-arrow-alt-right"/>
+                                <i className="arrow-next fas fa-long-arrow-alt-right" />
                             </Link> : ""}
-
                     </nav>
+
                 </div>
             </section>
-            {/* TODO ADD PAGINATION */}
         </div>
 
     );

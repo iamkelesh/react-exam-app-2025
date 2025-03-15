@@ -1,62 +1,76 @@
 import { useParams } from "react-router-dom"
 import { useContext, useState, useEffect } from "react";
 
-import SingleComment from "../singleComment/SingleComment";
-import { getLatestsComments, getMoreComments } from "../../services/commentService"
+import { deleteComment } from "../../services/commentsFirestoreService";
+import { getlatestsComments, getMoreComments } from "../../services/commentsFirestoreService";
 import AuthContext from "../../contexts/authContext";
+
+import SingleComment from "../singleComment/SingleComment";
 import AddComment from "../addComment/AddComment";
 
-function Comments() {
+function Comments({ currentUser }) {
     const [commentsState, setCommentsState] = useState([])
-    const [commentsBlock, setCommentsBlock] = useState(5);
     const [moreAvailable, SetMoreAvailable] = useState(false);
     const { postId } = useParams()
     const { isAuthenticated } = useContext(AuthContext)
 
-    const fetchComments = () => {
-        getLatestsComments({ postId })
-            .then(result => {
-                if (result.length > 5) {
-                    result = result.slice(0, 5)
-                    SetMoreAvailable(true)
-                }
-                setCommentsState(result);
-                setCommentsBlock(5)
-            })
-            .catch(error => console.log(error));
-    };
+
 
     const getMoreCommentsHandler = () => {
 
-        getMoreComments({ postId, commentsBlock, setCommentsBlock }).then(result => {
+        const lastCommentId = commentsState[commentsState.length - 1].id
 
-            if (result.length > 5) {
-                result = result.slice(0, 5)
-                SetMoreAvailable(true)
-            } else (
-                SetMoreAvailable(false)
+        getMoreComments({ postId, lastCommentId })
+            .then(({ newComments, moreAvailable }) => {
+
+                const oldComments = commentsState
+
+                setCommentsState([...oldComments, ...newComments])
+
+                SetMoreAvailable(moreAvailable)
+            })
+            .catch(error => {
+                console.error("Error while getting more comments at Comments.jsx: ", error)
+            })
+    }
+
+    function deletehandler({ postId, commentId }) {
+        deleteComment({ postId, commentId })
+            .then(() => {
+                let oldComments = commentsState
+
+                let newComments = oldComments.filter(predicate => predicate.id !== commentId)
+
+                setCommentsState(newComments)
+            })
+            .catch(error => {
+                console.error("Error while deleting comment at Comments.jsx: ", error)
+            }
             )
-            let newCommentsState = [...commentsState, ...result]
-            let newBlock = commentsBlock + 5
-            newCommentsState.sort((a, b) => new Date(b._createdOn) - new Date(a._createdOn));
-            setCommentsState(newCommentsState);
-            setCommentsBlock(newBlock)
+    }
 
 
-        })
+    function addNewToState(newComment) {
+
+        let currentState = commentsState
+
+        let newState = [newComment, ...currentState]
+
+        setCommentsState(newState)
     }
 
     useEffect(() => {
-        getLatestsComments({ postId }).then(result => {
 
-            if (result.length > 5) {
-                SetMoreAvailable(true)
-                result = result.slice(0, 5)
-            }
+        getlatestsComments({ postId }).then(({ comments, moreAvailable }) => {
+            setCommentsState(comments)
+            SetMoreAvailable(moreAvailable)
+        })
+            .catch(error => {
+                console.log(error)
+                window.alert(error.message)
+            })
 
-            setCommentsState(result)
-        }).catch(error => console.log(error))
-    }, [])
+    }, [postId])
 
     return (
         <div className="container mt-5">
@@ -70,16 +84,24 @@ function Comments() {
 
                     {isAuthenticated && (
                         <div className="blog-comments-section">
-                            <AddComment fetchComments={fetchComments} />
+                            <AddComment
+                                currentUser={currentUser}
+                                addNewToState={addNewToState}
+                            />
                         </div>)}
 
                     <h5>User comments</h5>
                     {commentsState.map((commentData) => {
-                        return <SingleComment key={commentData._id} text={commentData.text}
-                            _ownerId={commentData._ownerId}
-                            _createdOn={commentData._createdOn}
-                            authorName={commentData.author.fullname} allInfo={commentData} 
-                            fetchComments={fetchComments}/>
+                        return <SingleComment
+                            key={commentData.id}
+                            currentUser={currentUser}
+                            text={commentData.text}
+                            ownerId={commentData.ownerId}
+                            createdAt={commentData.createdAt}
+                            deletehandler={deletehandler}
+                            commentId={commentData.id}
+                            postId={postId}
+                        />
                     })}
 
                     {commentsState.length === 0 && (

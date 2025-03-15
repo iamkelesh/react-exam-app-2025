@@ -1,56 +1,98 @@
-import { createContext, useState} from "react"
+import { createContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router"
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth"
 
-import { login, register } from "../services/authService"
+import { firebaseApp } from "../firebase/config"
 
 const AuthContext = createContext()
 
-// eslint-disable-next-line react/prop-types
-export const AuthProvider = ({ children }) => {
+const auth = getAuth(firebaseApp)
 
+export const AuthProvider = ({ children }) => {
     const navigate = useNavigate()
     const [authState, setAuthState] = useState({})
 
-    const registerSubmitHandler = async ({values}) => {
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
 
+                setAuthState({
+                    uid: user.uid,
+                    email: user.email,
+                    accessToken: user.accessToken,
+                })
+            } else {
+                setAuthState({})
+            }
+        })
+
+        // Cleanup subscription on unmount
+        return () => unsubscribe()
+    }, [])
+
+    const newRegisterHandler = async ({ values }) => {
         try {
-            const result = await register({values})
-            setAuthState(result)
+            const { email, password } = values
+            createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+                const user = userCredential.user
+                setAuthState({
+                    uid: user.uid,
+                    email: user.email,
+                    accessToken: user.accessToken,
+                    // Add other properties as needed
+                })
+                navigate('/')
+            })
+        } catch (error) {
+            console.log(error)
+            alert(error.message)
+        }
+    }
+
+    const newLogoutHandler = () => {
+
+        navigate('/')
+
+        return signOut(auth).then(() => {
+
+            setAuthState({})
+
+        }).catch((error) => {
+
+            console.error('Error signing out:', error)
+            alert(error.message)
+        })
+    }
+
+    const newLoginHandler = async ({ values }) => {
+        try {
+
+            const { email, password } = values
+            const userCredential = await signInWithEmailAndPassword(auth, email, password)
+            const user = userCredential.user
+
+            setAuthState({
+                uid: user.uid,
+                email: user.email,
+                accessToken: user.accessToken,
+            })
+
             navigate('/')
 
         } catch (error) {
             console.log(error)
             alert(error.message)
         }
-
     }
-
-    const loginSubmitHandler = async ({values}) => {
-        try {
-            const result = await login({values})
-            setAuthState(result)
-            navigate('/')
-        } catch (error) {
-            console.log(error)
-            alert(error.message)
-        }
-
-    }
-
-    const logoutHandler = () => {
-        setAuthState({});
-    };
 
     const values = {
-        registerSubmitHandler,
-        loginSubmitHandler,
-        logoutHandler,
+        newRegisterHandler,
+        newLoginHandler,
+        newLogoutHandler,
         isAuthenticated: !!authState.accessToken,
-        fullName: authState.fullName,
         email: authState.email,
-        userId: authState._id,
-        accessToken: authState.accessToken
-
+        userId: authState.uid,
+        accessToken: authState.accessToken,
     }
 
     return (

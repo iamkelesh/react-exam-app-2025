@@ -1,39 +1,46 @@
-// eslint-disable-next-line react/prop-types
-import AuthContext from "../../contexts/authContext"
-import { useContext } from "react"
-import { deleteComment } from "../../services/commentService"
+function SingleComment({
+    text,
+    createdAt,
+    currentUser,
+    ownerId,
+    deletehandler,
+    commentId,
+    postId,
+}) {
 
-function SingleComment({ text, _createdOn, allInfo, _ownerId, fetchComments }) {
 
-    const { accessToken, userId } = useContext(AuthContext)
+    const formatedDate = (date) => {
 
-    async function deleteHandler() {
-        const confirmDelete = window.confirm('Are you sure you want to delete this post?')
+        if (date instanceof Date) {
 
-        if (confirmDelete) {
-            try {
-                await deleteComment(allInfo._id, accessToken)
-                fetchComments()
-            } catch (error) {
-                console.error(error)
-            }
+            return date.toDateString()
+
+        } else if (date && date.toDate) {
+
+            return date.toDate().toDateString()
+
+        } else {
+            return 'Invalid Date'
         }
     }
 
+    function newDeleteHandler() {
+        deletehandler({ postId, commentId })
+    }
     return (
         <div className="card p-3">
             <div className="d-flex justify-content-between align-items-center">
                 <div className="user d-flex flex-row align-items-center">
                     <span>
                         <small className="font-weight-bold text-primary">
-                            {allInfo.author.fullName}
+                            {/* {allInfo.author.fullName} */}
                         </small>{" "}
                         <small className="font-weight-bold">
                             {text}
                         </small>
                     </span>
                 </div>
-                <small>{new Date(_createdOn).toDateString()}</small>
+                <small>{formatedDate(createdAt)}</small>
             </div>
             <div className="action d-flex justify-content-between mt-2 align-items-center">
                 <div className="icons align-items-center">
@@ -41,8 +48,8 @@ function SingleComment({ text, _createdOn, allInfo, _ownerId, fetchComments }) {
                     <i className="fa fa-check-circle-o check-icon" />
                 </div>
             </div>
-            {_ownerId === userId ? (
-                <button onClick={deleteHandler}>Delete</button>
+            {ownerId === currentUser ? (
+                <button onClick={newDeleteHandler}>Delete</button>
             ) : ''}
         </div>
     )

@@ -134,3 +134,5 @@ client-app/src/components/deeba.js
 
 .idea/
 qodana.yaml
+firestore.rules
+client-app/demo-code-firestore-database.js

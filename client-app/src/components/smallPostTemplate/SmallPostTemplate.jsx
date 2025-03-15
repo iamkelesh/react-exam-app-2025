@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom"
 
-// eslint-disable-next-line react/prop-types
-function SmallPostTemplate({_id, title, body}) {
+function SmallPostTemplate({ id, title, body, postId }) {
+
+    const thisId = postId || id
 
     return (
-        <div className="item mb-5" id={_id}>
+        <div className="item mb-5" id={thisId}>
             <div className="media">
                 <div className="media-body">
                     <h3 className="title mb-1">
@@ -17,7 +18,7 @@ function SmallPostTemplate({_id, title, body}) {
                         {(body.length > 100) ? body.substring(0, 200) + '...' : body}
                     </div>
 
-                    <Link  to={`/posts/details/${_id}`} className="more-link" >Read more</Link>
+                    <Link to={`/posts/details/${thisId}`} className="more-link" >Read more</Link>
                 </div>
             </div>
         </div>

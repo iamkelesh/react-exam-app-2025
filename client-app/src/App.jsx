@@ -11,8 +11,10 @@ import Home from "./components/home/Home"
 import Login from "./components/login/Login"
 import UsersPosts from "./components/usersPosts/UsersPosts"
 import PostDetails from "./components/postDetails/PostDetails"
+import Favourites from "./components/favourites/Favourites"
 
 import AuthGuard from "./guards/AuthGuard"
+
 function App() {
 
 
@@ -38,6 +40,11 @@ function App() {
                   <Route path='/user/posts' element={
                     <AuthGuard>
                       <UsersPosts />
+                    </AuthGuard>} />
+
+                    <Route path='/user/favourites' element={
+                    <AuthGuard>
+                      <Favourites />
                     </AuthGuard>} />
 
                   <Route path='/user/posts/:pageNumber' element={

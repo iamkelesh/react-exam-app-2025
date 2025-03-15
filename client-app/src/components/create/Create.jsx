@@ -1,25 +1,31 @@
-import  { useContext } from 'react';
-import { useForm } from '../../hooks/useForm';
+import { useContext } from 'react';
 
-import { useNavigation } from '../../contexts/navigationContext';
 import styles from './Create.module.css';
-import { createPostService } from '../../services/postsServices';
+
 import AuthContext from '../../contexts/authContext';
+import { useNavigation } from '../../contexts/navigationContext';
 
+import { useForm } from '../../hooks/useForm';
+import { createNewPost } from '../../services/postFirestoreService';
 
-const initialValues = {
-  title: '',
-  body: '',
-}
 
 function Create() {
   const navigate = useNavigation();
-  const { accessToken } = useContext(AuthContext)
-  const { values, onChange, onSubmit } = useForm({submitHandler:createPostService, initialValues, accessToken, navigate});
+  const { accessToken, userId } = useContext(AuthContext)
+
+  const initialValues = {
+    title: '',
+    body: '',
+    ownerId: userId
+  }
+
+  const { values, onChange, onSubmit } = useForm({ submitHandler: createNewPost, initialValues, navigate, accessToken });
 
   return (
     <div className={styles.container}>
-      <form id={styles.contact} action="" method="post" onSubmit={onSubmit}>
+      <form id={styles.contact} action="" method="post"
+        onSubmit={onSubmit}
+      >
         <h3 className={styles.h3}>Create post</h3>
         <h4 className={styles.h4}>Enter post details!</h4>
 

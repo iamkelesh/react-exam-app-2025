@@ -1,4 +1,4 @@
-import  { useContext } from 'react';
+import { useContext } from 'react';
 
 import styles from './Register.module.css'
 import { useForm } from '../../hooks/useForm';
@@ -12,15 +12,25 @@ const initialValues = {
 }
 
 
+
 function Register() {
 
-    const { registerSubmitHandler } = useContext(AuthContext)
-    const { values, onChange, onSubmit } = useForm({submitHandler:registerSubmitHandler, initialValues})
+    const { newRegisterHandler } = useContext(AuthContext)
+
+    const {
+        values,
+        onChange,
+        onSubmit } = useForm({
+            submitHandler: newRegisterHandler,
+            initialValues
+        })
 
     return (
         <div className={styles.container}>
-            <form id={styles.contact} action="" method="post" onSubmit={onSubmit}>
-                <h3 className={styles.h3}>Login</h3>
+            <form id={styles.contact} action="" method="post"
+                onSubmit={onSubmit}
+            >
+                <h3 className={styles.h3}>Register</h3>
                 <h4 className={styles.h4}>Enter your login credentials!</h4>
                 <fieldset className={styles.fieldset}>
                     <input
