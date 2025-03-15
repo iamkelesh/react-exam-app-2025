@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom"
 import { useContext, useState, useEffect } from "react";
 
-import SingleComment from "../singleComment/SingleComment";
-// import { getLatestsComments, getMoreComments } from "../../services/commentService"
-import AuthContext from "../../contexts/authContext";
-import AddComment from "../addComment/AddComment";
-import { getlatestsComments, getMoreComments } from "../../services/commentsFirestoreService";
 import { deleteComment } from "../../services/commentsFirestoreService";
+import { getlatestsComments, getMoreComments } from "../../services/commentsFirestoreService";
+import AuthContext from "../../contexts/authContext";
+
+import SingleComment from "../singleComment/SingleComment";
+import AddComment from "../addComment/AddComment";
 
 function Comments({ currentUser }) {
     const [commentsState, setCommentsState] = useState([])
@@ -87,7 +87,6 @@ function Comments({ currentUser }) {
                             <AddComment
                                 currentUser={currentUser}
                                 addNewToState={addNewToState}
-                            // fetchComments={fetchComments} 
                             />
                         </div>)}
 
@@ -102,14 +101,12 @@ function Comments({ currentUser }) {
                             deletehandler={deletehandler}
                             commentId={commentData.id}
                             postId={postId}
-                        // authorName={commentData.author.fullname} allInfo={commentData} 
-                        // fetchComments={fetchComments}
                         />
                     })}
 
-                    {/* {commentsState.length === 0 && (
+                    {commentsState.length === 0 && (
                         <p className="no-comment">There are no comments.</p>
-                    )} */}
+                    )}
 
                 </div>
             </div>
