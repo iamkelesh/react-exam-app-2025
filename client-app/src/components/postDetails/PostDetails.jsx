@@ -32,9 +32,9 @@ function PostDetails() {
 
 
     const formatedDate = (date) => {
-        if( date instanceof Date) {
+        if (date instanceof Date) {
             return date.toDateString()
-        } else if( date && date.toDate) {
+        } else if (date && date.toDate) {
             return date.toDate().toDateString()
         } else {
             return 'Invalid Date'
@@ -79,11 +79,13 @@ function PostDetails() {
                     </p>
                 </div>
 
-                <AddToFavourites
+                {dataState.id && <AddToFavourites
                     userId={userId}
-                    postId={postId}
+                    postId={dataState.id}
                     ownerId={dataState.ownerId}
-                />
+                    title={dataState.title}
+                    body={dataState.body}
+                />}
 
                 <div className="blog-comments-section">
                     <Comments currentUser={userId} />
