@@ -5,6 +5,8 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
 import { NavigationProvider } from './contexts/navigationContext.jsx'
 
+import '../index.css'
+
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
     <BrowserRouter>
