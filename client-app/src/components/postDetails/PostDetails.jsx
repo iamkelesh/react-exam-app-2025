@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 
 import { getPostsDetails, deletePost } from "../../services/postFirestoreService"
 import AuthContext from "../../contexts/authContext";
@@ -61,8 +61,8 @@ function PostDetails() {
 
                         {dataState.ownerId === userId && (
                             <>
-                                <Button onClick={redirectToEdit} variant="danger">Edit</Button>{' '}
-                                <Button onClick={deletePostHandler} variant="danger">Delete</Button>{' '}
+                                <button onClick={redirectToEdit} style={{ color: 'white', backgroundColor: 'red', border: 'none', padding: '10px', cursor: 'pointer' }}>Edit</button>{' '}
+                                <button onClick={deletePostHandler} style={{ color: 'white', backgroundColor: 'red', border: 'none', padding: '10px', cursor: 'pointer' }}>Delete</button>{' '}
                             </>
                         )}
 
