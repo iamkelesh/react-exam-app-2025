@@ -45,47 +45,6 @@ function Home() {
 
     }, [pageNumber, currentPage])
 
-
-
-    // useEffect(() => {
-
-    //     let tempPageNumber = pageNumber
-
-    //     if (typeof pageNumber === 'undefined') {
-    //         tempPageNumber = 0
-    //     }
-
-    //     getMyPostsPerPage(userId, tempPageNumber)
-    //         .then(result => console.log(result))
-    //         // .then(({ latestMyPostResult, moreMyPostsAvailableResult }) => {
-    //         //     setPosts(latestMyPostResult)
-    //         //     SetMoreAvailable(moreMyPostsAvailableResult)
-    //         // })
-    //         .catch(error => {
-    //             console.error(error)
-    //             window.alert('Error while getting posts')
-    //         })
-    // }, [])
-
-    // useEffect(() => {
-    //     if (currentPage === Number(pageNumber) || typeof pageNumber === 'undefined') return
-    //     getPerPageByUser(userId, Number(pageNumber)).then(res => {
-    //         if (res.length > 5) {
-    //             SetMoreAvailable(true)
-    //         } else {
-    //             SetMoreAvailable(false)
-    //         }
-    //         // const newPage = Number(currentPage) + 1
-    //         setCurrentPage(Number(pageNumber))
-    //         setPosts(res)
-    //     }).catch(err => console.error(err))
-    // })
-
-    // useEffect(() => {
-    //     getByUserId(userId).then(res => setLatestPosts(res)).catch(err => console.error(err))
-    // }, [userId])
-
-
     return (
         <section class="text-gray-600 body-font overflow-hidden">
             <div class="container px-5 py-24 mx-auto">
