@@ -136,3 +136,4 @@ client-app/src/components/deeba.js
 qodana.yaml
 firestore.rules
 client-app/demo-code-firestore-database.js
+client-app/src/components/header/old code or failed refactors.jsx
