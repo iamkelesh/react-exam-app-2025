@@ -10,7 +10,7 @@ function Header() {
         <header class='flex border-b py-4 px-4 sm:px-10 bg-white font-sans min-h-[70px] tracking-wide relative z-50'>
             <div class='flex flex-wrap items-center gap-4 w-full'>
                 <Link to="/">
-                    <h3 class="text-2xl font-semibold">Logo</h3>
+                    <h3 class="text-2xl font-semibold">Project app</h3>
                 </Link>
 
                 <div
@@ -39,28 +39,35 @@ function Header() {
                                         <Link to="/user/favourites"
                                             class='hover:text-[#007bff] text-gray-600 block font-bold text-[15px]'>Favourites</Link>
                                     </li>
+                                    <li class='max-lg:border-b max-lg:py-3'>
+                                        <Link to="/posts/create"
+                                            class='hover:text-[#007bff] text-gray-600 block font-bold text-[15px]'>Create</Link>
+                                    </li>
                                 </>}
 
-                            <li class='max-lg:border-b max-lg:py-3'>
-                                <Link to="/posts/create"
-                                    class='hover:text-[#007bff] text-gray-600 block font-bold text-[15px]'>Create</Link>
-                            </li>
                         </ul>
 
-                        <ul class='lg:flex lg:items-center ml-auto max-lg:block lg:space-x-8 ml-auto'>
-                            <li class='max-lg:border-b max-lg:py-3 max-lg:mt-2'><Link to="/"
-                                class='hover:text-[#007bff] text-gray-600 block font-bold text-[15px]'>About</Link>
-                            </li>
-                        </ul>
+                        {isAuthenticated &&
+
+                            <ul class='lg:flex lg:items-center ml-auto max-lg:block lg:space-x-8 ml-auto'>
+                                <li class='max-lg:border-b max-lg:py-3 max-lg:mt-2'><Link to="/user/logout"
+                                    class='hover:text-[#007bff] text-gray-600 block font-bold text-[15px]'>Log out</Link>
+                                </li>
+                            </ul>
+                        }
+
+
                     </div>
                 </div>
 
                 {!isAuthenticated &&
                     <>
-                        <div class="border-l border-[#333] h-6 max-lg:hidden"></div>
                         <div class='flex items-center ml-auto space-x-6'>
                             <Link to="/user/login" class='hover:text-[#007bff] text-gray-600 block font-bold text-[15px]'>Log
                                 in</Link>
+
+                            <div class="border-l border-[#333] h-6 max-lg:hidden"></div>
+
                             <Link to="/user/register"
                                 class='px-4 py-2.5 text-sm rounded font-bold text-white border-2 border-[#1d294f] bg-[#1d294f] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#1d294f]'>Register
                             </Link>
