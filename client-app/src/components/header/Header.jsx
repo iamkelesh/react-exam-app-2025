@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 
 import AuthContext from "../../contexts/authContext";
 
-import styles from './Header.module.css';
-
 function Header() {
     const { isAuthenticated } = useContext(AuthContext)
 
