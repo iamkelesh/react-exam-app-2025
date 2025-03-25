@@ -132,3 +132,22 @@ export const deletePost = async (postId0) => {
         throw new Error("Error while deleting post at service: ", error)
     }
 }
+
+
+export const searchPost = async (searchInput) => {
+    const collectionRef = collection(firestoreDB, 'user-posts-test1');
+
+    try {
+        const querySnapshot = await getDocs(collectionRef);
+        const result = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }))
+            .filter(post => post.title.toLowerCase().includes(searchInput.toLowerCase()));
+
+            return result
+    } catch (error) {
+        console.log(error.message);
+        window.alert('Error while searching post. Please try again.')
+    }
+};
