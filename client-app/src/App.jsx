@@ -14,6 +14,7 @@ import PostDetails from "./components/postDetails/PostDetails"
 import Favourites from "./components/favourites/Favourites"
 
 import AuthGuard from "./guards/AuthGuard"
+import SearchComponent from "./components/searchComponent/SearchComponent"
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
           <div className="app-container">
             <main className="main-content">
 
+            <SearchComponent/>
               <div className="main-wrapper">
                 <Routes>
                   <Route path='/' element={<Home />} />
