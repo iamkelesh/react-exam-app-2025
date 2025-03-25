@@ -7,11 +7,15 @@ import AuthContext from "../../contexts/authContext";
 
 import Comments from "../comments/Comments";
 import AddToFavourites from "../addToFavourites/AddToFavourites";
+import AddComment from "../addComment/AddComment";
 
 function PostDetails() {
     const [dataState, setDataState] = useState({})
     const { userId } = useContext(AuthContext)
     const navigate = useNavigate()
+
+    const { isAuthenticated } = useContext(AuthContext)
+
 
     const { postId } = useParams()
 
@@ -86,9 +90,9 @@ function PostDetails() {
 
             </div>
 
-            <p>
-                TODO: Add comments
-            </p>
+            <div>
+                <Comments currentUser={userId} />
+            </div>
 
 
             <p>
