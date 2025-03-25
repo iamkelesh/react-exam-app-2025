@@ -1,4 +1,4 @@
-import  { useContext } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 
 import AuthContext from "../../contexts/authContext";
@@ -7,65 +7,74 @@ function Header() {
     const { isAuthenticated } = useContext(AuthContext)
 
     return (
-        <header className="header text-center">
-            <h1 className="blog-name pt-lg-4 mb-0">
-                <a href="index.html">Blog site exam</a>
-            </h1>
-            <nav className="navbar navbar-expand-lg navbar-dark">
-                <button
-                    className="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navigation"
-                    aria-controls="navigation"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span className="navbar-toggler-icon" />
-                </button>
-                <div id="navigation" className="collapse navbar-collapse flex-column">
-                    <div className="profile-section pt-3 pt-lg-0">
+        <header className='flex border-b py-4 px-4 sm:px-10 bg-white font-sans min-h-[70px] tracking-wide relative z-50'>
+            <div className='flex flex-wrap items-center gap-4 w-full'>
+                <Link to="/">
+                    <h3 className="text-2xl font-semibold">Project app</h3>
+                </Link>
 
-                        <div className="bio mb-3">
-                            Hi, this web app is in alpha version. Please report any bugs to the developer.
-                        </div>
+                <div
+                    className='lg:!flex lg:flex-auto lg:ml-12 max-lg:hidden max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50'>
 
-                        <hr />
-                    </div>
+                    <div
+                        className="lg:!flex lg:flex-auto max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50">
 
-                    <ul className="navbar-nav flex-column text-left">
+                        <ul className='lg:flex lg:gap-x-8 max-lg:space-y-2'>
+                            <li className='mb-6 hidden max-lg:block'>
+                                <Link to="/"><img src="https://readymadeui.com/readymadeui.svg" alt="logo" className='w-36' />
+                                </Link>
+                            </li>
+                            <li className='max-lg:border-b max-lg:py-3'>
+                                <Link to="/"
+                                    className='hover:text-[#007bff] text-gray-600 block font-bold text-[15px]'>Home</Link>
+                            </li>
 
-                        <li className="nav-item">
-                            <Link to="/home" className="nav-link" >Home</Link>
-                        </li>
+                            {isAuthenticated &&
+                                <>
+                                    <li className='max-lg:border-b max-lg:py-3'>
+                                        <Link to="/user/posts"
+                                            className='hover:text-[#007bff] text-gray-600 block font-bold text-[15px]'>My posts</Link>
+                                    </li>
+                                    <li className='max-lg:border-b max-lg:py-3'>
+                                        <Link to="/user/favourites"
+                                            className='hover:text-[#007bff] text-gray-600 block font-bold text-[15px]'>Favourites</Link>
+                                    </li>
+                                    <li className='max-lg:border-b max-lg:py-3'>
+                                        <Link to="/posts/create"
+                                            className='hover:text-[#007bff] text-gray-600 block font-bold text-[15px]'>Create</Link>
+                                    </li>
+                                </>}
+
+                        </ul>
 
                         {isAuthenticated &&
-                            <li className="nav-item">
-                                <Link to="/user/posts/" className="nav-link" >My posts</Link>
-                                <Link to="/posts/create" className="nav-link" >Create post</Link>
-                                <Link to="/user/logout" className="nav-link" >Logout</Link>
-                                <Link to="/user/favourites" className="nav-link" >Favourites</Link>
-                            </li>
+
+                            <ul className='lg:flex lg:items-center ml-auto max-lg:block lg:space-x-8 ml-auto'>
+                                <li className='max-lg:border-b max-lg:py-3 max-lg:mt-2'><Link to="/user/logout"
+                                    className='hover:text-[#007bff] text-gray-600 block font-bold text-[15px]'>Log out</Link>
+                                </li>
+                            </ul>
                         }
 
-                        {!isAuthenticated &&
-                            <li className="nav-item">
-                                <Link to="/user/login" className="nav-link" >Login</Link>
-                            </li>
-                        }
-                        {!isAuthenticated &&
-                            <li className="nav-item">
-                                <Link to="/user/register" className="nav-link" >Register</Link>
-                            </li>
-                        }
-                        
 
-                    </ul>
-
+                    </div>
                 </div>
-            </nav>
-        </header>
-    );
-}
 
+                {!isAuthenticated &&
+                    <>
+                        <div className='flex items-center ml-auto space-x-6'>
+                            <Link to="/user/login" className='hover:text-[#007bff] text-gray-600 block font-bold text-[15px]'>Log
+                                in</Link>
+
+                            <div className="border-l border-[#333] h-6 max-lg:hidden"></div>
+
+                            <Link to="/user/register"
+                                className='px-4 py-2.5 text-sm rounded font-bold text-white border-2 border-[#1d294f] bg-[#1d294f] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#1d294f]'>Register
+                            </Link>
+                        </div>
+                    </>}
+            </div>
+        </header>
+    )
+}
 export default Header;

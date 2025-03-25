@@ -72,50 +72,115 @@ function Comments({ currentUser }) {
 
     }, [postId])
 
-    return (
-        <div className="container mt-5">
-            <div className="row  d-flex justify-content-center">
-                <div className="col-md-8">
-                    <div className="headings d-flex justify-content-between align-items-center mb-3">
-                        <div className="buttons">
-                            <span className="badge bg-white d-flex flex-row align-items-center"></span>
+    // return (
+    //     <div className="container mt-5">
+    //         <div className="row  d-flex justify-content-center">
+    //             <div className="col-md-8">
+    //                 <div className="headings d-flex justify-content-between align-items-center mb-3">
+    //                     <div className="buttons">
+    //                         <span className="badge bg-white d-flex flex-row align-items-center"></span>
+    //                     </div>
+    //                 </div>
+
+    //                 {isAuthenticated && (
+    //                     <div className="blog-comments-section">
+    //                         <AddComment
+    //                             currentUser={currentUser}
+    //                             addNewToState={addNewToState}
+    //                         />
+    //                     </div>)}
+
+    //                 <h5>User comments</h5>
+    //                 {commentsState.map((commentData) => {
+    //                     return <SingleComment
+    //                         key={commentData.id}
+    //                         currentUser={currentUser}
+    //                         text={commentData.text}
+    //                         ownerId={commentData.ownerId}
+    //                         createdAt={commentData.createdAt}
+    //                         deletehandler={deletehandler}
+    //                         commentId={commentData.id}
+    //                         postId={postId}
+    //                     />
+    //                 })}
+
+    //                 {commentsState.length === 0 && (
+    //                     <p className="no-comment">There are no comments.</p>
+    //                 )}
+
+    //             </div>
+    //         </div>
+    //         {moreAvailable === true ?
+    //             <button onClick={getMoreCommentsHandler} >
+    //                 <a> Load more comments</a>
+    //             </button> : ""}
+    //     </div>
+    // )
+    if (commentsState.length === 0) {
+        return (
+            <></>)
+    } else {
+        return (
+            <>
+
+                <section className="
+        relative 
+        
+        flex 
+        flex-col 
+        justify-center
+         bg-slate-50 
+         overflow-hidden
+          antialiased">
+                    <div className="w-full max-w-6xl mx-auto px-4 md:px-6 
+        
+            "
+                    >
+                        <div className="flex flex-col justify-center divide-y divide-slate-200 [&>*]:py-16">
+
+
+                            <div className="w-full max-w-3xl mx-auto">
+
+                                {/* <!-- Vertical Timeline #3 --> */}
+                                <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:ml-[8.75rem] md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
+
+
+
+
+                                    {commentsState.map((commentData) => {
+                                        return <SingleComment
+                                            key={commentData.id}
+                                            currentUser={currentUser}
+                                            text={commentData.text}
+                                            ownerId={commentData.ownerId}
+                                            createdAt={commentData.createdAt}
+                                            deletehandler={deletehandler}
+                                            commentId={commentData.id}
+                                            postId={postId}
+                                        />
+                                    })}
+
+
+
+                                </div>
+                                {/* <!-- End: Vertical Timeline #3 --> */}
+
+                            </div>
+
                         </div>
                     </div>
+                </section>
 
-                    {isAuthenticated && (
-                        <div className="blog-comments-section">
-                            <AddComment
-                                currentUser={currentUser}
-                                addNewToState={addNewToState}
-                            />
-                        </div>)}
 
-                    <h5>User comments</h5>
-                    {commentsState.map((commentData) => {
-                        return <SingleComment
-                            key={commentData.id}
-                            currentUser={currentUser}
-                            text={commentData.text}
-                            ownerId={commentData.ownerId}
-                            createdAt={commentData.createdAt}
-                            deletehandler={deletehandler}
-                            commentId={commentData.id}
-                            postId={postId}
-                        />
-                    })}
 
-                    {commentsState.length === 0 && (
-                        <p className="no-comment">There are no comments.</p>
-                    )}
-
-                </div>
-            </div>
-            {moreAvailable === true ?
-                <button onClick={getMoreCommentsHandler} >
-                    <a> Load more comments</a>
-                </button> : ""}
-        </div>
-    )
+                {isAuthenticated && (
+                    <AddComment c
+                        currentUser={currentUser}
+                        addNewToState={addNewToState} />
+                )}
+            </>
+        )
+    }
 }
 
 export default Comments
