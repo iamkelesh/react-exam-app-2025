@@ -81,8 +81,22 @@ function PostDetails() {
 
             <div className="w-full text-gray-600 font-thin italic px-5 pt-3">
                 By <strong className="text-gray-700">Posted by user name {dataState.publisherName}</strong><br />
+
                 {formatedDate(dataState.createdAt)}<br />
                 {/* Updated: 07/17/2020 10:33 AM EDT */}
+
+                <p>
+                    TODO: Add proper buttons for edit and delete
+                </p>
+
+                <span class="isolate inline-flex rounded-md shadow-sm">
+                    {/* <button type="button" class="relative inline-flex items-center rounded-l-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10">share</button> */}
+                    <button type="button" onClick={redirectToEdit} class="relative -ml-px inline-flex items-center bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10">Edit</button>
+                    <button type="button" monClick={deletePostHandler} class="relative -ml-px inline-flex items-center rounded-r-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10">Delete</button>
+                </span>
+
+
+
             </div>
 
             <div className="px-5 w-full mx-auto">
@@ -95,9 +109,7 @@ function PostDetails() {
             </div>
 
 
-            <p>
-                TODO: Add proper buttons for edit and delete
-            </p>
+
         </div>
 
     )
