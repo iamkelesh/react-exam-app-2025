@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
 
         try {
             ``
-            const { email, password, fullName } = values
+            const { email, password, fullName, bio, jobTitle } = values
 
             const status = await validatePassword(getAuth(), password);
 
@@ -55,6 +55,8 @@ export const AuthProvider = ({ children }) => {
             await setDoc(doc(firestoreDB, "user-info", user.uid), {
                 fullName,
                 email,
+                jobTitle,
+                bio,
                 createdAt: serverTimestamp()
             })
 
