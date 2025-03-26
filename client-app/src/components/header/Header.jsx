@@ -49,7 +49,12 @@ function Header() {
 
                         {isAuthenticated &&
 
-                            <ul className='lg:flex lg:items-center ml-auto max-lg:block lg:space-x-8 ml-auto'>
+                            <ul className='lg:flex lg:items-center ml-auto max-lg:block lg:space-x-8'>
+
+                                <li className='max-lg:border-b max-lg:py-3 max-lg:mt-2'><Link to="/my-profile"
+                                    className='hover:text-[#007bff] text-gray-600 block font-bold text-[15px]'>My profile</Link>
+                                </li>
+
                                 <li className='max-lg:border-b max-lg:py-3 max-lg:mt-2'><Link to="/user/logout"
                                     className='hover:text-[#007bff] text-gray-600 block font-bold text-[15px]'>Log out</Link>
                                 </li>
