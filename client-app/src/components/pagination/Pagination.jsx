@@ -12,7 +12,7 @@ function Pagination({ defaultUrl, currentPage, moreAvailable }) {
                         {currentPage > 0 ?
                             <Link to={`/${defaultUrl}/${currentPage - 1}`}
 
-                                className="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
+                                className="page-link relative block py-1.5 px-3  border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
                                 href="#" >Previous</Link> : ""}
                     </li>
 
@@ -34,7 +34,7 @@ function Pagination({ defaultUrl, currentPage, moreAvailable }) {
                     <li className="page-item">
                         {moreAvailable === true ?
                             <Link to={`/${defaultUrl}/${currentPage + 1}`}
-                                className="page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
+                                className="page-link relative block py-1.5 px-3  border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
                             >Next</Link> : ""}
                     </li>
                 </ul>
