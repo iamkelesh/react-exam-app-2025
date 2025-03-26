@@ -12,6 +12,7 @@ import Login from "./components/login/Login"
 import UsersPosts from "./components/usersPosts/UsersPosts"
 import PostDetails from "./components/postDetails/PostDetails"
 import Favourites from "./components/favourites/Favourites"
+import Profile from "./components/profile/Profile"
 
 import AuthGuard from "./guards/AuthGuard"
 import SearchComponent from "./components/searchComponent/SearchComponent"
@@ -35,7 +36,7 @@ function App() {
           <div className="app-container">
             <main className="main-content">
 
-            <SearchComponent/>
+              <SearchComponent />
               <div className="main-wrapper">
                 <Routes>
                   <Route path='/' element={<Home />} />
@@ -69,6 +70,11 @@ function App() {
                   } />
                   <Route path='/posts/details/:postId' element={<PostDetails />} />
 
+                  <Route path='/my-profile' element={
+                    <AuthGuard>
+                      <Profile />
+                    </AuthGuard>
+                  } />
 
                   <Route path='/posts/create' element={
                     <AuthGuard>

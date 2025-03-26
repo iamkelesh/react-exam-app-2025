@@ -2,12 +2,13 @@ import { useContext } from 'react';
 
 import { Link } from "react-router-dom";
 
-import styles from './Register.module.css'
 import { useForm } from '../../hooks/useForm';
 import AuthContext from '../../contexts/authContext'
 
 const initialValues = {
     fullName: '',
+    jobTitle: '',
+    bio: '',
     email: '',
     password: '',
     repeatPassword: ''
@@ -41,11 +42,12 @@ function Register() {
                             name='fullName'
                             required
                             onChange={onChange}
-                            value={values.email}
+                            value={values.fullName}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
                             placeholder="Type your full name here"
                         />
                     </div>
+
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                         <input
@@ -56,6 +58,31 @@ function Register() {
                             value={values.email}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
                             placeholder="Type your email here"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Job title</label>
+                        <input
+                            type="text"
+                            name='jobTitle'
+                            required
+                            onChange={onChange}
+                            value={values.jobTitle}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                            placeholder="Type what you work here"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+                        <textarea
+                            type="text"
+                            name='bio'
+                            required
+                            onChange={onChange}
+                            value={values.bio}
+                            className="w-full rows-4 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                            placeholder="Type your bio here"
                         />
                     </div>
 
@@ -81,7 +108,7 @@ function Register() {
                             name='repeatPassword'
                             required
                             onChange={onChange}
-                            value={values.password}
+                            value={values.repeatPassword }
                         />
                     </div>
 

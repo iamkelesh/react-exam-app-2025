@@ -1,15 +1,20 @@
 import { createContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router"
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth"
 
-import { firebaseApp } from "../firebase/config"
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, validatePassword } from "firebase/auth"
+import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
+
+import { firebaseApp, firestoreDB } from "../firebase/config"
 
 const AuthContext = createContext()
 
 const auth = getAuth(firebaseApp)
 
 export const AuthProvider = ({ children }) => {
+
+
     const navigate = useNavigate()
+
     const [authState, setAuthState] = useState({})
 
     useEffect(() => {
@@ -31,20 +36,44 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     const newRegisterHandler = async ({ values }) => {
+
         try {
-            const { email, password } = values
-            createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
-                const user = userCredential.user
-                setAuthState({
-                    uid: user.uid,
-                    email: user.email,
-                    accessToken: user.accessToken,
-                    // Add other properties as needed
-                })
-                navigate('/')
+            ``
+            const { email, password, fullName, bio, jobTitle } = values
+
+            const status = await validatePassword(getAuth(), password);
+
+            if (!status.isValid) {
+                window.alert('Password is not valid. Must be at least 6 characters long.')
+                return;
+            }
+
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+
+            const user = userCredential.user
+
+            await setDoc(doc(firestoreDB, "user-info", user.uid), {
+                fullName,
+                email,
+                jobTitle,
+                bio,
+                createdAt: serverTimestamp()
             })
+
+
+            setAuthState({
+                uid: user.uid,
+                email: user.email,
+                fullName: fullName,
+                accessToken: user.accessToken,
+            })
+
+            navigate('/')
+
         } catch (error) {
+
             console.log(error)
+
             alert(error.message)
         }
     }
@@ -60,19 +89,33 @@ export const AuthProvider = ({ children }) => {
         }).catch((error) => {
 
             console.error('Error signing out:', error)
+
             alert(error.message)
         })
     }
 
     const newLoginHandler = async ({ values }) => {
+
         try {
 
             const { email, password } = values
+
             const userCredential = await signInWithEmailAndPassword(auth, email, password)
+
             const user = userCredential.user
+
+            const userInfoSnap = await getDoc(doc(firestoreDB, "user-info", user.uid))
+
+            if (!userInfoSnap.exists()) {
+                windows.alert('No such user !')
+                return
+            }
+
+            const { fullName } = userInfoSnap.data()
 
             setAuthState({
                 uid: user.uid,
+                fullName: fullName,
                 email: user.email,
                 accessToken: user.accessToken,
             })
@@ -80,7 +123,9 @@ export const AuthProvider = ({ children }) => {
             navigate('/')
 
         } catch (error) {
+
             console.log(error)
+
             alert(error.message)
         }
     }
