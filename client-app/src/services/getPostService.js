@@ -36,7 +36,7 @@ export const getAllPosts = async ({ lastSnapshot }) => {
 
     } catch (error) {
         console.log(error);
-        return { newPosts: [], lastDoc: null, moreAvailable: false }
+        // return { newPosts: [], lastDoc: null, moreAvailable: false }
     }
 
 }
@@ -70,7 +70,7 @@ export const getByCategory = async ({ lastSnapshot, category }) => {
 
     } catch (error) {
         console.log(error);
-        return { newPosts: [], lastDoc: null, moreAvailable: false }
+        // return { newPosts: [], lastDoc: null, moreAvailable: false }
     }
 }
 
