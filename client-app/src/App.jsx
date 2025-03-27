@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom"
 
 import { AuthProvider } from "./contexts/authContext"
+import AuthGuard from "./guards/AuthGuard"
 
 import Header from "./components/header/Header"
 import Register from "./components/register/Register"
@@ -13,10 +14,10 @@ import UsersPosts from "./components/usersPosts/UsersPosts"
 import PostDetails from "./components/postDetails/PostDetails"
 import Favourites from "./components/favourites/Favourites"
 import Profile from "./components/profile/Profile"
-
-import AuthGuard from "./guards/AuthGuard"
+import AllPosts from "./components/allPosts/AllPosts"
 import SearchComponent from "./components/searchComponent/SearchComponent"
 import SearchResultsComponent from "./components/searchResults/SearchResultsComponent"
+
 
 function App() {
 
@@ -24,7 +25,7 @@ function App() {
   return (
     <>
       <AuthProvider>
-        <div className="app-container">
+        <div className="app-container mx-auto">
 
           <div className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]" aria-hidden="true">
             <div className="relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]"
@@ -41,7 +42,7 @@ function App() {
                 <Routes>
                   <Route path='/' element={<Home />} />
                   <Route path='/home' element={<Home />} />
-                  <Route path='/home/:pageNumber' element={<Home />} />
+                  <Route path='/all-posts' element={<AllPosts />} />
 
                   <Route path='/search/:searchInput' element={<SearchResultsComponent />} />
 
