@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-// import Button from 'react-bootstrap/Button';
 
 import { getPostsDetails, deletePost } from "../../services/postFirestoreService"
 import AuthContext from "../../contexts/authContext";
@@ -57,7 +56,7 @@ function PostDetails() {
     return (
         <div className="w-full md:w-2/5 mx-auto">
             <div className="mx-5 my-3 text-sm">
-                <a href="" className=" text-red-600 font-bold tracking-widest">TYPE OF POST {dataState.typeOfPost}</a>
+                <a href="" className=" text-red-600 font-bold tracking-widest">{dataState.category}</a>
             </div>
             <div className="w-full text-gray-800 text-4xl px-5 font-bold leading-none">
                 {dataState.title}
