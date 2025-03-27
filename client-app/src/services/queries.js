@@ -16,12 +16,6 @@ export const homePageQuery = query(
 )
 
 
-const allPostsLatest = query(
-    postCollectionRef,
-    orderBy("createdAt", "desc"),
-    limit(11)
-)
-
 export async function mainPagePostsQuery(pageNumber) {
     if (!isNaN(pageNumber) && pageNumber > 0) {
 
@@ -68,4 +62,21 @@ export function allPostsQuery({ lastSnapshot }) {
             limit(11))
     }
 
+}
+
+export function postsByCategoryQuery({category, lastSnapShot}) {
+    if (!lastSnapShot) {
+        return query(
+            postCollectionRef,
+            orderBy("createdAt", "desc"),
+            where("category", "==", category),
+            limit(11)
+        )
+    } else {
+        return query(postCollectionRef,
+            orderBy('createdAt', 'desc'),
+            where("category", "==", category),
+            startAfter(lastSnapShot),
+            limit(11))
+    }
 }
