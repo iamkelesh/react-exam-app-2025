@@ -16,8 +16,8 @@ function Login() {
     const { values, onChange, onSubmit } = useForm({ submitHandler: newLoginHandler, initialValues })
 
     return (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-            <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
+        <div className="min-h-screen flex items-center justify-center p-4">
+            <div className="max-w-md w-full rounded-xl shadow-lg p-8">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Log in</h2>
 
                 <form className="space-y-4" action="" onSubmit={onSubmit}>
