@@ -9,7 +9,11 @@ const latestMainPostsQuery = query(
     limit(6)
 )
 
-
+export const homePageQuery = query(
+    postCollectionRef,
+    orderBy("createdAt", "desc"),
+    limit(10)
+)
 export async function mainPagePostsQuery(pageNumber) {
     if (!isNaN(pageNumber) && pageNumber > 0) {
 
