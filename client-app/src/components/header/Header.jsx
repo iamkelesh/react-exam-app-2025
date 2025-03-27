@@ -30,15 +30,17 @@ function Header() {
                             </li>
 
                             {isAuthenticated &&
+
                                 <>
-                                    <li className='max-lg:border-b max-lg:py-3'>
+                                    {/* <li className='max-lg:border-b max-lg:py-3'>
                                         <Link to="/user/posts"
                                             className='hover:text-[#007bff] text-gray-600 block font-bold text-[15px]'>My posts</Link>
                                     </li>
                                     <li className='max-lg:border-b max-lg:py-3'>
                                         <Link to="/user/favourites"
                                             className='hover:text-[#007bff] text-gray-600 block font-bold text-[15px]'>Favourites</Link>
-                                    </li>
+                                    </li> */}
+
                                     <li className='max-lg:border-b max-lg:py-3'>
                                         <Link to="/posts/create"
                                             className='hover:text-[#007bff] text-gray-600 block font-bold text-[15px]'>Create</Link>
