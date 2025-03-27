@@ -30,7 +30,7 @@ function Header() {
                             </li>
 
                             <li className='max-lg:border-b max-lg:py-3'>
-                                <Link to="/all-posts"
+                                <Link to="/posts/all-posts"
                                     className='hover:text-[#007bff] text-gray-600 block font-bold text-[15px]'>All posts</Link>
                             </li>
 

@@ -42,7 +42,7 @@ function App() {
                 <Routes>
                   <Route path='/' element={<Home />} />
                   <Route path='/home' element={<Home />} />
-                  <Route path='/all-posts' element={<AllPosts />} />
+                  <Route path='/posts/all-posts' element={<AllPosts />} />
 
                   <Route path='/search/:searchInput' element={<SearchResultsComponent />} />
 
