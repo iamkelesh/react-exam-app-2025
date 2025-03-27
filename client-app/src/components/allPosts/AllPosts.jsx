@@ -13,6 +13,10 @@ function AllPosts() {
     const [moreAvailable, setMoreAvailable] = useState(false)
     const [category, setCategory] = useState('all')
 
+    const getButtonClass = (btnCategory) =>
+        `inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 ${category === btnCategory ? 'underline decoration-2 decoration-[#7629c8]' : ''
+        }`;
+
 
     function loadMore() {
         if (category !== 'all') {
@@ -74,7 +78,7 @@ function AllPosts() {
 
                 setLastSnapshot(lastDoc)
 
-                
+
             }).catch(err => console.error(err))
     }
 
@@ -159,28 +163,28 @@ function AllPosts() {
 
                     <button
                         onClick={() => categoryHandler('News')}
-                        className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                        className={getButtonClass('News')}
                     >
                         News
                     </button>
 
                     <button
                         onClick={() => categoryHandler('Discussion')}
-                        className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                        className={getButtonClass('Discussion')}
                     >
                         Discussion
                     </button>
 
                     <button
                         onClick={() => categoryHandler('Support')}
-                        className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                        className={getButtonClass('Support')}
                     >
                         Support
                     </button>
 
                     <button
                         onClick={() => categoryHandler('Review')}
-                        className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                        className={getButtonClass('Review')}
                     >
                         Review
                     </button>
