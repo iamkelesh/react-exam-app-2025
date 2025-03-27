@@ -12,8 +12,16 @@ const latestMainPostsQuery = query(
 export const homePageQuery = query(
     postCollectionRef,
     orderBy("createdAt", "desc"),
-    limit(10)
+    limit(5)
 )
+
+
+const allPostsLatest = query(
+    postCollectionRef,
+    orderBy("createdAt", "desc"),
+    limit(11)
+)
+
 export async function mainPagePostsQuery(pageNumber) {
     if (!isNaN(pageNumber) && pageNumber > 0) {
 
@@ -43,4 +51,21 @@ export async function myPostsQuery(userId, pageNumber) {
     } else {
         return query(postCollectionRef, orderBy('createdAt', 'desc'), where("ownerId", "==", userId), limit(6))
     }
-} 
+}
+
+export function allPostsQuery({ lastSnapshot }) {
+
+    if (!lastSnapshot) {
+        return query(
+            postCollectionRef,
+            orderBy("createdAt", "desc"),
+            limit(11)
+        )
+    } else {
+        return query(postCollectionRef,
+            orderBy('createdAt', 'desc'),
+            startAfter(lastSnapshot),
+            limit(11))
+    }
+
+}
