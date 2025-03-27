@@ -47,14 +47,18 @@ export const getLatestHomePost = async () => {
         const querySnapshot = await getDocs(homePageQuery)
 
         let latestPostResult = querySnapshot.docs.map(doc => {
+            
             const docData = doc.data()
+
             const docId = doc.id
+
             return { id: docId, ...docData }
         })
 
         return latestPostResult
     } catch (error) {
         console.log(error)
+        return []
     }
 }
 
