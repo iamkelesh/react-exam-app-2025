@@ -1,8 +1,10 @@
 import { useEffect, useState, useContext } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 
-import { getPostsDetails, deletePost } from "../../services/getPostService"
+import { getPostsDetails } from "../../services/getPostService"
 import AuthContext from "../../contexts/authContext";
+import { deletePost } from "../../services/otherPostServices";
+
 
 import Comments from "../comments/Comments";
 import AddToFavourites from "../addToFavourites/AddToFavourites";

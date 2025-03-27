@@ -6,7 +6,7 @@ import styles from './UpdatePost.module.css';
 
 import AuthContext from '../../contexts/authContext';
 import { useNavigation } from '../../contexts/navigationContext';
-import { getPostsDetails, updatePostDetails } from '../../services/otherPostServices';
+import {  updatePostDetails } from '../../services/otherPostServices';
 
 
 const initialValues = {
