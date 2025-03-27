@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-function SmallPostTemplate({ id, title, body, postId, createdAt }) {
+function SmallPostTemplate({ id, title, body, postId, createdAt, category }) {
 
     const formatedDate = (date) => {
         if (date instanceof Date) {
@@ -38,7 +38,7 @@ function SmallPostTemplate({ id, title, body, postId, createdAt }) {
             <div className="max-w-4xl px-10 my-4 py-6 bg-white rounded-lg shadow-md">
                 <div className="flex justify-between items-center">
                     <span className="font-light text-gray-600">{formatedDate(createdAt)}</span>
-                    <a className="px-2 py-1 bg-gray-600 text-gray-100 font-bold rounded hover:bg-gray-500" >TODO CATEGORY</a>
+                    <a className="px-2 py-1 bg-gray-600 text-gray-100 font-bold rounded hover:bg-gray-500" >{category}</a>
                 </div>
                 <div className="mt-2">
                     <a className="text-2xl text-gray-700 font-bold hover:text-gray-600" >{title}</a>
