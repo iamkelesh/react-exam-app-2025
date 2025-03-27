@@ -63,10 +63,6 @@ function AllPosts() {
 
     }
 
-    function handleCategoryChange(newCategory) {
-        setCategory(newCategory)
-    }
-
     const categoryHandler = (newCategory) => {
         if (newCategory === category) {
             setCategory('all')
