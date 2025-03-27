@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { getLatestHomePost } from "../../services/postFirestoreService";
+import { getLatestHomePost } from "../../services/getPostService";
 
 import SmallPostTemplate from "../smallPostTemplate/SmallPostTemplate";
 

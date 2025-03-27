@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import AuthContext from "../../contexts/authContext";
-import { getMyPostsPerPage } from "../../services/postFirestoreService";
+import { getMyPostsPerPage } from "../../services/otherPostServices";
 
 import SmallPostTemplate from "../smallPostTemplate/SmallPostTemplate";
 

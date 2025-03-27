@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 
-import { getPostsDetails, deletePost } from "../../services/postFirestoreService"
+import { getPostsDetails, deletePost } from "../../services/getPostService"
 import AuthContext from "../../contexts/authContext";
 
 import Comments from "../comments/Comments";

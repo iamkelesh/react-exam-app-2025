@@ -1,6 +1,9 @@
-import { collection, addDoc, getDocs, serverTimestamp, doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, serverTimestamp, doc, getDoc, orderBy, query, updateDoc, deleteDoc, limit, where, startAfter } from 'firebase/firestore';
 import { firestoreDB } from '../firebase/config';
 import { homePageQuery, mainPagePostsQuery, myPostsQuery } from './queries';
+
+const collectionRef = collection(firestoreDB, 'user-posts-test1');
+
 
 export const createNewPost = async ({ values, accessToken, navigate }) => {
 
@@ -28,22 +31,7 @@ export const createNewPost = async ({ values, accessToken, navigate }) => {
         alert('Post creation failed. Please try again.')
     }
 }
-export const getLatestHomePost = async () => {
-    try {
-        const querySnapshot = await getDocs(homePageQuery)
 
-        let latestPostResult = querySnapshot.docs.map(doc => {
-            const docData = doc.data()
-            const docId = doc.id
-            return { id: docId, ...docData }
-        })
-
-        return latestPostResult
-    } catch (error) {
-        window.alert('Error while getting latest post. Please try again.')
-        console.log(error)
-    }
-}
 export const getMainPostsPerPage = async (pageNumber) => {
 
     try {
@@ -74,19 +62,6 @@ export const getMainPostsPerPage = async (pageNumber) => {
 
     } catch (error) {
         console.error("Error while getting posts at service: ", error)
-    }
-}
-
-export const getPostsDetails = async (postId) => {
-
-    const docRef = doc(firestoreDB, 'user-posts-test1', postId)
-
-    const docSnap = await getDoc(docRef)
-
-    if (docSnap.exists()) {
-        return { id: docSnap.id, ...docSnap.data() }
-    } else {
-        throw new Error('No such document!')
     }
 }
 
@@ -163,6 +138,5 @@ export const searchPost = async (searchInput) => {
         return result
     } catch (error) {
         console.log(error.message);
-        window.alert('Error while searching post. Please try again.')
     }
 };

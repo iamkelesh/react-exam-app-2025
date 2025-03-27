@@ -6,7 +6,7 @@ import AuthContext from '../../contexts/authContext';
 import { useNavigation } from '../../contexts/navigationContext';
 
 import { useForm } from '../../hooks/useForm';
-import { createNewPost } from '../../services/postFirestoreService';
+import { createNewPost } from '../../services/otherPostServices';
 import Dropdown from '../dropdown /Dropdown';
 import Dropdown2 from '../dropdown2/Dropdown2';
 

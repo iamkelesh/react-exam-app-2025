@@ -4,10 +4,10 @@ import { useParams } from "react-router-dom"
 import { Link } from "react-router-dom";
 import SmallPostTemplate from "../smallPostTemplate/SmallPostTemplate";
 
-import { getMainPostsPerPage } from "../../services/postFirestoreService";
+import { getMainPostsPerPage } from "../../services/otherPostServices";
 
 import Pagination from "../pagination/Pagination";
-import { searchPost } from "../../services/postFirestoreService";
+import { searchPost } from "../../services/otherPostServices";
 
 
 function SearchResultsComponent() {
