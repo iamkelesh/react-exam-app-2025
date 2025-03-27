@@ -63,6 +63,21 @@ function AllPosts() {
 
     }
 
+    function resetPosts() {
+        setCategory('all')
+        getAllPosts({ lastSnapshot: null })
+            .then(({ newPosts, lastDoc, moreAvailable }) => {
+
+                setPosts(newPosts)
+
+                setMoreAvailable(moreAvailable)
+
+                setLastSnapshot(lastDoc)
+
+                
+            }).catch(err => console.error(err))
+    }
+
     const categoryHandler = (newCategory) => {
         if (newCategory === category) {
             setCategory('all')
@@ -73,7 +88,7 @@ function AllPosts() {
     useEffect(() => {
 
         if (category === 'all') {
-            getAllPosts({ lastSnapshot })
+            getAllPosts({ lastSnapshot: null })
                 .then(({ newPosts, lastDoc, moreAvailable }) => {
 
                     setPosts(newPosts)
@@ -84,7 +99,7 @@ function AllPosts() {
 
                 }).catch(err => console.error(err))
         } else {
-            getByCategory({ lastSnapshot, category })
+            getByCategory({ lastSnapshot: null, category })
                 .then(({ newPosts, lastDoc, moreAvailable }) => {
 
                     setPosts(newPosts)
@@ -150,24 +165,31 @@ function AllPosts() {
                     </button>
 
                     <button
-                    onClick={() => categoryHandler('Discussion')}
+                        onClick={() => categoryHandler('Discussion')}
                         className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     >
                         Discussion
                     </button>
 
                     <button
-                    onClick={() => categoryHandler('Support')}
+                        onClick={() => categoryHandler('Support')}
                         className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     >
                         Support
                     </button>
 
                     <button
-                    onClick={() => categoryHandler('Review')}
+                        onClick={() => categoryHandler('Review')}
                         className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     >
                         Review
+                    </button>
+
+                    <button
+                        onClick={resetPosts}
+                        className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    >
+                        Reset
                     </button>
                     {/* <!-- button4 --> */}
                     {/* <button
