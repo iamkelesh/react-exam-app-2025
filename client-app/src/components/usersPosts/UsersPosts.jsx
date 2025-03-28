@@ -1,8 +1,8 @@
 import { useEffect, useState, useContext } from "react";
-import { Link, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 
 import AuthContext from "../../contexts/authContext";
-import { getMyPostsPerPage } from "../../services/otherPostServices";
+import { getMyPostsPerPage } from "../../services/getPostService";
 
 import SmallPostTemplate from "../smallPostTemplate/SmallPostTemplate";
 

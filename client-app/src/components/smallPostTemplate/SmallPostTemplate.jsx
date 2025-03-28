@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-function SmallPostTemplate({ id, title, body, postId, createdAt, category }) {
+function SmallPostTemplate({ id, title, body, postId, createdAt, ownerId, category, creatorName }) {
 
     const formatedDate = (date) => {
         if (date instanceof Date) {
@@ -47,10 +47,10 @@ function SmallPostTemplate({ id, title, body, postId, createdAt, category }) {
                 <div className="flex justify-between items-center mt-4">
                     <Link to={`/posts/details/${thisId}`} className="text-blue-600 hover:underline">Read more</Link>
                     <div>
-                        <a className="flex items-center" href="#">
+                        <Link className="flex items-center" to={`/user/${ownerId}`}>
                             {/* <img className="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" src="https://images.unsplash.com/photo-1502980426475-b83966705988?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=373&q=80" alt="avatar"/> */}
-                            <h1 className="text-gray-700 font-bold">TODO ADD USER NAME</h1>
-                        </a>
+                            <h1 className="text-gray-700 font-bold">{creatorName}</h1>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -60,22 +60,3 @@ function SmallPostTemplate({ id, title, body, postId, createdAt, category }) {
 }
 
 export default SmallPostTemplate
-
-
-{/* <div className="item mb-5" id={thisId}>
-<div className="media">
-    <div className="media-body">
-        <h3 className="title mb-1">
-            <a>{title}</a>
-        </h3>
-        <div className="meta mb-1">
-
-        </div>
-        <div className="intro">
-            {(body.length > 100) ? body.substring(0, 200) + '...' : body}
-        </div>
-
-        <Link to={`/posts/details/${thisId}`} className="more-link" >Read more</Link>
-    </div>
-</div>
-</div> */}

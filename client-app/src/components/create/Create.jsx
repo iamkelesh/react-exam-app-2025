@@ -1,13 +1,12 @@
 import { useContext } from 'react';
 
-import styles from './Create.module.css';
 
 import AuthContext from '../../contexts/authContext';
 import { useNavigation } from '../../contexts/navigationContext';
 
 import { useForm } from '../../hooks/useForm';
 import { createNewPost } from '../../services/otherPostServices';
-import Dropdown from '../dropdown /Dropdown';
+
 import Dropdown2 from '../dropdown2/Dropdown2';
 
 
@@ -16,8 +15,10 @@ function Create() {
   const { accessToken, userId, fullName } = useContext(AuthContext)
 
   const categories = ["News", "Discussion", "Review", "Support"]
+
   const initialValues = {
     title: '',
+    subTitle: '',
     body: '',
     ownerId: userId,
     category: '',
@@ -112,59 +113,3 @@ function Create() {
 }
 
 export default Create;
-
-
-
-
-
-// function oldCreate() {
-//   return (
-//     <div classNameNameName={styles.container}>
-//       <form id={styles.contact} action="" method="post"
-//         onSubmit={onSubmit}
-//       >
-//         <h3 classNameNameName={styles.h3}>Create post</h3>
-//         <h4 classNameNameName={styles.h4}>Enter post details!</h4>
-
-//         <fieldset classNameNameName={styles.fieldset}>
-//           <input
-//             placeholder="Title"
-//             type="text"
-//             tabIndex={2}
-//             required
-//             name='title'
-//             classNameNameName={styles.input}
-//             onChange={onChange}
-//             value={values.title}
-//           />
-//         </fieldset>
-
-//         <fieldset classNameNameName={styles.fieldset}>
-//           <input
-//             placeholder="Body"
-//             type="text"
-//             tabIndex={1}
-//             required
-//             autoFocus
-//             name='body'
-//             classNameNameName={styles.input}
-//             onChange={onChange}
-//             value={values.body}
-//           />
-//         </fieldset>
-
-//         <fieldset>
-//           <button
-//             name="submit"
-//             type="submit"
-//             id="contact-submit"
-//             data-submit="...Sending"
-//           >
-//             Submit
-//           </button>
-//         </fieldset>
-
-//       </form>
-//     </div>
-//   )
-// }
