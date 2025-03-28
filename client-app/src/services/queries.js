@@ -15,7 +15,6 @@ export const homePageQuery = query(
     limit(5)
 )
 
-
 export async function mainPagePostsQuery(pageNumber) {
     if (!isNaN(pageNumber) && pageNumber > 0) {
 
@@ -47,36 +46,16 @@ export async function myPostsQuery(userId, pageNumber) {
     }
 }
 
-export function allPostsQuery({ lastSnapshot }) {
+export function postsQuery({ lastSnapshot, category }) {
 
-    if (!lastSnapshot) {
-        return query(
-            postCollectionRef,
-            orderBy("createdAt", "desc"),
-            limit(11)
-        )
-    } else {
-        return query(postCollectionRef,
-            orderBy('createdAt', 'desc'),
-            startAfter(lastSnapshot),
-            limit(11))
-    }
 
-}
+    const queryBuilder = [
+        orderBy("createdAt", "desc"),
+        ...(category ? [where("category", "==", category)] : []),
+        ...(lastSnapshot ? [startAfter(lastSnapshot)] : []),
+        limit(11)
+    ]
 
-export function postsByCategoryQuery({category, lastSnapShot}) {
-    if (!lastSnapShot) {
-        return query(
-            postCollectionRef,
-            orderBy("createdAt", "desc"),
-            where("category", "==", category),
-            limit(11)
-        )
-    } else {
-        return query(postCollectionRef,
-            orderBy('createdAt', 'desc'),
-            where("category", "==", category),
-            startAfter(lastSnapShot),
-            limit(11))
-    }
-}
+    return query(postCollectionRef, ...queryBuilder)
+
+}   
