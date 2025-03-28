@@ -13,14 +13,15 @@ import Dropdown2 from '../dropdown2/Dropdown2';
 
 function Create() {
   const navigate = useNavigation();
-  const { accessToken, userId } = useContext(AuthContext)
+  const { accessToken, userId, fullName } = useContext(AuthContext)
 
-  const categories = ["News", "Discussion", "Review", "Support"]  
+  const categories = ["News", "Discussion", "Review", "Support"]
   const initialValues = {
     title: '',
     body: '',
     ownerId: userId,
-    category: ''
+    category: '',
+    creatorName: fullName,
   }
 
   const { values, onChange, onSubmit } = useForm({ submitHandler: createNewPost, initialValues, navigate, accessToken });
@@ -79,7 +80,7 @@ function Create() {
           </div>
 
           {/* <Dropdown /> */}
-          <Dropdown2 onSelect={hancleDropdownChange} categories={categories} currentChoice={values.category}/>
+          <Dropdown2 onSelect={hancleDropdownChange} categories={categories} currentChoice={values.category} />
 
           <div className="sm:col-span-2">
             <label htmlFor="message" className="block text-sm font-semibold leading-6 text-green-600">Post body</label>
