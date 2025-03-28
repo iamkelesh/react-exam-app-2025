@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { getAllPosts, getByCategory } from "../../services/getPostService";
+import { getAllPost2 } from "../../services/getPostService";
 
 import SmallPostTemplate from "../smallPostTemplate/SmallPostTemplate";
 
@@ -11,7 +11,7 @@ function AllPosts() {
     const [posts, setPosts] = useState([]);
     const [lastSnapshot, setLastSnapshot] = useState(null)
     const [moreAvailable, setMoreAvailable] = useState(false)
-    const [category, setCategory] = useState('all')
+    const [category, setCategory] = useState(undefined)
 
     const getButtonClass = (btnCategory) =>
         `inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 ${category === btnCategory ? 'underline decoration-2 decoration-[#7629c8]' : ''
@@ -19,57 +19,46 @@ function AllPosts() {
 
 
     function loadMore() {
-        if (category !== 'all') {
-            getByCategory({ lastSnapshot, category })
-                .then(({ newPosts, lastDoc, moreAvailable }) => {
 
-                    const newState = [...posts, ...newPosts]
 
-                    setPosts(newState)
+        getAllPost2({ lastSnapshot, category })
+            .then(({ newPosts, lastDoc, moreAvailable }) => {
 
-                    setMoreAvailable(moreAvailable)
+                const newState = [...posts, ...newPosts]
 
-                    setLastSnapshot(lastDoc)
+                setPosts(newState)
 
-                }).catch(err => {
-                    setPosts([])
+                setMoreAvailable(moreAvailable)
 
-                    setMoreAvailable(false)
+                setLastSnapshot(lastDoc)
 
-                    setLastSnapshot(null)
+            }).catch(err => {
+                setPosts([])
 
-                    console.log(err)
-                })
-        } else {
+                setMoreAvailable(false)
 
-            getAllPosts({ lastSnapshot })
-                .then(({ newPosts, lastDoc, moreAvailable }) => {
+                setLastSnapshot(null)
 
-                    const newState = [...posts, ...newPosts]
-
-                    console.log(newPosts)
-                    setPosts(newState)
-
-                    setMoreAvailable(moreAvailable)
-
-                    setLastSnapshot(lastDoc)
-
-                }).catch(err => {
-                    setPosts([])
-
-                    setMoreAvailable(false)
-
-                    setLastSnapshot(null)
-
-                    console.log(err)
-                })
-        }
+                console.log(err)
+            })
 
     }
 
-    function resetPosts() {
-        setCategory('all')
-        getAllPosts({ lastSnapshot: null })
+
+    const categoryHandler = (newCategory) => {
+
+        if (newCategory === category) {
+
+            setCategory(undefined)
+
+        } else {
+
+            setCategory(newCategory)
+        }
+    }
+    useEffect(() => {
+
+        getAllPost2({ lastSnapshot: null, category })
             .then(({ newPosts, lastDoc, moreAvailable }) => {
 
                 setPosts(newPosts)
@@ -78,50 +67,7 @@ function AllPosts() {
 
                 setLastSnapshot(lastDoc)
 
-
             }).catch(err => console.error(err))
-    }
-
-    const categoryHandler = (newCategory) => {
-        if (newCategory === category) {
-            setCategory('all')
-        } else {
-            setCategory(newCategory)
-        }
-    }
-    useEffect(() => {
-
-        if (category === 'all') {
-            getAllPosts({ lastSnapshot: null })
-                .then(({ newPosts, lastDoc, moreAvailable }) => {
-
-                    setPosts(newPosts)
-
-                    setMoreAvailable(moreAvailable)
-
-                    setLastSnapshot(lastDoc)
-
-                }).catch(err => console.error(err))
-        } else {
-            getByCategory({ lastSnapshot: null, category })
-                .then(({ newPosts, lastDoc, moreAvailable }) => {
-
-                    setPosts(newPosts)
-
-                    setMoreAvailable(moreAvailable)
-
-                    setLastSnapshot(lastDoc)
-
-                }).catch(err => {
-                    setPosts([])
-
-                    setMoreAvailable(false)
-
-                    setLastSnapshot(null)
-
-                    console.log(err)
-                })
-        }
 
 
     }, [category])
