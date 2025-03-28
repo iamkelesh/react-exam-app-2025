@@ -137,6 +137,7 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated: !!authState.accessToken,
         email: authState.email,
         userId: authState.uid,
+        fullName: authState.fullName,
         accessToken: authState.accessToken,
     }
 
