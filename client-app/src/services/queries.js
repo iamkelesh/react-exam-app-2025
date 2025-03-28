@@ -1,7 +1,7 @@
 import { collection, query, orderBy, startAfter, limit, getDocs, where } from 'firebase/firestore';
 import { firestoreDB } from '../firebase/config';
 
-const postCollectionRef = collection(firestoreDB, 'user-posts-test1')
+const postCollectionRef = collection(firestoreDB, 'user-posts')
 
 const latestMainPostsQuery = query(
     postCollectionRef,
