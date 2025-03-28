@@ -46,12 +46,13 @@ export async function myPostsQuery(userId, pageNumber) {
     }
 }
 
-export function postsQuery({ lastSnapshot, category }) {
+export function postsQuery({ lastSnapshot, category, userId }) {
 
 
     const queryBuilder = [
         orderBy("createdAt", "desc"),
         ...(category ? [where("category", "==", category)] : []),
+        ...(userId ? [where("ownerId", "==", userId)] : []),
         ...(lastSnapshot ? [startAfter(lastSnapshot)] : []),
         limit(11)
     ]
