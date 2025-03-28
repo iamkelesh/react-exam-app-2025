@@ -21,15 +21,30 @@ export const AuthProvider = ({ children }) => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
 
-                setAuthState({
-                    uid: user.uid,
-                    email: user.email,
-                    accessToken: user.accessToken,
+                getDoc(doc(firestoreDB, "user-info", user.uid)).then(userInfoSnap => {
+
+                    if (!userInfoSnap.exists()) {
+                        windows.alert('No such user !')
+                        return
+                    }
+
+                    const { fullName } = userInfoSnap.data()
+
+                    setAuthState({
+                        uid: user.uid,
+                        email: user.email,
+                        accessToken: user.accessToken,
+                        fullName: fullName,
+                    })
+
                 })
+
             } else {
                 setAuthState({})
             }
         })
+
+
 
         // Cleanup subscription on unmount
         return () => unsubscribe()
