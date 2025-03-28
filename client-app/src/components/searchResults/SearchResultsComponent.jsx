@@ -1,61 +1,26 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 
-import { Link } from "react-router-dom";
 import SmallPostTemplate from "../smallPostTemplate/SmallPostTemplate";
 
-import { getMainPostsPerPage } from "../../services/otherPostServices";
 
-import Pagination from "../pagination/Pagination";
 import { searchPost } from "../../services/otherPostServices";
 
 
 function SearchResultsComponent() {
 
     const [result, setResult] = useState([]);
-    // const [moreAvailable, SetMoreAvailable] = useState(false);
-    // const [currentPage, setCurrentPage] = useState(0);
 
     const { searchInput } = useParams()
-    const defaultUrl = "home"
 
     useEffect(() => {
 
         searchPost(searchInput)
             .then(results => setResult(results))
             .catch(err => console.error(err))
-        // let tempPageNumber = pageNumber
 
-        // if (typeof pageNumber === 'undefined') {
-        //     tempPageNumber = 0
-        // } else tempPageNumber = Number(pageNumber)
-
-        // if (isNaN(tempPageNumber)) {
-        //     window.alert('Error with URL. Please try again.')
-        //     return
-        // }
-
-
-        // getMainPostsPerPage(Number(pageNumber))
-        //     .then(({ latestPostResult, morePostsAvailableResult }) => {
-
-        //         if (latestPostResult.length > 5) {
-        //             SetMoreAvailable(true)
-        //         } else {
-        //             SetMoreAvailable(false)
-        //         }
-
-        //         setCurrentPage(Number(tempPageNumber))
-
-        //         SetMoreAvailable(morePostsAvailableResult)
-
-        //         setPosts(latestPostResult)
-
-        //     }).catch(err => console.error(err))
 
     }, [
-        // pageNumber, currentPage
-
         searchInput
     ])
 
@@ -67,14 +32,6 @@ function SearchResultsComponent() {
 
                     {result.map(data => <SmallPostTemplate key={data.id} {...data} />)}
                     {result.length === 0 ? <h1>Sorry, couldn't sind anything!</h1> : ''}
-
-                    {/* 
-                    {moreAvailable === true || currentPage > 0 ?
-                        <Pagination
-                            defaultUrl={defaultUrl}
-                            currentPage={currentPage}
-                            moreAvailable={moreAvailable}
-                        /> : "No more posts available!"} */}
 
                 </div>
             </div>
