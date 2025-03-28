@@ -19,22 +19,30 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
+
             if (user) {
 
                 getDoc(doc(firestoreDB, "user-info", user.uid)).then(userInfoSnap => {
 
+                    let currentName
+
                     if (!userInfoSnap.exists()) {
-                        windows.alert('No such user !')
-                        return
+
+                        window.alert('No user info exist! Please, contact admin !')
+
+                        currentName = 'Undefined name'
+                    } else {
+                        const { fullName } = userInfoSnap.data()
+
+                        currentName = fullName
                     }
 
-                    const { fullName } = userInfoSnap.data()
 
                     setAuthState({
                         uid: user.uid,
                         email: user.email,
                         accessToken: user.accessToken,
-                        fullName: fullName,
+                        fullName: currentName,
                     })
 
                 })
@@ -121,16 +129,19 @@ export const AuthProvider = ({ children }) => {
 
             const userInfoSnap = await getDoc(doc(firestoreDB, "user-info", user.uid))
 
+            let currentName
             if (!userInfoSnap.exists()) {
-                windows.alert('No such user !')
-                return
+                window.alert('No such user !')
+                currentName = 'Undefined name'
+            } else {
+                const { fullName } = userInfoSnap.data()
+                currentName = fullName
             }
 
-            const { fullName } = userInfoSnap.data()
 
             setAuthState({
                 uid: user.uid,
-                fullName: fullName,
+                fullName: currentName,
                 email: user.email,
                 accessToken: user.accessToken,
             })
