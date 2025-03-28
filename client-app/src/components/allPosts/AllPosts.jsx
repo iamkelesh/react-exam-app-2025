@@ -128,8 +128,11 @@ function AllPosts() {
 
     return (
         <section className="text-gray-600 body-font overflow-hidden">
-            <div className="container px-5 pt-0 pb-24 mx-auto">
 
+            <div className="container px-5 pt-0 pb-24 mx-auto">
+                <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-500 text-center mt-8">
+                    Here you can find all posts.
+                </h1>
                 <div className="flex h-20 items-center justify-center gap-1 pb-3">
                     {/* <!-- button1 --> */}
                     {/* <button
@@ -189,33 +192,14 @@ function AllPosts() {
                         Review
                     </button>
 
-                    <button
+                    {/* <button
                         onClick={resetPosts}
                         className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     >
                         Reset
-                    </button>
-                    {/* <!-- button4 --> */}
-                    {/* <button
-                        className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:rotate-3 hover:scale-105 hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                    >
-                        Outline
                     </button> */}
 
-                    {/* <!-- button5 --> */}
-                    {/* <button
-                        className="group relative inline-flex items-center gap-2 border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:text-white hover:shadow-lg disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                    >
-                        <span className="absolute left-0 -z-10 block h-full w-[2px] bg-[#7629c8] transition-all group-hover:w-full"></span>
-                        Outline
-                    </button> */}
 
-                    {/* <!-- button6 --> */}
-                    {/* <button
-                        className="group inline-flex items-center gap-2 rounded bg-gradient-to-r from-[#9e58e9] to-blue-500 p-[2px] text-sm font-semibold transition-all hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                    >
-                        <span className="block rounded-sm bg-white px-6 py-2 group-hover:bg-transparent">Download</span>
-                    </button> */}
                 </div>
 
                 <div className="-my-8 divide-y-2 divide-gray-100 ">
