@@ -86,15 +86,7 @@ function PostDetails() {
                 {formatedDate(dataState.createdAt)}<br />
                 {/* Updated: 07/17/2020 10:33 AM EDT */}
 
-                <span className="isolate inline-flex rounded-md shadow-sm">
-                    {/* <button type="button" className="relative inline-flex items-center rounded-l-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10">share</button> */}
-                    {dataState.ownerId === userId && (
-                        <>
-                            <button type="button" onClick={redirectToEdit} className="relative -ml-px inline-flex items-center bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10">Edit</button>
-                            <button type="button" monClick={deletePostHandler} className="relative -ml-px inline-flex items-center rounded-r-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10">Delete</button>
-                        </>
-                    )}
-                </span>
+
 
 
 
@@ -104,6 +96,44 @@ function PostDetails() {
                 <p className="my-5">{dataState.body}</p>
 
             </div>
+
+
+
+            <span className="isolate inline-flex rounded-md shadow-sm">
+                {/* <button type="button" className="relative inline-flex items-center rounded-l-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10">share</button> */}
+                {dataState.ownerId === userId && (
+                    <>
+                        <div id="crudButtons"
+                        className="flex flex-col items-center justify-center">
+                            <div className="flex flex-wrap justify-center items-center gap-4">
+                                {/* <button
+                                    className="inline-flex items-center justify-center border align-middle select-none font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed focus:shadow-none text-sm rounded-full py-2 px-4 bg-transparent border-transparent text-stone-800 hover:bg-stone-800/5 hover:border-stone-800/5 shadow-none hover:shadow-none"
+                                >
+                                    Like
+                                </button>
+                                <button
+                                    className="inline-flex items-center justify-center border align-middle select-none font-sans font-medium text-center transition-all ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed focus:shadow-none text-sm py-2 px-4 shadow-sm bg-transparent relative text-stone-700 hover:text-stone-700 border-stone-500 hover:bg-transparent duration-150 hover:border-stone-600 rounded-full hover:opacity-60 hover:shadow-none"
+                                >
+                                    Dislike
+                                </button> */}
+                                <button onClick={redirectToEdit}
+                                    className="inline-flex items-center justify-center border align-middle select-none font-sans font-medium text-center duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed focus:shadow-none text-sm py-2 px-4 shadow-sm hover:shadow-md bg-stone-800 hover:bg-stone-700 border-stone-900 text-stone-50 rounded-full transition antialiased"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    onClick={deletePostHandler}
+                                    className="inline-flex items-center justify-center border align-middle select-none font-sans font-medium text-center duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed focus:shadow-none text-sm py-2 px-4 shadow-sm hover:shadow-md bg-stone-800 hover:bg-stone-700 relative bg-gradient-to-b from-stone-700 to-stone-800 border-stone-900 text-stone-50 rounded-full hover:bg-gradient-to-b hover:from-stone-800 hover:to-stone-800 hover:border-stone-900 after:absolute after:inset-0 after:rounded-[inherit] after:box-shadow after:shadow-[inset_0_1px_0px_rgba(255,255,255,0.25),inset_0_-2px_0px_rgba(0,0,0,0.35)] after:pointer-events-none transition antialiased"
+                                >
+                                    Delete
+                                </button>
+                            </div>
+
+
+                        </div>
+                    </>
+                )}
+            </span>
 
             <div>
                 <Comments currentUser={userId} />
