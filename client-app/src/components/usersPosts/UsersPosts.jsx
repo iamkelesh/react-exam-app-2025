@@ -51,7 +51,10 @@ function Home() {
                 <div className="-my-8 divide-y-2 divide-gray-100">
 
                     {myPosts.map(data => <SmallPostTemplate key={data.id} {...data} />)}
-                    {myPosts.length === 0 ? <h1>There are no posts!</h1> : ''}
+                    {myPosts.length === 0 ?
+                        <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-500 text-center mt-8">
+                            There are no posts!
+                        </h1> : ''}
 
                     <nav className="blog-nav nav nav-justified my-5">
 

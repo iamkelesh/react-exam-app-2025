@@ -52,7 +52,10 @@ function Favourites() {
 
 
                     {favPosts.map(data => <SmallPostTemplate key={data.id} {...data} />)}
-                    {favPosts.length === 0 ? <h1>There are no posts!</h1> : ''}
+                    {favPosts.length === 0 ?
+                        <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-500 text-center mt-8">
+                            There are no posts!
+                        </h1> : ''}
 
 
                     {moreAvailable === true || currentPage > 0 ?
