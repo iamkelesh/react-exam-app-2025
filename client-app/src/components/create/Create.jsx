@@ -37,8 +37,8 @@ function Create() {
 
 
       <div className="mx-auto max-w-2xl text-center">
-        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Text </h2>
-        <p className="mt-2 text-lg leading-8 text-gray-600">Text who ever you want where ever you want any time you want enjoy contacting freinds and families.</p>
+        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Create your post </h2>
+        <p className="mt-2 text-lg leading-8 text-gray-600">Share what's on you mind, whether it's news, review, discusison or you need support for something.</p>
       </div>
 
       <form action="#" method="POST"
