@@ -1,8 +1,7 @@
-import { collection, addDoc, getDocs, serverTimestamp, doc, getDoc, orderBy, query, updateDoc, deleteDoc, limit, where, startAfter } from 'firebase/firestore';
+import { collection, addDoc, getDocs, serverTimestamp, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { firestoreDB } from '../firebase/config';
-import { homePageQuery, mainPagePostsQuery, myPostsQuery } from './queries';
 
-const collectionRef = collection(firestoreDB, 'user-posts-test1');
+const collectionRef = collection(firestoreDB, 'user-posts');
 
 
 export const createNewPost = async ({ values, accessToken, navigate }) => {
@@ -11,7 +10,7 @@ export const createNewPost = async ({ values, accessToken, navigate }) => {
         throw new Error('User is not authenticated');
     }
 
-    const collectionRef = collection(firestoreDB, 'user-posts-test1');
+    const collectionRef = collection(firestoreDB, 'user-posts');
 
     try {
 
@@ -22,84 +21,21 @@ export const createNewPost = async ({ values, accessToken, navigate }) => {
 
         await addDoc(collectionRef, postData)
 
+        console.log(postData);
+
         alert('Post created successfully!')
 
         navigate('/')
 
     } catch (error) {
         console.log(error.message);
+        console.error("Error while creating post at service: ", error)
         alert('Post creation failed. Please try again.')
     }
 }
 
-export const getMainPostsPerPage = async (pageNumber) => {
-
-    try {
-
-        let neededQuery = await mainPagePostsQuery(pageNumber)
-
-        const querySnapshot = await getDocs(neededQuery)
-
-        let latestPostResult = querySnapshot.docs.map(doc => {
-
-            const docData = doc.data()
-
-            const docId = doc.id
-
-            return { id: docId, ...docData }
-        })
-
-        let morePostsAvailableResult = false
-
-        if (latestPostResult.length > 5) {
-            morePostsAvailableResult = true
-            latestPostResult = latestPostResult.slice(0, 5)
-        }
-
-
-        return { latestPostResult, morePostsAvailableResult }
-
-
-    } catch (error) {
-        console.error("Error while getting posts at service: ", error)
-    }
-}
-
-export const getMyPostsPerPage = async (userId, pageNumber) => {
-    try {
-
-        const neededQuery = await myPostsQuery(userId, pageNumber)
-
-        const querySnapshot = await getDocs(neededQuery)
-
-        let latestMyPostResult = querySnapshot.docs.map(doc => {
-
-            const docData = doc.data()
-
-            const docId = doc.id
-
-            return { id: docId, ...docData }
-        })
-
-        let moreMyPostsAvailableResult = false
-
-        if (latestMyPostResult.length > 5) {
-
-            moreMyPostsAvailableResult = true
-
-            latestMyPostResult = latestMyPostResult.slice(0, 5)
-        }
-
-        return { moreMyPostsAvailableResult, latestMyPostResult }
-
-
-    } catch (error) {
-        console.error("Error while getting posts at service: ", error)
-    }
-}
-
 export const updatePostDetails = async ({ postId, values, navigate }) => {
-    const docRef = doc(firestoreDB, 'user-posts-test1', postId)
+    const docRef = doc(firestoreDB, 'user-posts', postId)
 
     try {
         await updateDoc(docRef, values)
@@ -113,7 +49,7 @@ export const updatePostDetails = async ({ postId, values, navigate }) => {
 
 export const deletePost = async (postId0) => {
 
-    const docRef = doc(firestoreDB, 'user-posts-test1', postId0)
+    const docRef = doc(firestoreDB, 'user-posts', postId0)
 
     try {
         await deleteDoc(docRef)
@@ -125,7 +61,7 @@ export const deletePost = async (postId0) => {
 
 
 export const searchPost = async (searchInput) => {
-    const collectionRef = collection(firestoreDB, 'user-posts-test1');
+    const collectionRef = collection(firestoreDB, 'user-posts');
 
     try {
         const querySnapshot = await getDocs(collectionRef);
