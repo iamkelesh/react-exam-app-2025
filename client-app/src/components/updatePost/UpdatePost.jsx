@@ -6,13 +6,18 @@ import styles from './UpdatePost.module.css';
 
 import AuthContext from '../../contexts/authContext';
 import { useNavigation } from '../../contexts/navigationContext';
+
 import {  updatePostDetails } from '../../services/otherPostServices';
+import { getPostsDetails } from '../../services/getPostService';
+
+import Dropdown2 from '../dropdown2/Dropdown2';
 
 
 const initialValues = {
   title: '',
   body: '',
 }
+const categories = ["News", "Discussion", "Review", "Support"]
 
 function UpdatePost() {
   const { accessToken, userId } = useContext(AuthContext)
@@ -20,6 +25,10 @@ function UpdatePost() {
   const navigate = useNavigation();
   const { values, onChange, onSubmit } = useForm({ submitHandler: updatePostDetails, initialValues, accessToken, navigate, postId });
 
+
+  const hancleDropdownChange = (selectedCategory) => {
+    onChange({ target: { name: 'category', value: selectedCategory } })
+  }
 
   useEffect(() => {
 
@@ -29,6 +38,8 @@ function UpdatePost() {
         onChange({ target: { name: 'title', value: postData.title } })
         onChange({ target: { name: 'subTitle', value: postData.subTitle } })
         onChange({ target: { name: 'body', value: postData.body } })
+        onChange({ target: { name: 'category', value: postData.category } })
+
       })
       .catch(error => {
         console.error("Error while getting post details at PostDetails.jsx: ", error)
@@ -86,6 +97,8 @@ function UpdatePost() {
           </div>
 
           {/* <Dropdown /> */}
+
+          <Dropdown2 onSelect={hancleDropdownChange} categories={categories} currentChoice={values.category} />
 
           <div className="sm:col-span-2">
             <label htmlFor="message" className="block text-sm font-semibold leading-6 text-green-600">Post body</label>
