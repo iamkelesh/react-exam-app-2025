@@ -5,9 +5,9 @@ import { homePageQuery, myPostsQuery, postsQuery } from './queries';
 const collectionRef = collection(firestoreDB, 'user-posts');
 
 
-export const getAllPost2 = async ({ lastSnapshot, category }) => {
+export const getAllPost2 = async ({ lastSnapshot, category, userId }) => {
 
-    let neededQuery = postsQuery({ lastSnapshot, category })
+    let neededQuery = postsQuery({ lastSnapshot, category, userId })
 
     try {
         const querySnapshot = await getDocs(neededQuery)
