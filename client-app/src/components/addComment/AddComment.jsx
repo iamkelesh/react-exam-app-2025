@@ -1,45 +1,35 @@
 import { useForm } from "../../hooks/useForm"
-// import { useContext, useEffect } from 'react';
 
 import { useParams } from "react-router";
 
 import styles from './AddComment.module.css';
-// import AuthContext from '../../contexts/authContext';
-// import { createCommentService } from "../../services/commentService"
+
 
 import { addComment } from "../../services/commentsFirestoreService";
 
 
 function AddComment({
-    currentUser,
-    addNewToState
-    // fetchComments 
+    currentId,
+    addNewToState,
+    creatorName
 }) {
-    // const { accessToken } = useContext(AuthContext)
     const { postId } = useParams()
-
     const initialValues = {
         text: '',
-        ownerId: currentUser,
+        ownerId: currentId,
+        creatorName: creatorName,
+        postId: postId,
     }
 
-    function resetAfterAdding() {
-
-    }
     const {
         values,
         onChange,
         onSubmit,
-        //  clearState 
     } = useForm({
 
         submitHandler: addComment,
-        // createCommentService,
         initialValues,
-        // accessToken,
         addNewToState,
-        postId,
-        // fetchComments,
     });
 
     return (
@@ -49,7 +39,6 @@ function AddComment({
                 onSubmit={onSubmit}
             >
                 <h2 className="text-xl mb-4 tracking-wider font-lighter text-gray-900 dark:text-gray-900">Leave a Comment</h2>
-                <p className="text-gray-900 mb-4">Your email address will not be published. Required fields are marked *</p>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div className="mb-4 col-span-1 md:col-span-3">

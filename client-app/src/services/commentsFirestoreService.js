@@ -5,10 +5,21 @@ function getCommentsCollectionRef(postId) {
     return collection(firestoreDB, `user-posts/${postId}/comments`)
 }
 
-export const addComment = async ({ postId, values, addNewToState }) => {
+export const addComment = async ({  values, addNewToState, clearState }) => {
 
-    const commentsCollectionRef = getCommentsCollectionRef(postId)
+    const commentsCollectionRef = getCommentsCollectionRef(values.postId)
 
+    console.log(values)
+    if(!values.postId) {
+        window.alert("Post ID is missing")
+        return
+    }
+    for (const key in values) {
+        if (values[key] === '') {
+            window.alert(`Please fill in all fields`)
+            throw new Error(`Missing field: ${key}`)
+        }
+    }
     try {
         const docRef = await addDoc(commentsCollectionRef, {
             ...values,
@@ -20,6 +31,7 @@ export const addComment = async ({ postId, values, addNewToState }) => {
             ...values,
             createdAt: new Date()
         }
+        clearState()
         addNewToState(newComment)
 
     } catch (error) {
