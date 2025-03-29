@@ -1,11 +1,6 @@
 function SingleComment({
-    text,
-    createdAt,
-    currentUser,
-    ownerId,
-    deletehandler,
-    commentId,
-    postId,
+    commentData, postId, deletehandler
+
 }) {
 
 
@@ -44,13 +39,13 @@ function SingleComment({
                         </svg>
                     </div>
                     {/* <!-- Date --> */}
-                    <time className="text-sm font-medium text-indigo-500 md:w-28">{formatedDate(createdAt)} </time>
+                    <time className="text-sm font-medium text-indigo-500 md:w-28">{formatedDate(commentData.createdAt)} </time>
                 </div>
                 {/* <!-- Title --> */}
-                <div className="text-slate-500 ml-14"><span className="text-slate-900 font-bold">TODO USERS NAMES</span> commented </div>
+                <div className="text-slate-500 ml-14"><span className="text-slate-900 font-bold">{commentData.creatorName}</span> commented </div>
             </div>
             {/* <!-- Card --> */}
-            <div className="bg-white p-4 rounded border border-slate-200 text-slate-500 shadow ml-14 md:ml-44">{text}</div>
+            <div className="bg-white p-4 rounded border border-slate-200 text-slate-500 shadow ml-14 md:ml-44">{commentData.text}</div>
         </div >
 
 

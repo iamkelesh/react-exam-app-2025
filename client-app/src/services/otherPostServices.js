@@ -21,8 +21,6 @@ export const createNewPost = async ({ values, accessToken, navigate }) => {
 
         await addDoc(collectionRef, postData)
 
-        console.log(postData);
-
         alert('Post created successfully!')
 
         navigate('/')

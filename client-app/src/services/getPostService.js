@@ -51,7 +51,6 @@ export const getLatestHomePost = async () => {
             return { id: docId, ...docData }
         })
 
-        console.log(latestPostResult)
 
         return latestPostResult
     } catch (error) {
