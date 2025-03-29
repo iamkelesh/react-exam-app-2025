@@ -17,6 +17,8 @@ import Profile from "./components/profile/Profile"
 import AllPosts from "./components/allPosts/AllPosts"
 import SearchComponent from "./components/searchComponent/SearchComponent"
 import SearchResultsComponent from "./components/searchResults/SearchResultsComponent"
+import MyPosts from "./components/myPosts/MyPosts"
+import ErrorBanner from "./components/errorBanner/ErrorBanner"
 
 
 function App() {
@@ -24,6 +26,7 @@ function App() {
 
   return (
     <>
+
       <AuthProvider>
         <div className="app-container mx-auto">
 
@@ -34,67 +37,70 @@ function App() {
           </div>
 
           <Header />
-          <div className="app-container">
-            <main className="main-content">
 
-              <SearchComponent />
-              <div className="main-wrapper">
-                <Routes>
-                  <Route path='/' element={<Home />} />
-                  <Route path='/home' element={<Home />} />
-                  <Route path='/posts/all-posts' element={<AllPosts />} />
+          <ErrorBanner />
 
-                  <Route path='/search/:searchInput' element={<SearchResultsComponent />} />
+          <main className="main-content">
 
-                  <Route path="/user/login" element={<Login />} />
-                  <Route path='/user/register' element={<Register />} />
+            <SearchComponent />
 
-                  <Route path='/user/posts' element={
-                    <AuthGuard>
-                      <UsersPosts />
-                    </AuthGuard>} />
+            <div className="main-wrapper">
+              <Routes>
+                <Route path='/' element={<Home />} />
+                <Route path='/home' element={<Home />} />
+                <Route path='/posts/all-posts' element={<AllPosts />} />
 
-                  <Route path='/user/favourites' element={
-                    <AuthGuard>
-                      <Favourites />
-                    </AuthGuard>} />
+                <Route path='/search/:searchInput' element={<SearchResultsComponent />} />
 
-                  <Route path='/user/posts/:pageNumber' element={
-                    <AuthGuard>
-                      <UsersPosts />
-                    </AuthGuard>} />
+                <Route path='/user/:profileId' element={< Profile />} />
 
-                  <Route path='/user/logout' element={
-                    <AuthGuard>
-                      <Logout />
-                    </AuthGuard>
-                  } />
-                  <Route path='/posts/details/:postId' element={<PostDetails />} />
+                <Route path="/user/login" element={<Login />} />
+                <Route path='/user/register' element={<Register />} />
 
-                  <Route path='/my-profile' element={
-                    <AuthGuard>
-                      <Profile />
-                    </AuthGuard>
-                  } />
+                <Route path='/user/my-posts' element={
+                  <AuthGuard>
+                    <MyPosts />
+                  </AuthGuard>} />
 
-                  <Route path='/posts/create' element={
-                    <AuthGuard>
-                      <Create />
-                    </AuthGuard>
-                  } />
+                <Route path='/user/favourites' element={
+                  <AuthGuard>
+                    <Favourites />
+                  </AuthGuard>} />
 
-                  <Route path='/posts/edit/:postId' element={
-                    <AuthGuard>
-                      <UpdatePost />
-                    </AuthGuard>
-                  } />
+                <Route path='/user/posts' element={
+                  <AuthGuard>
+                    <UsersPosts />
+                  </AuthGuard>} />
 
-                  <Route path="*" element={<h1> something went wrong!!!</h1>} />
-                </Routes>
-              </div>
-            </main>
+                <Route path='/user/logout' element={
+                  <AuthGuard>
+                    <Logout />
+                  </AuthGuard>
+                } />
+                <Route path='/posts/details/:postId' element={<PostDetails />} />
 
-          </div>
+                <Route path='/my-profile' element={
+                  <AuthGuard>
+                    <Profile />
+                  </AuthGuard>
+                } />
+
+                <Route path='/posts/create' element={
+                  <AuthGuard>
+                    <Create />
+                  </AuthGuard>
+                } />
+
+                <Route path='/posts/edit/:postId' element={
+                  <AuthGuard>
+                    <UpdatePost />
+                  </AuthGuard>
+                } />
+
+                <Route path="*" element={<h1> something went wrong!!!</h1>} />
+              </Routes>
+            </div>
+          </main>
 
         </div>
       </AuthProvider>
