@@ -1,8 +1,6 @@
-import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
+import {  getDocs, doc, getDoc } from 'firebase/firestore';
 import { firestoreDB } from '../firebase/config';
-import { homePageQuery, myPostsQuery, postsQuery } from './queries';
-
-const collectionRef = collection(firestoreDB, 'user-posts');
+import { homePageQuery, postsQuery } from './queries';
 
 
 export const getAllPost2 = async ({ lastSnapshot, category, userId }) => {
@@ -34,7 +32,6 @@ export const getAllPost2 = async ({ lastSnapshot, category, userId }) => {
 
     } catch (error) {
         console.log(error);
-        // return { newPosts: [], lastDoc: null, moreAvailable: false }
     }
 }
 
@@ -60,38 +57,6 @@ export const getLatestHomePost = async () => {
     }
 }
 
-export const getMyPostsPerPage = async (userId, pageNumber) => {
-    try {
-
-        const neededQuery = await myPostsQuery(userId, pageNumber)
-
-        const querySnapshot = await getDocs(neededQuery)
-
-        let latestMyPostResult = querySnapshot.docs.map(doc => {
-
-            const docData = doc.data()
-
-            const docId = doc.id
-
-            return { id: docId, ...docData }
-        })
-
-        let moreMyPostsAvailableResult = false
-
-        if (latestMyPostResult.length > 5) {
-
-            moreMyPostsAvailableResult = true
-
-            latestMyPostResult = latestMyPostResult.slice(0, 5)
-        }
-
-        return { moreMyPostsAvailableResult, latestMyPostResult }
-
-
-    } catch (error) {
-        console.error("Error while getting posts at service: ", error)
-    }
-}
 
 export const getPostsDetails = async (postId) => {
 
