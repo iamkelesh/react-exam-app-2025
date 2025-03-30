@@ -72,3 +72,17 @@ export function getCommentsQuery({ postId, lastSnapshot }) {
 
     return query(commentsCollectionRef, ...queryBuilder)
 }
+
+export function getSavedQuery({ userId, lastSnapshot }) {
+
+    const colelctionRef = collection(firestoreDB, `user-info/${userId}/favourite-posts`)
+
+    const queryBuilder = [
+        orderBy("createdAt", "desc"),
+        ...(lastSnapshot ? [startAfter(lastSnapshot)] : []),
+        limit(11),
+    ]
+
+    return query(colelctionRef, ...queryBuilder)
+
+}
