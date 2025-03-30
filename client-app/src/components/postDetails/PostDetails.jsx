@@ -1,10 +1,11 @@
 import { useEffect, useState, useContext } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 
-import { getPostsDetails } from "../../services/getPostService"
 import AuthContext from "../../contexts/authContext";
-import { deletePost } from "../../services/otherPostServices";
 
+import { getPostsDetails } from "../../services/getPostService"
+import { deletePost } from "../../services/otherPostServices";
+import { addToSaved, checkForSaved, removeFromSaved } from "../../services/savedService";
 
 import Comments from "../comments/Comments";
 
@@ -12,7 +13,7 @@ function PostDetails() {
     const [dataState, setDataState] = useState({})
     const { userId, fullName, isAuthenticated } = useContext(AuthContext)
     const [showComments, setShowComments] = useState(false)
-    
+    const [saveState, setSaveState] = useState({ canBeSaved: false, canBeUnSaved: false })
     const navigate = useNavigate()
 
 
@@ -35,6 +36,21 @@ function PostDetails() {
         navigate(`/posts/edit/${postId}`)
     }
 
+    function addSavedHandler() {
+        addToSaved({ dataState, userId }).then(result => {
+            if (result) {
+                setSaveState({ canBeSaved: false, canBeUnSaved: true })
+            }
+        })
+    }
+
+    function removeSavedHandler() {
+        removeFromSaved({ postId, userId }).then(result => {
+            if (result) {
+                setSaveState({ canBeSaved: true, canBeUnSaved: false })
+            }
+        })
+    }
 
     const formatedDate = (date) => {
         if (date instanceof Date) {
@@ -61,6 +77,18 @@ function PostDetails() {
             })
     }, [postId, navigate])
 
+
+    useEffect(() => {
+        if (!userId) return
+        checkForSaved({ postId, userId })
+            .then(({ canBeSaved, canBeUnSaved }) => {
+                setSaveState({ canBeSaved, canBeUnSaved })
+            })
+            .catch(error => {
+                console.error("Error while checking for saved posts: ", error)
+            })
+    }, [userId, postId])
+
     return (
         <div className="w-full md:w-2/5 mx-auto">
             <div className="mx-5 my-3 text-sm">
@@ -76,7 +104,7 @@ function PostDetails() {
             </div>
 
             <div className="w-full text-gray-600 font-thin italic px-5 pt-3">
-                By <strong className="text-gray-700">Posted by user name {dataState.publisherName}</strong><br />
+                By <strong className="text-gray-700">Posted by {dataState.creatorName}</strong><br />
 
                 {formatedDate(dataState.createdAt)}<br />
 
@@ -117,9 +145,25 @@ function PostDetails() {
                                         Delete post
                                     </button>
                                 </>
-
                             )}
 
+                            {isAuthenticated && saveState.canBeSaved &&
+                                <button
+                                    onClick={addSavedHandler}
+                                    className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                >
+                                    Save post
+                                </button>
+                            }
+
+                            {isAuthenticated && saveState.canBeUnSaved &&
+                                <button
+                                    onClick={removeSavedHandler}
+                                    className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                >
+                                    Unsave post
+                                </button>
+                            }
                         </div>
 
 
