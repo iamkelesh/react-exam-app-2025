@@ -15,7 +15,6 @@ import PostDetails from "./components/postDetails/PostDetails"
 import Favourites from "./components/favourites/Favourites"
 import Profile from "./components/profile/Profile"
 import AllPosts from "./components/allPosts/AllPosts"
-import SearchComponent from "./components/searchComponent/SearchComponent"
 import SearchResultsComponent from "./components/searchResults/SearchResultsComponent"
 import MyPosts from "./components/myPosts/MyPosts"
 import ErrorBanner from "./components/errorBanner/ErrorBanner"
@@ -28,7 +27,10 @@ function App() {
     <>
 
       <AuthProvider>
+
         <div className="app-container mx-auto">
+
+          <Header />
 
           <div className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]" aria-hidden="true">
             <div className="relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]"
@@ -36,15 +38,14 @@ function App() {
             ></div>
           </div>
 
-          <Header />
-
-          <ErrorBanner />
 
           <main className="main-content">
+            <div className="main-wrapper relative">
 
-            <SearchComponent />
+              <ErrorBanner />
 
-            <div className="main-wrapper">
+              {/* <SearchComponent /> */}
+
               <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='/home' element={<Home />} />
