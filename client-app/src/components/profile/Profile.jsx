@@ -44,7 +44,7 @@ export default function Profile() {
                 {location.pathname === "/my-profile" && userId ?
                     <>
                         <Link to="/user/my-posts" className="text-blue-500 hover:text-blue-700 mx-3">My posts</Link>
-                        <Link className="text-blue-500 hover:text-blue-700 mx-3">Saved posts</Link>
+                        <Link to="/user/saved-posts" className="text-blue-500 hover:text-blue-700 mx-3">Saved posts</Link>
                     </> : ""
                 }
 
