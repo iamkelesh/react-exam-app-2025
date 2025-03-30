@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom"
 import {  useState, useEffect } from "react";
 
-import { deleteComment } from "../../services/commentsFirestoreService";
-import { getComments } from "../../services/commentsFirestoreService";
+import { deleteComment } from "../../services/commentsService";
+import { getComments } from "../../services/commentsService";
 
 import SingleComment from "../singleComment/SingleComment";
-import NewAddComment from "../newAddComment/NewAddComment";
+import AddComment from "../addComment/AddComment";
 
 function Comments({ currentId, creatorName, isAuthenticated }) {
 
@@ -87,7 +87,7 @@ function Comments({ currentId, creatorName, isAuthenticated }) {
                     There are no comments!
                 </h1>
                 {isAuthenticated && (
-                    <NewAddComment
+                    <AddComment
                         showAdd={showAdd}
                         showAddHandler={showAddHandler}
                         currentId={currentId}
@@ -158,7 +158,7 @@ function Comments({ currentId, creatorName, isAuthenticated }) {
                     {showAdd && isAuthenticated && (
                         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
                             <div className="relative z-10">
-                                <NewAddComment
+                                <AddComment
                                     showAdd={showAdd}
                                     showAddHandler={showAddHandler}
                                     currentId={currentId}
