@@ -10,7 +10,8 @@ function NewAddComment({
     currentId,
     addNewToState,
     creatorName,
-    showAddHandler
+    showAddHandler,
+    setShowAdd
 }) {
     const { postId } = useParams()
     const initialValues = {
@@ -25,10 +26,12 @@ function NewAddComment({
         onChange,
         onSubmit,
     } = useForm({
-
-        submitHandler: addComment,
         initialValues,
         addNewToState,
+        submitHandler: async (args) => {
+            await addComment(args)
+            setShowAdd(false)
+        },
     });
 
     return (
