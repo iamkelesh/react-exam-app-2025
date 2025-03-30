@@ -7,9 +7,10 @@ import { getSavedQuery } from './queries';
 
 import ErrorContext from "../../contexts/errorContext"
 
+const { showErrorHandler } = useContext(ErrorContext)
+
 export async function addToSaved({ dataState, userId }) {
 
-    const { showErrorHandler } = useContext(ErrorContext)
 
     const collectionref = collection(firestoreDB, `user-info/${userId}/saved-posts`)
 
