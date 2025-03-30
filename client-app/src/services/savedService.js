@@ -1,8 +1,15 @@
+import { useContext } from "react"
+
 import { collection, addDoc, getDocs, serverTimestamp, query, deleteDoc, where } from 'firebase/firestore';
 import { firestoreDB } from '../firebase/config';
 import { getSavedQuery } from './queries';
 
+
+import ErrorContext from "../../contexts/errorContext"
+
 export async function addToSaved({ dataState, userId }) {
+
+    const { showErrorHandler } = useContext(ErrorContext)
 
     const collectionref = collection(firestoreDB, `user-info/${userId}/saved-posts`)
 
@@ -14,8 +21,8 @@ export async function addToSaved({ dataState, userId }) {
 
         return true
     } catch (error) {
-        console.log(error.message);
-        alert('Post adding to saved failed. Please try again.')
+        console.log(error);
+        showErrorHandler("Error while adding to saved!")
     }
 
 }
@@ -44,7 +51,8 @@ export async function checkForSaved({ postId, userId }) {
         return { canBeSaved, canBeUnSaved }
 
     } catch (error) {
-        console.error("Error while checking for saved: ", error)
+        console.log(error)
+        showErrorHandler("Error while checking if this post is saved!")
     }
 
 
@@ -68,15 +76,14 @@ export async function removeFromSaved({ postId, userId }) {
 
             return true
         } else {
-            alert('No such favourite post found.')
+            showErrorHandler('No such favourite post found.')
         }
 
     }
     catch (error) {
 
-        console.error("Error while removing from favourites: ", error)
-
-        alert('Post removing from favourites failed. Please try again.')
+        console.log(error)
+        showErrorHandler("Error while removing from saved posts!")
     }
 }
 
@@ -108,79 +115,7 @@ export async function getSaved({ userId, lastSnapshot }) {
         return { newPosts, lastDoc, moreAvailable }
 
     } catch (error) {
-        console.log(err)
-    }
-
-}
-
-
-export async function getSaved2({ userId, lastSnapshot }) {
-    const collectionRef = collection(firestoreDB, `user-info/${userId}/favourite-posts`);
-    const q = query(
-        collectionRef,
-        orderBy("addedAt", "desc"),
-        ...(lastSnapshot ? [startAfter(lastSnapshot)] : []),
-        limit(10)
-    );
-    try {
-        const querySnapshot = await getDocs(q);
-        const savedPosts = querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data(),
-        }));
-        const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
-        return { savedPosts, lastDoc, moreAvailable: querySnapshot.docs.length === 10 };
-    } catch (error) {
-        console.error("Error fetching saved posts: ", error);
-        return { savedPosts: [], lastDoc: null, moreAvailable: false };
-    }
-}
-
-
-export async function removeFromSaved2({ postId, userId }) {
-    const collectionRef = collection(firestoreDB, `user-info/${userId}/favourite-posts`);
-    const q = query(collectionRef, where("postId", "==", postId));
-    try {
-        const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-            const docRef = querySnapshot.docs[0].ref;
-            await deleteDoc(docRef);
-            alert('Post removed from favourites successfully!');
-        } else {
-            alert('No such favourite post found.');
-        }
-    } catch (error) {
-        console.error("Error removing from favourites: ", error);
-        alert('Failed to remove post from favourites. Please try again.');
-    }
-}
-
-export async function checkForSaved2({ postId, userId }) {
-    const collectionRef = collection(firestoreDB, `user-info/${userId}/favourite-posts`);
-    const q = query(collectionRef, where("postId", "==", postId));
-    try {
-        const querySnapshot = await getDocs(q);
-        return !querySnapshot.empty;
-    } catch (error) {
-        console.error("Error checking for saved post: ", error);
-        return false;
-    }
-}
-
-
-
-export async function addToSaved2({ postId, userId, body, title }) {
-    const collectionRef = collection(firestoreDB, `user-info/${userId}/favourite-posts`);
-    try {
-        await addDoc(collectionRef, {
-            postId,
-            title,
-            body,
-            addedAt: serverTimestamp(),
-        });
-        alert('Post added to favourites successfully!');
-    } catch (error) {
-        console.error("Error adding to favourites: ", error);
-        alert('Failed to add post to favourites. Please try again.');
+        console.log(error)
+        showErrorHandler("Error while checking for saved posts!")
     }
 }
