@@ -1,16 +1,21 @@
+import { useContext } from "react"
+
 import { collection, addDoc, getDocs, serverTimestamp, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { firestoreDB } from '../firebase/config';
 
-const collectionRef = collection(firestoreDB, 'user-posts');
+import ErrorContext from "../../contexts/errorContext"
 
+const { showErrorHandler } = useContext(ErrorContext)
+
+const collectionRef = collection(firestoreDB, 'user-posts');
 
 export const createNewPost = async ({ values, accessToken, navigate }) => {
 
     if (!accessToken) {
-        throw new Error('User is not authenticated');
+        console.log(error.message);
+        showErrorHandler('Error while creating post! User not authenticated!')
+        return
     }
-
-    const collectionRef = collection(firestoreDB, 'user-posts');
 
     try {
 
@@ -21,18 +26,16 @@ export const createNewPost = async ({ values, accessToken, navigate }) => {
 
         await addDoc(collectionRef, postData)
 
-        alert('Post created successfully!')
-
         navigate('/')
 
     } catch (error) {
-        console.log(error.message);
-        console.error("Error while creating post at service: ", error)
-        alert('Post creation failed. Please try again.')
+        console.log(error);
+        showErrorHandler('Error while creating post!')
     }
 }
 
 export const updatePostDetails = async ({ postId, values, navigate }) => {
+
     const docRef = doc(firestoreDB, 'user-posts', postId)
 
     try {
@@ -41,7 +44,8 @@ export const updatePostDetails = async ({ postId, values, navigate }) => {
         navigate('/')
 
     } catch (error) {
-        throw new Error("Error while updating post details at service: ", error)
+        console.log(error);
+        showErrorHandler('Error while updating post!')
     }
 }
 
@@ -53,13 +57,13 @@ export const deletePost = async (postId0) => {
         await deleteDoc(docRef)
         alert('Post deleted successfull')
     } catch (error) {
-        throw new Error("Error while deleting post at service: ", error)
+        console.log(error);
+        showErrorHandler('Error while deleting post!')
     }
 }
 
 
 export const searchPost = async (searchInput) => {
-    const collectionRef = collection(firestoreDB, 'user-posts');
 
     try {
         const querySnapshot = await getDocs(collectionRef);
@@ -71,6 +75,7 @@ export const searchPost = async (searchInput) => {
 
         return result
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
+        showErrorHandler('Error while searching for posts!')
     }
 };
