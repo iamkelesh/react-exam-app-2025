@@ -1,6 +1,12 @@
-import {  getDocs, doc, getDoc } from 'firebase/firestore';
+import { useContext } from "react"
+
+import { getDocs, doc, getDoc } from 'firebase/firestore';
 import { firestoreDB } from '../firebase/config';
 import { homePageQuery, postsQuery } from './queries';
+
+import ErrorContext from "../../contexts/errorContext"
+
+const { showErrorHandler } = useContext(ErrorContext)
 
 
 export const getAllPost2 = async ({ lastSnapshot, category, userId }) => {
@@ -32,6 +38,7 @@ export const getAllPost2 = async ({ lastSnapshot, category, userId }) => {
 
     } catch (error) {
         console.log(error);
+        showErrorHandler('Error while fetching posts!')
     }
 }
 
@@ -51,7 +58,7 @@ export const getLatestHomePost = async () => {
 
         return latestPostResult
     } catch (error) {
-        console.log('getLatestHomePost failed')
+        showErrorHandler('Error while fetching posts!')
         console.log(error)
         return []
     }
@@ -67,6 +74,6 @@ export const getPostsDetails = async (postId) => {
     if (docSnap.exists()) {
         return { id: docSnap.id, ...docSnap.data() }
     } else {
-        throw new Error('No such document!')
+        showErrorHandler('Error while fetching post details!')
     }
 }
