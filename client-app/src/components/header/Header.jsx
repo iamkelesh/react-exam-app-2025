@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 import AuthContext from "../../contexts/authContext";
 
+import SearchComponent from "../searchComponent/SearchComponent";
+
 function Header() {
     const { isAuthenticated } = useContext(AuthContext)
 
@@ -12,6 +14,8 @@ function Header() {
                 <Link to="/">
                     <h3 className="text-2xl font-semibold">Project app</h3>
                 </Link>
+
+
 
                 <div
                     className='lg:!flex lg:flex-auto lg:ml-12 max-lg:hidden max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50'>
@@ -70,6 +74,10 @@ function Header() {
 
 
                     </div>
+                </div>
+
+                <div className="flex-grow mx-8">
+                    <SearchComponent />
                 </div>
 
                 {!isAuthenticated &&

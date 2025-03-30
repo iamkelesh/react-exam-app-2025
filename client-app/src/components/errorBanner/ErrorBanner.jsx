@@ -24,10 +24,10 @@ export default function ErrorBanner() {
 
     return (
         <div
-            className={`grid min-h-[140px] w-full place-items-center overflow-x-scroll rounded-lg p-6 lg:overflow-visible transition-transform duration-300 ${show ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
+            className={`fixed top-0 left-0 w-full z-50transition-transform duration-300 ${show ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
                 }`}
         >
-            <div role="alert" className="relative w-full text-base font-regular px-4 py-4 rounded-lg bg-red-500 text-white flex">
+            <div role="alert" className="relative w-full text-base font-regular px-4 py-4 rounded-lg bg-red-500 text-white flex shadow-lg">
                 <div className=" mr-12">
                     <p className="font-bold text-black">
                         ☹️ There was an error
