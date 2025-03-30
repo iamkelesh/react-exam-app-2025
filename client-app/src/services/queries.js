@@ -1,4 +1,4 @@
-import { collection, query, orderBy, startAfter, limit, getDocs, where } from 'firebase/firestore';
+import { collection, query, orderBy, startAfter, limit, getDocs, where, or } from 'firebase/firestore';
 import { firestoreDB } from '../firebase/config';
 
 const postCollectionRef = collection(firestoreDB, 'user-posts')
@@ -59,4 +59,16 @@ export function postsQuery({ lastSnapshot, category, userId }) {
 
     return query(postCollectionRef, ...queryBuilder)
 
-}   
+}
+
+export function getCommentsQuery({ postId, lastSnapshot }) {
+    const commentsCollectionRef = collection(firestoreDB, `user-posts/${postId}/comments`)
+
+    const queryBuilder = [
+        orderBy("createdAt", "desc"),
+        ...(lastSnapshot ? [startAfter(lastSnapshot)] : []),
+        limit(6),
+    ]
+
+    return query(commentsCollectionRef, ...queryBuilder)
+}
