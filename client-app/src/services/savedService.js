@@ -27,7 +27,6 @@ export async function checkForSaved({ postId, userId }) {
     }
 
     let canBeSaved = false
-    let canBeUnSaved = false
 
     const collectionref = collection(firestoreDB, `user-info/${userId}/saved-posts`)
 
@@ -36,11 +35,10 @@ export async function checkForSaved({ postId, userId }) {
     try {
         const querySnapshot = await getDocs(q)
 
-        canBeSaved = !!querySnapshot.empty
+        canBeSaved = querySnapshot.empty
 
-        canBeUnSaved = !canBeSaved
 
-        return { canBeSaved, canBeUnSaved }
+        return { canBeSaved }
 
     } catch (error) {
         throw error

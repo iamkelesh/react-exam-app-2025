@@ -135,7 +135,7 @@ export const AuthProvider = ({ children }) => {
 
             let currentName
             if (!userInfoSnap.exists()) {
-                window.alert('No such user !')
+                showErrorHandler('Error while loading user info! Please, contact admin !')
                 currentName = 'Undefined name'
             } else {
                 const { fullName } = userInfoSnap.data()
