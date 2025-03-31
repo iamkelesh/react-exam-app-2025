@@ -75,7 +75,7 @@ export function getCommentsQuery({ postId, lastSnapshot }) {
 
 export function getSavedQuery({ userId, lastSnapshot }) {
 
-    const colelctionRef = collection(firestoreDB, `user-info/${userId}/favourite-posts`)
+    const colelctionRef = collection(firestoreDB, `user-info/${userId}/saved-posts`)
 
     const queryBuilder = [
         orderBy("createdAt", "desc"),
