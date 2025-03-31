@@ -1,4 +1,4 @@
-import { getDocs, doc, getDoc } from 'firebase/firestore';
+import { getDocs, doc, getDoc, collection } from 'firebase/firestore';
 import { firestoreDB } from '../firebase/config';
 
 import { homePageQuery, postsQuery } from './queries';
@@ -60,11 +60,16 @@ export const getLatestHomePost = async () => {
 export const getPostsDetails = async (postId) => {
 
     const docRef = doc(firestoreDB, 'user-posts', postId)
+    const likesCollectionRef = collection(firestoreDB, `user-posts/${postId}/likes`)
+
+    const likesSnapshot = await getDocs(likesCollectionRef)
 
     const docSnap = await getDoc(docRef)
 
+    const numberOfLikes = likesSnapshot.size
+
     if (docSnap.exists()) {
-        return { id: docSnap.id, ...docSnap.data() }
+        return { id: docSnap.id, ...docSnap.data(), numberOfLikes }
     } else {
         throw error
     }
