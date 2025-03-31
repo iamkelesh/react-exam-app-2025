@@ -66,10 +66,10 @@ export const getPostsDetails = async (postId) => {
 
     const docSnap = await getDoc(docRef)
 
-    const numberOfLikes = likesSnapshot.size
+    const likes = likesSnapshot.size
 
     if (docSnap.exists()) {
-        return { id: docSnap.id, ...docSnap.data(), numberOfLikes }
+        return { id: docSnap.id, ...docSnap.data(), likes }
     } else {
         throw error
     }

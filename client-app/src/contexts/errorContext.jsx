@@ -16,7 +16,6 @@ export const ErrorProvider = ({ children }) => {
     )
 
     const showErrorHandler = (message) => {
-        console.log( 'showErrorHandler triggered')
         setErrorState({ errorMessage: message, showError: true })
     }
 
