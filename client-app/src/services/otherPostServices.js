@@ -3,7 +3,7 @@ import { firestoreDB } from '../firebase/config';
 
 
 
-const collectionRef = collection(firestoreDB, 'user-posts');
+const collectionRef = collection(firestoreDB, 'user-posts')
 
 export const createNewPost = async ({ values, accessToken, navigate }) => {
 
@@ -59,15 +59,15 @@ export const deletePost = async (postId0) => {
 export const searchPost = async (searchInput) => {
 
     try {
-        const querySnapshot = await getDocs(collectionRef);
+        const querySnapshot = await getDocs(collectionRef)
         const result = querySnapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data()
         }))
-            .filter(post => post.title.toLowerCase().includes(searchInput.toLowerCase()));
+            .filter(post => post.title.toLowerCase().includes(searchInput.toLowerCase()))
 
         return result
     } catch (error) {
         throw error
     }
-};
+}
