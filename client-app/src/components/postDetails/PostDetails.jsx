@@ -7,6 +7,7 @@ import ErrorContext from "../../contexts/errorContext"
 import { getPostsDetails } from "../../services/getPostService"
 import { deletePost } from "../../services/otherPostServices";
 import { addToSaved, checkForSaved, removeFromSaved } from "../../services/savedService";
+import { checkIfLiked, dislikePost, likePost } from "../../services/likeServices";
 
 import Comments from "../comments/Comments";
 
@@ -16,7 +17,8 @@ function PostDetails() {
 
     const [dataState, setDataState] = useState({})
     const [showComments, setShowComments] = useState(false)
-    const [saveState, setSaveState] = useState({ canBeSaved: false, canBeUnSaved: false })
+    const [saveState, setSaveState] = useState({ canBeSaved: false })
+    const [wasLiked, setWasLiked] = useState(false)
 
     const navigate = useNavigate()
 
@@ -44,7 +46,7 @@ function PostDetails() {
     function addSavedHandler() {
         addToSaved({ dataState, userId }).then(result => {
             if (result) {
-                setSaveState({ canBeSaved: false, canBeUnSaved: true })
+                setSaveState({ canBeSaved: false })
             }
         }).catch(error => {
             showErrorHandler('Error while saving post!')
@@ -55,7 +57,7 @@ function PostDetails() {
     function removeSavedHandler() {
         removeFromSaved({ postId, userId }).then(result => {
             if (result) {
-                setSaveState({ canBeSaved: true, canBeUnSaved: false })
+                setSaveState({ canBeSaved: true })
             }
         }).catch(error => {
             showErrorHandler('Error while unsaving post!')
@@ -78,6 +80,27 @@ function PostDetails() {
         setShowComments(!oldState)
     }
 
+    const likeHandler = () => {
+        likePost({ postId, userId })
+            .then(() => {
+                setWasLiked(true)
+            })
+            .catch(error => {
+                console.error("Error while liking post at PostDetails.jsx: ", error)
+                showErrorHandler('Error while liking post!')
+            })
+    }
+
+    const dislikeHandler = () => {
+        dislikePost({ postId, userId })
+            .then(() => {
+                setWasLiked(false)
+            })
+            .catch(error => {
+                console.error("Error while disliking post at PostDetails.jsx: ", error)
+                showErrorHandler('Error while disliking post!')
+            })
+    }
     useEffect(() => {
         getPostsDetails(postId)
             .then(result => {
@@ -89,12 +112,23 @@ function PostDetails() {
             })
     }, [postId, navigate])
 
+    useEffect(() => {
+        if (!postId || !userId) return
+        checkIfLiked({ postId, userId })
+            .then(result => {
+                setWasLiked(result)
+            })
+            .catch(error => {
+                console.error("Error while checking if post was liked: ", error)
+                showErrorHandler('Error while checking if post was liked!')
+            })
+    }, [userId, postId])
 
     useEffect(() => {
         if (!userId) return
         checkForSaved({ postId, userId })
-            .then(({ canBeSaved, canBeUnSaved }) => {
-                setSaveState({ canBeSaved, canBeUnSaved })
+            .then(({ canBeSaved }) => {
+                setSaveState({ canBeSaved })
             })
             .catch(error => {
                 console.error("Error while checking for saved posts: ", error)
@@ -168,12 +202,30 @@ function PostDetails() {
                                 </button>
                             }
 
-                            {isAuthenticated && saveState.canBeUnSaved &&
+                            {isAuthenticated && !saveState.canBeSaved &&
                                 <button
                                     onClick={removeSavedHandler}
                                     className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                 >
                                     Unsave post
+                                </button>
+                            }
+
+                            {isAuthenticated && !wasLiked &&
+                                <button
+                                    onClick={likeHandler}
+                                    className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                >
+                                    Like post
+                                </button>
+                            }
+
+                            {isAuthenticated && wasLiked &&
+                                <button
+                                    onClick={dislikeHandler}
+                                    className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                >
+                                    Dislike post
                                 </button>
                             }
                         </div>
