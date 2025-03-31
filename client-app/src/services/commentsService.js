@@ -12,13 +12,12 @@ export const addComment = async ({ values, addNewToState, clearState }) => {
 
     console.log(values)
     if (!values.postId) {
-        window.alert("Post ID is missing")
-        return
+        throw new Error("Post ID is missing")
+
     }
     for (const key in values) {
         if (values[key] === '') {
-            window.alert(`Please fill in all fields`)
-            throw new Error(`Missing field: ${key}`)
+            throw new Error(`Missing field: ${key}! Please fill all fields!`)
         }
     }
     try {
@@ -36,30 +35,33 @@ export const addComment = async ({ values, addNewToState, clearState }) => {
         addNewToState(newComment)
 
     } catch (error) {
-        window.alert("Error while adding comment: ", error)
-        console.error(error)
+        throw error
     }
 }
 
 export const getlatestsComments = async ({ postId }) => {
 
-    const commentsCollectionRef = getCommentsCollectionRef(postId)
+    try {
+        const commentsCollectionRef = getCommentsCollectionRef(postId)
 
-    const commentsQuery = query(commentsCollectionRef, orderBy('createdAt', 'desc'), limit(6))
+        const commentsQuery = query(commentsCollectionRef, orderBy('createdAt', 'desc'), limit(6))
 
-    const documentSnapshot = await getDocs(commentsQuery)
+        const documentSnapshot = await getDocs(commentsQuery)
 
-    let comments = documentSnapshot.docs.map(doc => {
-        return { id: doc.id, ...doc.data() }
-    })
+        let comments = documentSnapshot.docs.map(doc => {
+            return { id: doc.id, ...doc.data() }
+        })
 
-    let moreAvailable = comments.length > 5
+        let moreAvailable = comments.length > 5
 
-    if (moreAvailable) {
-        comments = comments.slice(0, 5)
+        if (moreAvailable) {
+            comments = comments.slice(0, 5)
+        }
+
+        return { comments, moreAvailable }
+    } catch (error) {
+        throw error
     }
-
-    return { comments, moreAvailable }
 }
 
 
@@ -69,31 +71,35 @@ export const deleteComment = async ({ postId, commentId }) => {
     try {
         await deleteDoc(commentRef)
     } catch (error) {
-        console.error("Error while deleting comment: ", error)
+        throw error
     }
 }
 
 export const getMoreComments = async ({ postId, lastCommentId }) => {
 
-    const commentsCollectionRef = getCommentsCollectionRef(postId)
+    try {
+        const commentsCollectionRef = getCommentsCollectionRef(postId)
 
-    const lastSnapshot = await getDoc(doc(firestoreDB, `user-posts/${postId}/comments/${lastCommentId}`))
+        const lastSnapshot = await getDoc(doc(firestoreDB, `user-posts/${postId}/comments/${lastCommentId}`))
 
-    const newCommentsQuery = query(commentsCollectionRef, orderBy('createdAt', 'desc'), startAfter(lastSnapshot), limit(6))
+        const newCommentsQuery = query(commentsCollectionRef, orderBy('createdAt', 'desc'), startAfter(lastSnapshot), limit(6))
 
-    const newCommentsSnapshot = await getDocs(newCommentsQuery)
+        const newCommentsSnapshot = await getDocs(newCommentsQuery)
 
-    let newComments = newCommentsSnapshot.docs.map(doc => {
-        return { id: doc.id, ...doc.data() }
-    })
+        let newComments = newCommentsSnapshot.docs.map(doc => {
+            return { id: doc.id, ...doc.data() }
+        })
 
-    let moreAvailable = newComments.length > 5
+        let moreAvailable = newComments.length > 5
 
-    if (moreAvailable) {
-        newComments = newComments.slice(0, 5)
+        if (moreAvailable) {
+            newComments = newComments.slice(0, 5)
+        }
+
+        return { newComments, moreAvailable }
+    } catch (error) {
+        throw error
     }
-
-    return { newComments, moreAvailable }
 
 }
 
@@ -109,7 +115,7 @@ export const getComments = async ({ postId, lastSnapshot }) => {
         let moreAvailable = slicedComments.length > 5
 
         if (moreAvailable) {
-            
+
             slicedComments = slicedComments.slice(0, 5)
         }
 
@@ -126,11 +132,6 @@ export const getComments = async ({ postId, lastSnapshot }) => {
             moreAvailable
         }
     } catch (error) {
-        console.log(error)
-        return {
-            newComments: [],
-            lastComment: null,
-            moreAvailable: false
-        }
+        throw error
     }
 }

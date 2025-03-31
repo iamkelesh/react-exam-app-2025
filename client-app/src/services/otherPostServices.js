@@ -1,11 +1,7 @@
-import { useContext } from "react"
-
 import { collection, addDoc, getDocs, serverTimestamp, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { firestoreDB } from '../firebase/config';
 
-import ErrorContext from "../../contexts/errorContext"
 
-const { showErrorHandler } = useContext(ErrorContext)
 
 const collectionRef = collection(firestoreDB, 'user-posts');
 
@@ -29,8 +25,7 @@ export const createNewPost = async ({ values, accessToken, navigate }) => {
         navigate('/')
 
     } catch (error) {
-        console.log(error);
-        showErrorHandler('Error while creating post!')
+            throw error
     }
 }
 
@@ -44,8 +39,7 @@ export const updatePostDetails = async ({ postId, values, navigate }) => {
         navigate('/')
 
     } catch (error) {
-        console.log(error);
-        showErrorHandler('Error while updating post!')
+        throw error
     }
 }
 
@@ -57,8 +51,7 @@ export const deletePost = async (postId0) => {
         await deleteDoc(docRef)
         alert('Post deleted successfull')
     } catch (error) {
-        console.log(error);
-        showErrorHandler('Error while deleting post!')
+        throw error
     }
 }
 
@@ -75,7 +68,6 @@ export const searchPost = async (searchInput) => {
 
         return result
     } catch (error) {
-        console.log(error);
-        showErrorHandler('Error while searching for posts!')
+        throw error
     }
 };

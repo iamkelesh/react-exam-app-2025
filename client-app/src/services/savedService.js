@@ -1,16 +1,8 @@
-import { useContext } from "react"
-
 import { collection, addDoc, getDocs, serverTimestamp, query, deleteDoc, where } from 'firebase/firestore';
 import { firestoreDB } from '../firebase/config';
 import { getSavedQuery } from './queries';
 
-
-import ErrorContext from "../../contexts/errorContext"
-
-const { showErrorHandler } = useContext(ErrorContext)
-
 export async function addToSaved({ dataState, userId }) {
-
 
     const collectionref = collection(firestoreDB, `user-info/${userId}/saved-posts`)
 
@@ -22,8 +14,7 @@ export async function addToSaved({ dataState, userId }) {
 
         return true
     } catch (error) {
-        console.log(error);
-        showErrorHandler("Error while adding to saved!")
+        throw error
     }
 
 }
@@ -52,8 +43,7 @@ export async function checkForSaved({ postId, userId }) {
         return { canBeSaved, canBeUnSaved }
 
     } catch (error) {
-        console.log(error)
-        showErrorHandler("Error while checking if this post is saved!")
+        throw error
     }
 
 
@@ -77,14 +67,12 @@ export async function removeFromSaved({ postId, userId }) {
 
             return true
         } else {
-            showErrorHandler('No such favourite post found.')
+            throw new Error('No such saved post found.')
         }
 
     }
     catch (error) {
-
-        console.log(error)
-        showErrorHandler("Error while removing from saved posts!")
+        throw error
     }
 }
 
@@ -92,9 +80,9 @@ export async function getSaved({ userId, lastSnapshot }) {
 
     const neededQuery = getSavedQuery({ userId, lastSnapshot })
 
+    if(!userId) throw new Error('userId is missing')
     try {
         const querySnapshot = await getDocs(neededQuery)
-
         let moreAvailable = false
 
         let slicedDocs = querySnapshot.docs
@@ -116,7 +104,6 @@ export async function getSaved({ userId, lastSnapshot }) {
         return { newPosts, lastDoc, moreAvailable }
 
     } catch (error) {
-        console.log(error)
-        showErrorHandler("Error while checking for saved posts!")
+        throw error
     }
 }
