@@ -1,18 +1,29 @@
 import { useEffect, useState, useContext } from "react"
-import { collection, addDoc, getDocs, serverTimestamp, doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
+import { Link, useLocation, useParams } from "react-router-dom";
 
 import AuthContext from "../../contexts/authContext";
+import ErrorContext from "../../contexts/errorContext"
+
 import { firestoreDB } from "../../firebase/config";
 
 
 export default function Profile() {
 
     const { userId } = useContext(AuthContext)
+    const { showErrorHandler } = useContext(ErrorContext)
+
     const [profileState, setProfile] = useState({})
+    const location = useLocation()
+
+    const { profileId } = useParams()
+
+    const idToUse = location.pathname === "/my-profile" ? userId : profileId;
+
 
     useEffect(() => {
 
-        getDoc(doc(firestoreDB, 'user-info', userId))
+        getDoc(doc(firestoreDB, 'user-info', idToUse))
             .then(docSnap => {
                 if (docSnap.exists()) {
                     setProfile(docSnap.data())
@@ -21,11 +32,12 @@ export default function Profile() {
                 }
             })
             .catch(error => {
-                window.alert('Error while getting user info: ', error)
+                console.log('Error while getting user info: ', error)
+                showErrorHandler('Error while getting user info!')
             })
 
 
-    }, [userId])
+    }, [userId, profileId])
 
 
 
@@ -35,9 +47,15 @@ export default function Profile() {
             <h2 className="text-center text-2xl font-semibold mt-3">{profileState.fullName}</h2>
             <p className="text-center text-gray-600 mt-1">{profileState.jobTitle}</p>
             <div className="flex justify-center mt-5">
-                {/* <a href="#" className="text-blue-500 hover:text-blue-700 mx-3">Twitter</a>
-            <a href="#" className="text-blue-500 hover:text-blue-700 mx-3">LinkedIn</a>
-            <a href="#" className="text-blue-500 hover:text-blue-700 mx-3">GitHub</a> */}
+                {location.pathname === "/my-profile" && userId ?
+                    <>
+                        <Link to="/user/my-posts" className="text-blue-500 hover:text-blue-700 mx-3">My posts</Link>
+                        <Link to="/user/saved-posts" className="text-blue-500 hover:text-blue-700 mx-3">Saved posts</Link>
+                    </> : ""
+                }
+
+
+                {/* <Link href="#" className="text-blue-500 hover:text-blue-700 mx-3">GitHub</Link> */}
             </div>
             <div className="mt-5">
                 <h3 className="text-xl font-semibold">Bio</h3>

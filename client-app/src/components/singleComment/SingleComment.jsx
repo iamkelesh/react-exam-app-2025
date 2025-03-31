@@ -1,11 +1,7 @@
 function SingleComment({
-    text,
-    createdAt,
-    currentUser,
-    ownerId,
-    deletehandler,
-    commentId,
-    postId,
+    commentData, 
+    // postId, 
+    // deletehandler
 }) {
 
 
@@ -24,9 +20,10 @@ function SingleComment({
         }
     }
 
-    function newDeleteHandler() {
-        deletehandler({ postId, commentId })
-    }
+    // function newDeleteHandler() {
+    //     deletehandler({ postId, commentId })
+    // }
+    
     return (
 
 
@@ -44,13 +41,13 @@ function SingleComment({
                         </svg>
                     </div>
                     {/* <!-- Date --> */}
-                    <time className="text-sm font-medium text-indigo-500 md:w-28">{formatedDate(createdAt)} </time>
+                    <time className="text-sm font-medium text-indigo-500 md:w-28">{formatedDate(commentData.createdAt)} </time>
                 </div>
                 {/* <!-- Title --> */}
-                <div className="text-slate-500 ml-14"><span className="text-slate-900 font-bold">TODO USERS NAMES</span> commented </div>
+                <div className="text-slate-500 ml-14"><span className="text-slate-900 font-bold">{commentData.creatorName}</span> commented </div>
             </div>
             {/* <!-- Card --> */}
-            <div className="bg-white p-4 rounded border border-slate-200 text-slate-500 shadow ml-14 md:ml-44">{text}</div>
+            <div className="bg-white p-4 rounded border border-slate-200 text-slate-500 shadow ml-14 md:ml-44">{commentData.text}</div>
         </div >
 
 
@@ -60,31 +57,3 @@ function SingleComment({
 }
 
 export default SingleComment
-
-
-function oldShit() {
-    return (<div className="card p-3">
-        <div className="d-flex justify-content-between align-items-center">
-            <div className="user d-flex flex-row align-items-center">
-                <span>
-                    <small className="font-weight-bold text-primary">
-                        {/* {allInfo.author.fullName} */}
-                    </small>{" "}
-                    <small className="font-weight-bold">
-                        {text}
-                    </small>
-                </span>
-            </div>
-            <small>{formatedDate(createdAt)}</small>
-        </div>
-        <div className="action d-flex justify-content-between mt-2 align-items-center">
-            <div className="icons align-items-center">
-                <i className="fa fa-star text-warning" />
-                <i className="fa fa-check-circle-o check-icon" />
-            </div>
-        </div>
-        {ownerId === currentUser ? (
-            <button onClick={newDeleteHandler}>Delete</button>
-        ) : ''}
-    </div>)
-}

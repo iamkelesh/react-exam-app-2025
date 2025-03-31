@@ -2,24 +2,49 @@ import { useContext, useEffect } from 'react';
 import { useForm } from '../../hooks/useForm';
 import { useParams } from 'react-router-dom';
 
-import styles from './UpdatePost.module.css';
-
 import AuthContext from '../../contexts/authContext';
+import ErrorContext from '../../contexts/errorContext';
+
 import { useNavigation } from '../../contexts/navigationContext';
-import { getPostsDetails, updatePostDetails } from '../../services/postFirestoreService';
+
+import { updatePostDetails } from '../../services/otherPostServices';
+import { getPostsDetails } from '../../services/getPostService';
+
+import Dropdown2 from '../dropdown2/Dropdown2';
 
 
 const initialValues = {
   title: '',
+  subTitle: '',
   body: '',
+  category: '',
 }
+const categories = ["News", "Discussion", "Review", "Support"]
 
 function UpdatePost() {
+  const { showErrorHandler } = useContext(ErrorContext)
   const { accessToken, userId } = useContext(AuthContext)
+
   const { postId } = useParams()
   const navigate = useNavigation();
-  const { values, onChange, onSubmit } = useForm({ submitHandler: updatePostDetails, initialValues, accessToken, navigate, postId });
 
+
+  const formSubmit = async (e) => {
+    try {
+      updatePostDetails(e)
+    } catch (error) {
+      console.error("Error while updating post at UpdatePost.jsx: ", error)
+      showErrorHandler('Error while updating post!')
+    }
+  }
+
+
+  const { values, onChange, onSubmit } = useForm({ submitHandler: formSubmit, initialValues, accessToken, navigate, postId });
+
+
+  const hancleDropdownChange = (selectedCategory) => {
+    onChange({ target: { name: 'category', value: selectedCategory } })
+  }
 
   useEffect(() => {
 
@@ -29,9 +54,12 @@ function UpdatePost() {
         onChange({ target: { name: 'title', value: postData.title } })
         onChange({ target: { name: 'subTitle', value: postData.subTitle } })
         onChange({ target: { name: 'body', value: postData.body } })
+        onChange({ target: { name: 'category', value: postData.category } })
+
       })
       .catch(error => {
         console.error("Error while getting post details at PostDetails.jsx: ", error)
+        showErrorHandler('Error while getting post details!')
       })
   }, [postId])
 
@@ -87,6 +115,8 @@ function UpdatePost() {
 
           {/* <Dropdown /> */}
 
+          <Dropdown2 onSelect={hancleDropdownChange} categories={categories} currentChoice={values.category} />
+
           <div className="sm:col-span-2">
             <label htmlFor="message" className="block text-sm font-semibold leading-6 text-green-600">Post body</label>
             <div className="mt-2.5">
@@ -116,54 +146,3 @@ function UpdatePost() {
 }
 
 export default UpdatePost;
-
-
-const oldShit = () => {
-  return (
-    <div className={styles.container}>
-      <form id={styles.contact} action="" method="post" onSubmit={onSubmit}>
-        <h3 className={styles.h3}>Edit post</h3>
-        <h4 className={styles.h4}>Enter new post details!</h4>
-
-        <fieldset className={styles.fieldset}>
-          <input
-            placeholder="Title"
-            type="text"
-            tabIndex={2}
-            required
-            name='title'
-            className={styles.input}
-            onChange={onChange}
-            value={values.title}
-          />
-        </fieldset>
-
-        <fieldset className={styles.fieldset}>
-          <input
-            placeholder="Body"
-            type="text"
-            tabIndex={1}
-            required
-            autoFocus
-            name='body'
-            className={styles.input}
-            onChange={onChange}
-            value={values.body}
-          />
-        </fieldset>
-
-        <fieldset>
-          <button
-            name="submit"
-            type="submit"
-            id="contact-submit"
-            data-submit="...Sending"
-          >
-            Submit
-          </button>
-        </fieldset>
-
-      </form>
-    </div>
-  )
-}

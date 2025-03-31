@@ -1,7 +1,7 @@
-import { collection, query, orderBy, startAfter, limit, getDocs, where } from 'firebase/firestore';
+import { collection, query, orderBy, startAfter, limit, getDocs, where, or } from 'firebase/firestore';
 import { firestoreDB } from '../firebase/config';
 
-const postCollectionRef = collection(firestoreDB, 'user-posts-test1')
+const postCollectionRef = collection(firestoreDB, 'user-posts')
 
 const latestMainPostsQuery = query(
     postCollectionRef,
@@ -9,6 +9,11 @@ const latestMainPostsQuery = query(
     limit(6)
 )
 
+export const homePageQuery = query(
+    postCollectionRef,
+    orderBy("createdAt", "desc"),
+    limit(5)
+)
 
 export async function mainPagePostsQuery(pageNumber) {
     if (!isNaN(pageNumber) && pageNumber > 0) {
@@ -39,4 +44,45 @@ export async function myPostsQuery(userId, pageNumber) {
     } else {
         return query(postCollectionRef, orderBy('createdAt', 'desc'), where("ownerId", "==", userId), limit(6))
     }
-} 
+}
+
+export function postsQuery({ lastSnapshot, category, userId }) {
+
+
+    const queryBuilder = [
+        orderBy("createdAt", "desc"),
+        ...(category ? [where("category", "==", category)] : []),
+        ...(userId ? [where("ownerId", "==", userId)] : []),
+        ...(lastSnapshot ? [startAfter(lastSnapshot)] : []),
+        limit(11)
+    ]
+
+    return query(postCollectionRef, ...queryBuilder)
+
+}
+
+export function getCommentsQuery({ postId, lastSnapshot }) {
+    const commentsCollectionRef = collection(firestoreDB, `user-posts/${postId}/comments`)
+
+    const queryBuilder = [
+        orderBy("createdAt", "desc"),
+        ...(lastSnapshot ? [startAfter(lastSnapshot)] : []),
+        limit(6),
+    ]
+
+    return query(commentsCollectionRef, ...queryBuilder)
+}
+
+export function getSavedQuery({ userId, lastSnapshot }) {
+
+    const colelctionRef = collection(firestoreDB, `user-info/${userId}/saved-posts`)
+
+    const queryBuilder = [
+        orderBy("createdAt", "desc"),
+        ...(lastSnapshot ? [startAfter(lastSnapshot)] : []),
+        limit(11),
+    ]
+
+    return query(colelctionRef, ...queryBuilder)
+
+}

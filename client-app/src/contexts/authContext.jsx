@@ -1,8 +1,10 @@
-import { createContext, useEffect, useState } from "react"
+import { createContext, useEffect, useState, useContext } from "react"
 import { useNavigate } from "react-router"
 
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, validatePassword } from "firebase/auth"
 import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
+
+import ErrorContext from "../contexts/errorContext"
 
 import { firebaseApp, firestoreDB } from "../firebase/config"
 
@@ -12,6 +14,8 @@ const auth = getAuth(firebaseApp)
 
 export const AuthProvider = ({ children }) => {
 
+    const { showErrorHandler } = useContext(ErrorContext)
+
 
     const navigate = useNavigate()
 
@@ -19,17 +23,40 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
+
             if (user) {
 
-                setAuthState({
-                    uid: user.uid,
-                    email: user.email,
-                    accessToken: user.accessToken,
+                getDoc(doc(firestoreDB, "user-info", user.uid)).then(userInfoSnap => {
+
+                    let currentName
+
+                    if (!userInfoSnap.exists()) {
+
+                        showErrorHandler('No user info exist! Please, contact admin !')
+
+                        currentName = 'Undefined name'
+                    } else {
+                        const { fullName } = userInfoSnap.data()
+
+                        currentName = fullName
+                    }
+
+
+                    setAuthState({
+                        uid: user.uid,
+                        email: user.email,
+                        accessToken: user.accessToken,
+                        fullName: currentName,
+                    })
+
                 })
+
             } else {
                 setAuthState({})
             }
         })
+
+
 
         // Cleanup subscription on unmount
         return () => unsubscribe()
@@ -44,7 +71,7 @@ export const AuthProvider = ({ children }) => {
             const status = await validatePassword(getAuth(), password);
 
             if (!status.isValid) {
-                window.alert('Password is not valid. Must be at least 6 characters long.')
+                showErrorHandler('Password is not valid. Must be at least 6 characters long.')
                 return;
             }
 
@@ -74,7 +101,7 @@ export const AuthProvider = ({ children }) => {
 
             console.log(error)
 
-            alert(error.message)
+            showErrorHandler('Error while registering user')
         }
     }
 
@@ -90,7 +117,7 @@ export const AuthProvider = ({ children }) => {
 
             console.error('Error signing out:', error)
 
-            alert(error.message)
+            showErrorHandler('Error signing out')
         })
     }
 
@@ -106,16 +133,19 @@ export const AuthProvider = ({ children }) => {
 
             const userInfoSnap = await getDoc(doc(firestoreDB, "user-info", user.uid))
 
+            let currentName
             if (!userInfoSnap.exists()) {
-                windows.alert('No such user !')
-                return
+                window.alert('No such user !')
+                currentName = 'Undefined name'
+            } else {
+                const { fullName } = userInfoSnap.data()
+                currentName = fullName
             }
 
-            const { fullName } = userInfoSnap.data()
 
             setAuthState({
                 uid: user.uid,
-                fullName: fullName,
+                fullName: currentName,
                 email: user.email,
                 accessToken: user.accessToken,
             })
@@ -126,7 +156,7 @@ export const AuthProvider = ({ children }) => {
 
             console.log(error)
 
-            alert(error.message)
+            showErrorHandler('Error while logging in')
         }
     }
 
@@ -137,6 +167,7 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated: !!authState.accessToken,
         email: authState.email,
         userId: authState.uid,
+        fullName: authState.fullName,
         accessToken: authState.accessToken,
     }
 

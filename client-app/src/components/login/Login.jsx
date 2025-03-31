@@ -1,8 +1,6 @@
 import { useContext } from 'react';
 import { Link } from "react-router-dom";
 
-import styles from './Login.module.css';
-
 import AuthContext from '../../contexts/authContext';
 import { useForm } from '../../hooks/useForm';
 
@@ -16,7 +14,7 @@ function Login() {
     const { values, onChange, onSubmit } = useForm({ submitHandler: newLoginHandler, initialValues })
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="pt-48 flex items-center justify-center p-4">
             <div className="max-w-md w-full rounded-xl shadow-lg p-8">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Log in</h2>
 
@@ -54,7 +52,7 @@ function Login() {
 
                 <div className="mt-6 text-center text-sm text-gray-600">
                     Don't have an account?
-                    <Link to="/user/register" className="text-indigo-600 hover:text-indigo-500 font-medium">   Sign in</Link>
+                    <Link to="/user/register" className="text-indigo-600 hover:text-indigo-500 font-medium">   Sign up</Link>
                 </div>
             </div>
         </div>

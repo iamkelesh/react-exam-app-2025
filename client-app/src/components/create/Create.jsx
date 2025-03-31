@@ -1,29 +1,44 @@
 import { useContext } from 'react';
 
-import styles from './Create.module.css';
 
 import AuthContext from '../../contexts/authContext';
 import { useNavigation } from '../../contexts/navigationContext';
+import ErrorContext from "../../contexts/errorContext"
 
 import { useForm } from '../../hooks/useForm';
-import { createNewPost } from '../../services/postFirestoreService';
-import Dropdown from '../dropdown /Dropdown';
+import { createNewPost } from '../../services/otherPostServices';
+
 import Dropdown2 from '../dropdown2/Dropdown2';
 
 
 function Create() {
-  const navigate = useNavigation();
-  const { accessToken, userId } = useContext(AuthContext)
+  const { showErrorHandler } = useContext(ErrorContext)
 
-  const categories = ["News", "Discussion", "Review", "Support"]  
+  const navigate = useNavigation();
+  const { accessToken, userId, fullName } = useContext(AuthContext)
+
+  const categories = ["News", "Discussion", "Review", "Support"]
+
   const initialValues = {
     title: '',
+    subTitle: '',
     body: '',
     ownerId: userId,
-    category: ''
+    category: '',
+    creatorName: fullName,
   }
 
-  const { values, onChange, onSubmit } = useForm({ submitHandler: createNewPost, initialValues, navigate, accessToken });
+  function createHandler(e) {
+    try {
+      createNewPost(e)
+    }
+    catch (error) {
+      console.log(error);
+      showErrorHandler('Error while creating post!')
+    }
+  }
+
+  const { values, onChange, onSubmit } = useForm({ submitHandler: createHandler, initialValues, navigate, accessToken });
 
 
 
@@ -37,8 +52,8 @@ function Create() {
 
 
       <div className="mx-auto max-w-2xl text-center">
-        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Text </h2>
-        <p className="mt-2 text-lg leading-8 text-gray-600">Text who ever you want where ever you want any time you want enjoy contacting freinds and families.</p>
+        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Create your post </h2>
+        <p className="mt-2 text-lg leading-8 text-gray-600">Share what's on you mind, whether it's news, review, discusison or you need support for something.</p>
       </div>
 
       <form action="#" method="POST"
@@ -79,7 +94,7 @@ function Create() {
           </div>
 
           {/* <Dropdown /> */}
-          <Dropdown2 onSelect={hancleDropdownChange} categories={categories} currentChoice={values.category}/>
+          <Dropdown2 onSelect={hancleDropdownChange} categories={categories} currentChoice={values.category} />
 
           <div className="sm:col-span-2">
             <label htmlFor="message" className="block text-sm font-semibold leading-6 text-green-600">Post body</label>
@@ -111,59 +126,3 @@ function Create() {
 }
 
 export default Create;
-
-
-
-
-
-// function oldCreate() {
-//   return (
-//     <div classNameNameName={styles.container}>
-//       <form id={styles.contact} action="" method="post"
-//         onSubmit={onSubmit}
-//       >
-//         <h3 classNameNameName={styles.h3}>Create post</h3>
-//         <h4 classNameNameName={styles.h4}>Enter post details!</h4>
-
-//         <fieldset classNameNameName={styles.fieldset}>
-//           <input
-//             placeholder="Title"
-//             type="text"
-//             tabIndex={2}
-//             required
-//             name='title'
-//             classNameNameName={styles.input}
-//             onChange={onChange}
-//             value={values.title}
-//           />
-//         </fieldset>
-
-//         <fieldset classNameNameName={styles.fieldset}>
-//           <input
-//             placeholder="Body"
-//             type="text"
-//             tabIndex={1}
-//             required
-//             autoFocus
-//             name='body'
-//             classNameNameName={styles.input}
-//             onChange={onChange}
-//             value={values.body}
-//           />
-//         </fieldset>
-
-//         <fieldset>
-//           <button
-//             name="submit"
-//             type="submit"
-//             id="contact-submit"
-//             data-submit="...Sending"
-//           >
-//             Submit
-//           </button>
-//         </fieldset>
-
-//       </form>
-//     </div>
-//   )
-// }

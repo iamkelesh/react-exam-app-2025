@@ -3,7 +3,9 @@ import { useContext } from 'react';
 import { Link } from "react-router-dom";
 
 import { useForm } from '../../hooks/useForm';
+
 import AuthContext from '../../contexts/authContext'
+import ErrorContext from '../../contexts/errorContext';
 
 const initialValues = {
     fullName: '',
@@ -17,14 +19,23 @@ const initialValues = {
 
 
 function Register() {
-
+    const { showErrorHandler } = useContext(ErrorContext)
     const { newRegisterHandler } = useContext(AuthContext)
+
+    const registerSubmit = async (e) => {
+        try{
+            newRegisterHandler(e)
+        } catch (error) {
+            console.error('Error during registration:', error)
+            showErrorHandler('Error during registration!')
+        }
+    }
 
     const {
         values,
         onChange,
         onSubmit } = useForm({
-            submitHandler: newRegisterHandler,
+            submitHandler: registerSubmit,
             initialValues
         })
 
