@@ -1,6 +1,6 @@
 import { likePost, dislikePost } from '../services/likeServices'
 import { deletePost } from '../services/otherPostServices'
-import { addToSaved, removeFromSaved } from '../services/savedPostServices'
+import { addToSaved, removeFromSaved } from '../services/savedService'
 
 
 export function deletePostHandler({ postId, navigate, showErrorHandler }) {
