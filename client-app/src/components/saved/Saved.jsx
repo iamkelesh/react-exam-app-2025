@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 
 import AuthContext from "../../contexts/authContext";
 import ErrorContext from '../../contexts/errorContext';
@@ -16,10 +16,13 @@ function Saved() {
 
     const { userId } = useContext(AuthContext)
 
+    const isMounted = useRef(false);
+
     function loadMore() {
 
         getSaved({ userId, lastSnapshot })
             .then(({ newPosts, lastDoc, moreAvailable }) => {
+                if (!isMounted.current) return
 
                 const oldState = savedPosts
 
@@ -40,9 +43,11 @@ function Saved() {
 
     useEffect(() => {
 
+        isMounted.current = true
 
         getSaved({ userId, lastSnapshot })
             .then(({ newPosts, lastDoc, moreAvailable }) => {
+                if (!isMounted.current) return
 
                 setSaved(newPosts)
                 setLastSnapshot(lastDoc)
@@ -53,7 +58,9 @@ function Saved() {
                 console.error(error)
             })
 
-
+        return () => {
+            isMounted.current = false;
+        };
 
     }, [])
 

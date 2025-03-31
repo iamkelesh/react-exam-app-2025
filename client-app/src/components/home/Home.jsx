@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 
 import { getLatestHomePost } from "../../services/getPostService";
 import ErrorContext from "../../contexts/errorContext"
@@ -9,22 +9,26 @@ import { Link } from "react-router";
 
 function Home() {
     const { showErrorHandler } = useContext(ErrorContext)
-
+    const isMounted = useRef(false);
 
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
+        isMounted.current = true
 
         getLatestHomePost()
             .then((latestPosts) => {
+                if (!isMounted.current) return
 
                 setPosts(latestPosts)
 
-            }).catch(err =>{
+            }).catch(err => {
                 console.log(err)
                 showErrorHandler('Error while loading posts!')
             })
-
+        return () => {
+            isMounted.current = false;
+        };
     }, [])
 
     return (

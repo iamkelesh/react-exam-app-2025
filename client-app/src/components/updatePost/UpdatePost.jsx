@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { useForm } from '../../hooks/useForm';
 import { useParams } from 'react-router-dom';
 
@@ -12,7 +12,6 @@ import { getPostsDetails } from '../../services/getPostService';
 
 import Dropdown2 from '../dropdown2/Dropdown2';
 
-
 const initialValues = {
   title: '',
   subTitle: '',
@@ -23,11 +22,12 @@ const categories = ["News", "Discussion", "Review", "Support"]
 
 function UpdatePost() {
   const { showErrorHandler } = useContext(ErrorContext)
-  const { accessToken, userId } = useContext(AuthContext)
+  const { accessToken } = useContext(AuthContext)
 
   const { postId } = useParams()
   const navigate = useNavigation();
 
+  const isMounted = useRef(false);
 
   const formSubmit = async (e) => {
     try {
@@ -38,9 +38,7 @@ function UpdatePost() {
     }
   }
 
-
   const { values, onChange, onSubmit } = useForm({ submitHandler: formSubmit, initialValues, accessToken, navigate, postId });
-
 
   const hancleDropdownChange = (selectedCategory) => {
     onChange({ target: { name: 'category', value: selectedCategory } })
@@ -48,8 +46,12 @@ function UpdatePost() {
 
   useEffect(() => {
 
+    isMounted.current = true
+
     getPostsDetails(postId)
       .then(postData => {
+
+        if (!isMounted.current) return
 
         onChange({ target: { name: 'title', value: postData.title } })
         onChange({ target: { name: 'subTitle', value: postData.subTitle } })
@@ -61,6 +63,10 @@ function UpdatePost() {
         console.error("Error while getting post details at PostDetails.jsx: ", error)
         showErrorHandler('Error while getting post details!')
       })
+
+    return () => {
+      isMounted.current = false;
+    };
   }, [postId])
 
   return (

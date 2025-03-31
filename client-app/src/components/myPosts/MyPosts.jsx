@@ -1,4 +1,4 @@
-import { useEffect, useState , useContext} from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 
 import ErrorContext from "../../contexts/errorContext"
 import AuthContext from '../../contexts/authContext';
@@ -13,12 +13,15 @@ function MyPosts() {
     const [lastSnapshot, setLastSnapshot] = useState(null)
     const [moreAvailable, setMoreAvailable] = useState(false)
 
+    const isMounted = useRef(false);
+
     const { userId } = useContext(AuthContext)
 
     function loadMore() {
 
         getAllPost2({ lastSnapshot, userId })
             .then(({ newPosts, lastDoc, moreAvailable }) => {
+                if (!isMounted.current) return
 
                 const newState = [...posts, ...newPosts]
 
@@ -36,9 +39,11 @@ function MyPosts() {
     }
 
     useEffect(() => {
+        isMounted.current = true
 
         getAllPost2({ lastSnapshot: null, })
             .then(({ newPosts, lastDoc, moreAvailable }) => {
+                if (!isMounted.current) return
 
                 setPosts(newPosts)
 
@@ -50,7 +55,9 @@ function MyPosts() {
                 console.log(error)
                 showErrorHandler('Error while fetching posts!')
             })
-
+        return () => {
+            isMounted.current = false;
+        };
     }, [])
 
     return (
