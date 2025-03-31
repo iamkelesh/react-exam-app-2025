@@ -1,13 +1,16 @@
 import { useParams } from "react-router-dom"
-import {  useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import { deleteComment } from "../../services/commentsService";
 import { getComments } from "../../services/commentsService";
+import ErrorContext from "../../contexts/errorContext"
 
 import SingleComment from "../singleComment/SingleComment";
 import AddComment from "../addComment/AddComment";
 
 function Comments({ currentId, creatorName, isAuthenticated }) {
+
+    const { showErrorHandler } = useContext(ErrorContext)
 
     const [commentsState, setCommentsState] = useState([])
     const [moreAvailable, SetMoreAvailable] = useState(false);
@@ -31,7 +34,8 @@ function Comments({ currentId, creatorName, isAuthenticated }) {
                 setLastSnapshot(lastComment)
             })
             .catch(error => {
-                console.error("Error while getting more comments at Comments.jsx: ", error)
+                console.error(error)
+                showErrorHandler('Error while loading more comments!')
             })
     }
 
@@ -47,7 +51,8 @@ function Comments({ currentId, creatorName, isAuthenticated }) {
                 setCommentsState(newComments)
             })
             .catch(error => {
-                console.error("Error while deleting comment at Comments.jsx: ", error)
+                console.error(error)
+                showErrorHandler('Error while deleting comment!')
             })
     }
 
@@ -72,8 +77,8 @@ function Comments({ currentId, creatorName, isAuthenticated }) {
             setLastSnapshot(lastComment)
         })
             .catch(error => {
-                console.log(error)
-                window.alert(error.message)
+                console.error(error)
+                showErrorHandler('Error while loading comments!')
             })
 
     }, [postId])

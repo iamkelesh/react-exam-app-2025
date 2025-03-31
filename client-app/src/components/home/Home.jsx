@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 
 import { getLatestHomePost } from "../../services/getPostService";
+import ErrorContext from "../../contexts/errorContext"
 
 import SmallPostTemplate from "../smallPostTemplate/SmallPostTemplate";
 
 import { Link } from "react-router";
 
 function Home() {
+    const { showErrorHandler } = useContext(ErrorContext)
+
 
     const [posts, setPosts] = useState([]);
 
@@ -17,7 +20,10 @@ function Home() {
 
                 setPosts(latestPosts)
 
-            }).catch(err => console.error(err))
+            }).catch(err =>{
+                console.log(err)
+                showErrorHandler('Error while loading posts!')
+            })
 
     }, [])
 

@@ -26,8 +26,8 @@ function App() {
   return (
     <>
 
-      <AuthProvider>
-        <ErrorProvider>
+      <ErrorProvider>
+        <AuthProvider>
 
 
           <div className="app-container mx-auto">
@@ -119,8 +119,8 @@ function App() {
             </main>
 
           </div>
-        </ErrorProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </ErrorProvider>
 
     </>
   )

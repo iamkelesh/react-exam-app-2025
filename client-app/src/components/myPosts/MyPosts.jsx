@@ -1,27 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState , useContext} from "react";
 
+import ErrorContext from "../../contexts/errorContext"
+import AuthContext from '../../contexts/authContext';
 import { getAllPost2 } from "../../services/getPostService";
 
 import SmallPostTemplate from "../smallPostTemplate/SmallPostTemplate";
 
-
-
-import { useContext } from 'react';
-
-
-import AuthContext from '../../contexts/authContext';
-
 function MyPosts() {
+    const { showErrorHandler } = useContext(ErrorContext)
 
     const [posts, setPosts] = useState([]);
     const [lastSnapshot, setLastSnapshot] = useState(null)
     const [moreAvailable, setMoreAvailable] = useState(false)
 
     const { userId } = useContext(AuthContext)
-
-
-
-
 
     function loadMore() {
 
@@ -36,19 +28,12 @@ function MyPosts() {
 
                 setLastSnapshot(lastDoc)
 
-            }).catch(err => {
-                setPosts([])
-
-                setMoreAvailable(false)
-
-                setLastSnapshot(null)
-
-                console.log(err)
+            }).catch(error => {
+                console.log(error)
+                showErrorHandler('Error while fetching more posts!')
             })
 
     }
-
-
 
     useEffect(() => {
 
@@ -61,8 +46,10 @@ function MyPosts() {
 
                 setLastSnapshot(lastDoc)
 
-            }).catch(err => console.error(err))
-
+            }).catch(error => {
+                console.log(error)
+                showErrorHandler('Error while fetching posts!')
+            })
 
     }, [])
 

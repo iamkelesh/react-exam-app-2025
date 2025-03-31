@@ -3,6 +3,7 @@ import { useContext } from 'react';
 
 import AuthContext from '../../contexts/authContext';
 import { useNavigation } from '../../contexts/navigationContext';
+import ErrorContext from "../../contexts/errorContext"
 
 import { useForm } from '../../hooks/useForm';
 import { createNewPost } from '../../services/otherPostServices';
@@ -11,6 +12,8 @@ import Dropdown2 from '../dropdown2/Dropdown2';
 
 
 function Create() {
+  const { showErrorHandler } = useContext(ErrorContext)
+
   const navigate = useNavigation();
   const { accessToken, userId, fullName } = useContext(AuthContext)
 
@@ -25,7 +28,17 @@ function Create() {
     creatorName: fullName,
   }
 
-  const { values, onChange, onSubmit } = useForm({ submitHandler: createNewPost, initialValues, navigate, accessToken });
+  function createHandler(e) {
+    try {
+      createNewPost(e)
+    }
+    catch (error) {
+      console.log(error);
+      showErrorHandler('Error while creating post!')
+    }
+  }
+
+  const { values, onChange, onSubmit } = useForm({ submitHandler: createHandler, initialValues, navigate, accessToken });
 
 
 

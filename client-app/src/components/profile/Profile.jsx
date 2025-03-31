@@ -3,14 +3,19 @@ import { doc, getDoc } from 'firebase/firestore';
 import { Link, useLocation, useParams } from "react-router-dom";
 
 import AuthContext from "../../contexts/authContext";
+import ErrorContext from "../../contexts/errorContext"
+
 import { firestoreDB } from "../../firebase/config";
 
 
 export default function Profile() {
 
     const { userId } = useContext(AuthContext)
+    const { showErrorHandler } = useContext(ErrorContext)
+
     const [profileState, setProfile] = useState({})
     const location = useLocation()
+
     const { profileId } = useParams()
 
     const idToUse = location.pathname === "/my-profile" ? userId : profileId;
@@ -27,7 +32,8 @@ export default function Profile() {
                 }
             })
             .catch(error => {
-                window.alert('Error while getting user info: ', error)
+                console.log('Error while getting user info: ', error)
+                showErrorHandler('Error while getting user info!')
             })
 
 

@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 
 import AuthContext from "../../contexts/authContext";
+import ErrorContext from "../../contexts/errorContext"
 
 import { getPostsDetails } from "../../services/getPostService"
 import { deletePost } from "../../services/otherPostServices";
@@ -10,10 +11,13 @@ import { addToSaved, checkForSaved, removeFromSaved } from "../../services/saved
 import Comments from "../comments/Comments";
 
 function PostDetails() {
-    const [dataState, setDataState] = useState({})
+    const { showErrorHandler } = useContext(ErrorContext)
     const { userId, fullName, isAuthenticated } = useContext(AuthContext)
+
+    const [dataState, setDataState] = useState({})
     const [showComments, setShowComments] = useState(false)
     const [saveState, setSaveState] = useState({ canBeSaved: false, canBeUnSaved: false })
+
     const navigate = useNavigate()
 
 
@@ -28,6 +32,7 @@ function PostDetails() {
             })
             .catch(error => {
                 console.error("Error while deleting post at PostDetails.jsx: ", error)
+                showErrorHandler('Error while deleting post!')
             })
     }
 
@@ -41,6 +46,9 @@ function PostDetails() {
             if (result) {
                 setSaveState({ canBeSaved: false, canBeUnSaved: true })
             }
+        }).catch(error => {
+            showErrorHandler('Error while saving post!')
+            console.error("Error while saving post at PostDetails.jsx: ", error)
         })
     }
 
@@ -49,6 +57,9 @@ function PostDetails() {
             if (result) {
                 setSaveState({ canBeSaved: true, canBeUnSaved: false })
             }
+        }).catch(error => {
+            showErrorHandler('Error while unsaving post!')
+            console.error("Error while unsaving post at PostDetails.jsx: ", error)
         })
     }
 
@@ -74,6 +85,7 @@ function PostDetails() {
             })
             .catch(error => {
                 console.error("Error while getting post details at PostDetails.jsx: ", error)
+                showErrorHandler('Error while getting post details!')
             })
     }, [postId, navigate])
 

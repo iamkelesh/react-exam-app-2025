@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom"
+
+import ErrorContext from '../../contexts/errorContext';
 
 import SmallPostTemplate from "../smallPostTemplate/SmallPostTemplate";
 
@@ -8,6 +10,7 @@ import { searchPost } from "../../services/otherPostServices";
 
 
 function SearchResultsComponent() {
+    const { showErrorHandler } = useContext(ErrorContext)
 
     const [result, setResult] = useState([]);
 
@@ -17,7 +20,10 @@ function SearchResultsComponent() {
 
         searchPost(searchInput)
             .then(results => setResult(results))
-            .catch(err => console.error(err))
+            .catch(error => {
+                showErrorHandler('Error while searching posts!')
+                console.log(error)
+            })
 
 
     }, [

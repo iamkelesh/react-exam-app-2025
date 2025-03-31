@@ -1,16 +1,18 @@
 import { useEffect, useState, useContext } from "react";
 
 import AuthContext from "../../contexts/authContext";
+import ErrorContext from '../../contexts/errorContext';
+
 import { getSaved } from "../../services/savedService";
 
 import SmallPostTemplate from "../smallPostTemplate/SmallPostTemplate";
 
 function Saved() {
+    const { showErrorHandler } = useContext(ErrorContext)
 
     const [savedPosts, setSaved] = useState([]);
     const [moreAvailable, SetMoreAvailable] = useState(false);
     const [lastSnapshot, setLastSnapshot] = useState(null);
-
 
     const { userId } = useContext(AuthContext)
 
@@ -29,8 +31,9 @@ function Saved() {
 
                 setLastSnapshot(lastDoc)
 
-            }).catch(err => {
-                console.log(err)
+            }).catch(error => {
+                console.log(error)
+                showErrorHandler('Error while fetching more posts!')
             })
 
     }
@@ -45,7 +48,10 @@ function Saved() {
                 setLastSnapshot(lastDoc)
                 SetMoreAvailable(moreAvailable)
             })
-            .catch(err => console.error(err))
+            .catch(error => {
+                showErrorHandler('Error while fetching more posts!')
+                console.error(error)
+            })
 
 
 
@@ -60,7 +66,7 @@ function Saved() {
                 </h1>
 
 
-                <div className="-my-8 divide-y-2 divide-gray-100 ">
+                <div className="-my-8 divide-y-2 divide-gray-100 pt-20 ">
 
                     {savedPosts.map(data => <SmallPostTemplate key={data.id} {...data} />)}
                     {savedPosts.length === 0 ?

@@ -1,10 +1,6 @@
 import { useForm } from '../../hooks/useForm';
 import { useNavigate } from "react-router"
 
-
-import { useContext } from "react";
-
-
 export default function SearchComponent() {
 
     const navigate = useNavigate()

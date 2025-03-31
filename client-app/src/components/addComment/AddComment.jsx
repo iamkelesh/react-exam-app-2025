@@ -1,8 +1,9 @@
+import { useContext } from "react";
 import { useForm } from "../../hooks/useForm"
-
 import { useParams } from "react-router";
 
 
+import ErrorContext from "../../contexts/errorContext"
 import { addComment } from "../../services/commentsService";
 
 
@@ -14,11 +15,22 @@ function AddComment({
     setShowAdd
 }) {
     const { postId } = useParams()
+    const { showErrorHandler } = useContext(ErrorContext)
+
     const initialValues = {
         text: '',
         ownerId: currentId,
         creatorName: creatorName,
         postId: postId,
+    }
+    const commentSubmit = async (args) => {
+        try {
+            await addComment(args)
+            setShowAdd(false)
+        } catch (error) {
+            console.log(error)
+            showErrorHandler("Error creating comment");
+        }
     }
 
     const {
@@ -28,10 +40,7 @@ function AddComment({
     } = useForm({
         initialValues,
         addNewToState,
-        submitHandler: async (args) => {
-            await addComment(args)
-            setShowAdd(false)
-        },
+        submitHandler: commentSubmit
     });
 
     return (

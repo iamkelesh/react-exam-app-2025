@@ -1,8 +1,10 @@
-import { createContext, useEffect, useState } from "react"
+import { createContext, useEffect, useState, useContext } from "react"
 import { useNavigate } from "react-router"
 
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, validatePassword } from "firebase/auth"
 import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
+
+import ErrorContext from "../contexts/errorContext"
 
 import { firebaseApp, firestoreDB } from "../firebase/config"
 
@@ -11,6 +13,8 @@ const AuthContext = createContext()
 const auth = getAuth(firebaseApp)
 
 export const AuthProvider = ({ children }) => {
+
+    const { showErrorHandler } = useContext(ErrorContext)
 
 
     const navigate = useNavigate()
@@ -28,7 +32,7 @@ export const AuthProvider = ({ children }) => {
 
                     if (!userInfoSnap.exists()) {
 
-                        window.alert('No user info exist! Please, contact admin !')
+                        showErrorHandler('No user info exist! Please, contact admin !')
 
                         currentName = 'Undefined name'
                     } else {
@@ -67,7 +71,7 @@ export const AuthProvider = ({ children }) => {
             const status = await validatePassword(getAuth(), password);
 
             if (!status.isValid) {
-                window.alert('Password is not valid. Must be at least 6 characters long.')
+                showErrorHandler('Password is not valid. Must be at least 6 characters long.')
                 return;
             }
 
@@ -97,7 +101,7 @@ export const AuthProvider = ({ children }) => {
 
             console.log(error)
 
-            alert(error.message)
+            showErrorHandler('Error while registering user')
         }
     }
 
@@ -113,7 +117,7 @@ export const AuthProvider = ({ children }) => {
 
             console.error('Error signing out:', error)
 
-            alert(error.message)
+            showErrorHandler('Error signing out')
         })
     }
 
@@ -152,7 +156,7 @@ export const AuthProvider = ({ children }) => {
 
             console.log(error)
 
-            alert(error.message)
+            showErrorHandler('Error while logging in')
         }
     }
 
