@@ -9,7 +9,7 @@ export default function ErrorBanner() {
 
     return (
         <div
-            className={`fixed top-0 left-0 w-full z-50transition-transform duration-300 ${errorState.showError ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
+            className={`fixed top-0 justify-center left-1/3 z-50 w-4/12 transition-transform duration-300 ${errorState.showError ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
                 }`}
         >
             <div role="alert" className="relative w-full text-base font-regular px-4 py-4 rounded-lg bg-red-500 text-white flex shadow-lg">
