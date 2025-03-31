@@ -101,6 +101,7 @@ function PostDetails() {
                 showErrorHandler('Error while disliking post!')
             })
     }
+
     useEffect(() => {
         getPostsDetails(postId)
             .then(result => {
@@ -137,18 +138,20 @@ function PostDetails() {
 
     return (
         <div className="w-full md:w-2/5 mx-auto">
+            {/* CATEGORY */}
             <div className="mx-5 my-3 text-sm">
                 <a href="" className=" text-red-600 font-bold tracking-widest">{dataState.category}</a>
             </div>
+            {/* TITLE */}
             <div className="w-full text-gray-800 text-4xl px-5 font-bold leading-none">
                 {dataState.title}
             </div>
-
+            {/* SUBTITLE */}
             <div className="w-full text-gray-500 px-5 pb-5 pt-2">
                 Sub Title {dataState.subTitle}
 
             </div>
-
+            {/* CREATOR */}
             <div className="w-full text-gray-600 font-thin italic px-5 pt-3">
                 By <strong className="text-gray-700">Posted by {dataState.creatorName}</strong><br />
 
@@ -156,86 +159,86 @@ function PostDetails() {
 
             </div>
 
+            {/* BODY */}
             <div className="px-5 w-full mx-auto">
                 <p className="my-5">{dataState.body}</p>
 
             </div>
 
+            {/* A LOT OF BUTTONS  */}
             <span className="isolate inline-flex rounded-md shadow-sm">
-                <>
-                    <div id="crudButtons"
-                        className="flex flex-col items-center justify-center">
 
-                        <div className="flex h-20 items-center justify-center gap-1 pb-3">
+                <div id="crudButtons"
+                    className="flex flex-col items-center justify-center">
 
-                            <button
-                                onClick={showCommentsHandler}
-                                className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                            >
-                                {showComments ? 'Hide comments' : 'Show comments'}
-                            </button>
+                    <div className="flex h-20 items-center justify-center gap-1 pb-3">
+
+                        <button
+                            onClick={showCommentsHandler}
+                            className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                        >
+                            {showComments ? 'Hide comments' : 'Show comments'}
+                        </button>
+
+                        {/* BUTTONS FOR AUTH USERS */}
+                        {dataState.ownerId === userId && (
+                            <>
+                                <button onClick={redirectToEdit}
+                                    className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                >
+                                    Edit post
+                                </button>
+
+                                <button
+                                    onClick={deletePostHandler}
+                                    className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                >
+                                    Delete post
+                                </button>
+                            </>
+                        )}
 
 
-                            {dataState.ownerId === userId && (
-                                <>
-                                    <button onClick={redirectToEdit}
-                                        className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                                    >
-                                        Edit post
-                                    </button>
-
-                                    <button
-                                        onClick={deletePostHandler}
-                                        className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                                    >
-                                        Delete post
-                                    </button>
-                                </>
-                            )}
-
-                            {isAuthenticated && saveState.canBeSaved &&
+                        {/* SAVE BUTOTNS */}
+                        {isAuthenticated &&
+                            (saveState.canBeSaved ?
                                 <button
                                     onClick={addSavedHandler}
                                     className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                 >
                                     Save post
-                                </button>
-                            }
-
-                            {isAuthenticated && !saveState.canBeSaved &&
+                                </button> :
                                 <button
                                     onClick={removeSavedHandler}
                                     className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                 >
                                     Unsave post
                                 </button>
-                            }
+                            )}
 
-                            {isAuthenticated && !wasLiked &&
-                                <button
-                                    onClick={likeHandler}
-                                    className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                                >
-                                    Like post
-                                </button>
-                            }
 
-                            {isAuthenticated && wasLiked &&
+                        {/* LIKE BUTTONS */}
+                        {isAuthenticated &&
+                            (!wasLiked ? <button
+                                onClick={likeHandler}
+                                className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                            >
+                                Like post
+                            </button> :
                                 <button
                                     onClick={dislikeHandler}
                                     className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                 >
                                     Dislike post
                                 </button>
-                            }
-                        </div>
-
+                            )
+                        }
 
                     </div>
-                </>
-
+                </div>
             </span>
 
+            {/* COMMENTS */}
             <div className={`pt-6 ` + (showComments ? 'block' : 'hidden')}>
                 <Comments currentId={userId} creatorName={fullName} isAuthenticated={isAuthenticated} />
             </div>
