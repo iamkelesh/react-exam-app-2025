@@ -5,9 +5,18 @@ import AuthContext from "../../contexts/authContext";
 import ErrorContext from "../../contexts/errorContext"
 
 import { getPostsDetails } from "../../services/getPostService"
-import { deletePost } from "../../services/otherPostServices";
-import { addToSaved, checkForSaved, removeFromSaved } from "../../services/savedService";
-import { checkIfLiked, dislikePost, likePost } from "../../services/likeServices";
+import { checkForSaved } from "../../services/savedService";
+import { checkIfLiked } from "../../services/likeServices";
+import {
+    deletePostHandler,
+    redirectToEdit,
+    addSavedHandler,
+    removeSavedHandler,
+    formatedDate,
+    showCommentsHandler,
+    likeHandler,
+    dislikeHandler
+} from "../../utils/postDetailsHandlers"
 
 import Comments from "../comments/Comments";
 
@@ -25,82 +34,7 @@ function PostDetails() {
 
     const { postId } = useParams()
 
-    function deletePostHandler() {
 
-        if (!window.confirm("Are you sure you want to delete this post?")) return
-        deletePost(postId)
-            .then(() => {
-                navigate('/home')
-            })
-            .catch(error => {
-                console.error("Error while deleting post at PostDetails.jsx: ", error)
-                showErrorHandler('Error while deleting post!')
-            })
-    }
-
-    function redirectToEdit() {
-        if (!window.confirm("Are you sure you want to edit this post?")) return
-        navigate(`/posts/edit/${postId}`)
-    }
-
-    function addSavedHandler() {
-        addToSaved({ dataState, userId }).then(result => {
-            if (result) {
-                setSaveState({ canBeSaved: false })
-            }
-        }).catch(error => {
-            showErrorHandler('Error while saving post!')
-            console.error("Error while saving post at PostDetails.jsx: ", error)
-        })
-    }
-
-    function removeSavedHandler() {
-        removeFromSaved({ postId, userId }).then(result => {
-            if (result) {
-                setSaveState({ canBeSaved: true })
-            }
-        }).catch(error => {
-            showErrorHandler('Error while unsaving post!')
-            console.error("Error while unsaving post at PostDetails.jsx: ", error)
-        })
-    }
-
-    const formatedDate = (date) => {
-        if (date instanceof Date) {
-            return date.toDateString()
-        } else if (date && date.toDate) {
-            return date.toDate().toDateString()
-        } else {
-            return 'Invalid Date'
-        }
-    }
-
-    const showCommentsHandler = () => {
-        let oldState = showComments
-        setShowComments(!oldState)
-    }
-
-    const likeHandler = () => {
-        likePost({ postId, userId })
-            .then(() => {
-                setWasLiked(true)
-            })
-            .catch(error => {
-                console.error("Error while liking post at PostDetails.jsx: ", error)
-                showErrorHandler('Error while liking post!')
-            })
-    }
-
-    const dislikeHandler = () => {
-        dislikePost({ postId, userId })
-            .then(() => {
-                setWasLiked(false)
-            })
-            .catch(error => {
-                console.error("Error while disliking post at PostDetails.jsx: ", error)
-                showErrorHandler('Error while disliking post!')
-            })
-    }
 
     useEffect(() => {
         getPostsDetails(postId)
