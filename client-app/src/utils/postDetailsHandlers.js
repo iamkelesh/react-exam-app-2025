@@ -1,4 +1,9 @@
-export function deletePostHandler() {
+import { likePost, dislikePost } from '../services/likeServices'
+import { deletePost } from '../services/otherPostServices'
+import { addToSaved, removeFromSaved } from '../services/savedPostServices'
+
+
+export function deletePostHandler({ postId, navigate, showErrorHandler }) {
 
     if (!window.confirm("Are you sure you want to delete this post?")) return
     deletePost(postId)
@@ -11,12 +16,12 @@ export function deletePostHandler() {
         })
 }
 
-export function redirectToEdit() {
+export function redirectToEdit(postId) {
     if (!window.confirm("Are you sure you want to edit this post?")) return
     navigate(`/posts/edit/${postId}`)
 }
 
-export function addSavedHandler() {
+export function addSavedHandler({ dataState, userId, setSaveState, showErrorHandler }) {
     addToSaved({ dataState, userId }).then(result => {
         if (result) {
             setSaveState({ canBeSaved: false })
@@ -27,7 +32,7 @@ export function addSavedHandler() {
     })
 }
 
-export function removeSavedHandler() {
+export function removeSavedHandler({ postId, userId, setSaveState, showErrorHandler }) {
     removeFromSaved({ postId, userId }).then(result => {
         if (result) {
             setSaveState({ canBeSaved: true })
@@ -48,12 +53,12 @@ export const formatedDate = (date) => {
     }
 }
 
-export const showCommentsHandler = () => {
+export const showCommentsHandler = ({ showComments, setShowComments }) => {
     let oldState = showComments
     setShowComments(!oldState)
 }
 
-export const likeHandler = () => {
+export const likeHandler = ({ postId, userId, setWasLiked, showErrorHandler }) => {
     likePost({ postId, userId })
         .then(() => {
             setWasLiked(true)
@@ -64,7 +69,7 @@ export const likeHandler = () => {
         })
 }
 
-export const dislikeHandler = () => {
+export const dislikeHandler = ({ postId, userId, setWasLiked, showErrorHandler }) => {
     dislikePost({ postId, userId })
         .then(() => {
             setWasLiked(false)
