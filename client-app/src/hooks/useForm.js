@@ -30,8 +30,8 @@ export const useForm = ({ submitHandler,
         e.preventDefault()
 
         if (values.repeatPassword !== undefined && values.password !== values.repeatPassword) {
-            alert('Passwords do not match')
-            throw new Error('Passwords do not match')
+            showErrorHandler("Passwords do not match!")
+            return
         }
 
         if (Object.values(values).every(value => value !== '')) {
