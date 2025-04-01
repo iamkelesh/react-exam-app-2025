@@ -18,6 +18,7 @@ import MyPosts from "./components/myPosts/MyPosts"
 import ErrorBanner from "./components/errorBanner/ErrorBanner"
 import Saved from "./components/saved/Saved"
 import { ErrorProvider } from "./contexts/errorContext"
+import GuestGuard from "./guards/GuestGuard"
 
 
 function App() {
@@ -52,8 +53,12 @@ function App() {
                   <Route path='/search/:searchInput' element={<SearchResultsComponent />} />
                   <Route path='/posts/details/:postId' element={<PostDetails />} />
                   <Route path='/user/:profileId' element={< Profile />} />
-                  <Route path='/user/register' element={<Register />} />
-                  <Route path="/user/login" element={<Login />} />
+
+                  <Route element={<GuestGuard />}>
+                    <Route path='/user/register' element={<Register />} />
+                    <Route path="/user/login" element={<Login />} />
+
+                  </Route>
 
 
                   <Route element={<AuthGuard />}>
