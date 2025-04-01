@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react"
+import { useEffect, useState, useContext, useRef } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 
 import AuthContext from "../../contexts/authContext";
@@ -31,36 +31,53 @@ function PostDetails() {
 
     const navigate = useNavigate()
 
+    const isMounted = useRef(false);
 
     const { postId } = useParams()
 
-
-
     useEffect(() => {
+        isMounted.current = true
+
         getPostsDetails(postId)
             .then(result => {
+                if (!isMounted.current) return
                 setDataState(result)
             })
             .catch(error => {
                 console.error("Error while getting post details at PostDetails.jsx: ", error)
                 showErrorHandler('Error while getting post details!')
             })
+
+        return () => {
+            isMounted.current = false;
+        };
     }, [postId, navigate])
 
     useEffect(() => {
+        isMounted.current = true
+        
         if (!postId || !userId) return
+
         checkIfLiked({ postId, userId })
             .then(result => {
+                if (!isMounted.current) return
                 setWasLiked(result)
             })
             .catch(error => {
                 console.error("Error while checking if post was liked: ", error)
                 showErrorHandler('Error while checking if post was liked!')
             })
+
+        return () => {
+            isMounted.current = false;
+        };
     }, [userId, postId])
 
     useEffect(() => {
+        isMounted.current = true
+
         if (!userId) return
+
         checkForSaved({ postId, userId })
             .then(({ canBeSaved }) => {
                 setSaveState({ canBeSaved })
@@ -68,6 +85,10 @@ function PostDetails() {
             .catch(error => {
                 console.error("Error while checking for saved posts: ", error)
             })
+
+        return () => {
+            isMounted.current = false;
+        };
     }, [userId, postId])
 
     return (
@@ -118,7 +139,7 @@ function PostDetails() {
                     <div className="flex h-20 items-center justify-center gap-1 pb-3">
 
                         <button
-                            onClick={showCommentsHandler}
+                            onClick={() => showCommentsHandler({ showComments, setShowComments })}
                             className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                         >
                             {showComments ? 'Hide comments' : 'Show comments'}
@@ -127,14 +148,14 @@ function PostDetails() {
                         {/* BUTTONS FOR AUTH USERS */}
                         {dataState.ownerId === userId && (
                             <>
-                                <button onClick={redirectToEdit}
+                                <button onClick={() => redirectToEdit({ postId, navigate, showErrorHandler })}
                                     className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                 >
                                     Edit post
                                 </button>
 
                                 <button
-                                    onClick={deletePostHandler}
+                                    onClick={() => deletePostHandler({ postId, showErrorHandler, navigate })}
                                     className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                 >
                                     Delete post
@@ -147,13 +168,13 @@ function PostDetails() {
                         {isAuthenticated &&
                             (saveState.canBeSaved ?
                                 <button
-                                    onClick={addSavedHandler}
+                                    onClick={() => addSavedHandler({ dataState, userId, setSaveState, showErrorHandler })}
                                     className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                 >
                                     Save post
                                 </button> :
                                 <button
-                                    onClick={removeSavedHandler}
+                                    onClick={() => removeSavedHandler({ postId, userId, setSaveState, showErrorHandler })}
                                     className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                 >
                                     Unsave post
@@ -164,13 +185,13 @@ function PostDetails() {
                         {/* LIKE BUTTONS */}
                         {isAuthenticated &&
                             (!wasLiked ? <button
-                                onClick={likeHandler}
+                                onClick={() => likeHandler({ postId, userId, setWasLiked, showErrorHandler })}
                                 className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                             >
                                 Like post
                             </button> :
                                 <button
-                                    onClick={dislikeHandler}
+                                    onClick={() => dislikeHandler({ postId, userId, setWasLiked, showErrorHandler })}
                                     className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                 >
                                     Dislike post

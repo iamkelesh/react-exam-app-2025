@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { useParams } from "react-router-dom"
 
 import ErrorContext from '../../contexts/errorContext';
@@ -16,16 +16,25 @@ function SearchResultsComponent() {
 
     const { searchInput } = useParams()
 
+    const isMounted = useRef(false);
+
     useEffect(() => {
+        isMounted.current = true
 
         searchPost(searchInput)
-            .then(results => setResult(results))
+            .then(results => {
+                if (!isMounted.current) return
+
+                setResult(results)
+            })
             .catch(error => {
                 showErrorHandler('Error while searching posts!')
                 console.log(error)
             })
 
-
+        return () => {
+            isMounted.current = false;
+        };
     }, [
         searchInput
     ])

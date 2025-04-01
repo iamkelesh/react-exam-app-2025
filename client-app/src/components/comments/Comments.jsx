@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom"
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 
 import { deleteComment } from "../../services/commentsService";
 import { getComments } from "../../services/commentsService";
@@ -16,6 +16,8 @@ function Comments({ currentId, creatorName, isAuthenticated }) {
     const [moreAvailable, SetMoreAvailable] = useState(false);
     const [lastSnapshot, setLastSnapshot] = useState(null)
 
+    const isMounted = useRef(false);
+
     const { postId } = useParams()
 
     const [showAdd, setShowAdd] = useState(false)
@@ -24,6 +26,7 @@ function Comments({ currentId, creatorName, isAuthenticated }) {
 
         getComments({ postId, lastSnapshot })
             .then(({ newComments, moreAvailable, lastComment }) => {
+                if (!isMounted.current) return
 
                 const oldComments = commentsState
 
@@ -44,6 +47,8 @@ function Comments({ currentId, creatorName, isAuthenticated }) {
         if (!window.confirm("Are you sure you want to delete this comment?")) return
         deleteComment({ postId, commentId })
             .then(() => {
+                if (!isMounted.current) return
+
                 let oldComments = commentsState
 
                 let newComments = oldComments.filter(predicate => predicate.id !== commentId)
@@ -61,6 +66,7 @@ function Comments({ currentId, creatorName, isAuthenticated }) {
     }
 
     function addNewToState(newComment) {
+        if (!isMounted.current) return
 
         let currentState = commentsState
 
@@ -70,6 +76,7 @@ function Comments({ currentId, creatorName, isAuthenticated }) {
     }
 
     useEffect(() => {
+        isMounted.current = true
 
         getComments({ postId }).then(({ newComments, moreAvailable, lastComment }) => {
             setCommentsState(newComments)
@@ -81,6 +88,9 @@ function Comments({ currentId, creatorName, isAuthenticated }) {
                 showErrorHandler('Error while loading comments!')
             })
 
+        return () => {
+            isMounted.current = false;
+        };
     }, [postId])
 
 

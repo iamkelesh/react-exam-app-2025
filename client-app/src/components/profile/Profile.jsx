@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react"
+import { useEffect, useState, useContext, useRef } from "react"
 import { doc, getDoc } from 'firebase/firestore';
 import { Link, useLocation, useParams } from "react-router-dom";
 
@@ -18,6 +18,8 @@ export default function Profile() {
 
     const { profileId } = useParams()
 
+    const isMounted = useRef(false)
+
     const idToUse = location.pathname === "/my-profile" ? userId : profileId;
 
 
@@ -25,6 +27,8 @@ export default function Profile() {
 
         getDoc(doc(firestoreDB, 'user-info', idToUse))
             .then(docSnap => {
+                if (!isMounted.current) return
+
                 if (docSnap.exists()) {
                     setProfile(docSnap.data())
                 } else {
@@ -36,7 +40,9 @@ export default function Profile() {
                 showErrorHandler('Error while getting user info!')
             })
 
-
+        return () => {
+            isMounted.current = false;
+        };
     }, [userId, profileId])
 
 

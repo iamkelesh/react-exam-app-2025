@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 
 import { getAllPost2 } from "../../services/getPostService";
 import ErrorContext from "../../contexts/errorContext"
@@ -14,6 +14,8 @@ function AllPosts() {
     const [moreAvailable, setMoreAvailable] = useState(false)
     const [category, setCategory] = useState(undefined)
 
+    const isMounted = useRef(false);
+
     const getButtonClass = (btnCategory) =>
         `inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 ${category === btnCategory ? 'underline decoration-2 decoration-[#7629c8]' : ''
         }`;
@@ -23,6 +25,7 @@ function AllPosts() {
 
         getAllPost2({ lastSnapshot, category })
             .then(({ newPosts, lastDoc, moreAvailable }) => {
+                if (!isMounted.current) return
 
                 const newState = [...posts, ...newPosts]
 
@@ -36,9 +39,7 @@ function AllPosts() {
                 console.log(error)
                 showErrorHandler('Error while fetching more posts!')
             })
-
     }
-
 
     const categoryHandler = (newCategory) => {
 
@@ -51,10 +52,14 @@ function AllPosts() {
             setCategory(newCategory)
         }
     }
+
     useEffect(() => {
+
+        isMounted.current = true
 
         getAllPost2({ lastSnapshot: null, category })
             .then(({ newPosts, lastDoc, moreAvailable }) => {
+                if (!isMounted.current) return
 
                 setPosts(newPosts)
 
@@ -67,7 +72,9 @@ function AllPosts() {
                 showErrorHandler('Error while fetching posts')
             })
 
-
+        return () => {
+            isMounted.current = false;
+        };
     }, [category])
 
     return (
