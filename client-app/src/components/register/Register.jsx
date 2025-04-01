@@ -51,7 +51,7 @@ function Register() {
                         <input
                             type="text"
                             name='fullName'
-                            required
+                            
                             onChange={onChange}
                             value={values.fullName}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
@@ -64,7 +64,7 @@ function Register() {
                         <input
                             type="email"
                             name='email'
-                            required
+                            
                             onChange={onChange}
                             value={values.email}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
@@ -76,7 +76,7 @@ function Register() {
                         <input
                             type="text"
                             name='jobTitle'
-                            required
+                            
                             onChange={onChange}
                             value={values.jobTitle}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
@@ -89,7 +89,7 @@ function Register() {
                         <textarea
                             type="text"
                             name='bio'
-                            required
+                            
                             onChange={onChange}
                             value={values.bio}
                             className="w-full rows-4 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
@@ -104,7 +104,7 @@ function Register() {
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
                             placeholder="••••••••"
                             name='password'
-                            required
+                            
                             onChange={onChange}
                             value={values.password}
                         />
@@ -117,7 +117,7 @@ function Register() {
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
                             placeholder="••••••••"
                             name='repeatPassword'
-                            required
+                            
                             onChange={onChange}
                             value={values.repeatPassword }
                         />
@@ -156,7 +156,7 @@ export default Register;
 //                     placeholder="Your full name"
 //                     type="text"
 //                     tabIndex={2}
-//                     required
+//                     
 //                     name='fullName'
 //                     className={styles.input}
 //                     onChange={onChange}
@@ -168,7 +168,7 @@ export default Register;
 //                     placeholder="Your email"
 //                     type="email"
 //                     tabIndex={1}
-//                     required
+//                     
 //                     autoFocus
 //                     name='email'
 //                     className={styles.input}
@@ -181,7 +181,7 @@ export default Register;
 //                     placeholder="Your password"
 //                     type="password"
 //                     tabIndex={1}
-//                     required
+//                     
 //                     autoFocus
 //                     name='password'
 //                     className={styles.input}
@@ -194,7 +194,7 @@ export default Register;
 //                     placeholder="Repeat your password"
 //                     type="password"
 //                     tabIndex={1}
-//                     required
+//                     
 //                     autoFocus
 //                     name='repeatPassword'
 //                     className={styles.input}
