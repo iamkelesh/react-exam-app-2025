@@ -1,25 +1,25 @@
 import { Routes, Route, Link } from "react-router-dom"
+import { lazy, Suspense } from 'react';
 
 import { AuthProvider } from "./contexts/authContext"
-import AuthGuard from "./guards/AuthGuard"
-
-import Header from "./components/header/Header"
-import Register from "./components/register/Register"
-import Logout from "./components/logout/Logout"
-import Create from "./components/create/Create"
-import UpdatePost from "./components/updatePost/UpdatePost"
-import Home from "./components/home/Home"
-import Login from "./components/login/Login"
-import PostDetails from "./components/postDetails/PostDetails"
-import Profile from "./components/profile/Profile"
-import AllPosts from "./components/allPosts/AllPosts"
-import SearchResultsComponent from "./components/searchResults/SearchResultsComponent"
-import MyPosts from "./components/myPosts/MyPosts"
-import ErrorBanner from "./components/errorBanner/ErrorBanner"
-import Saved from "./components/saved/Saved"
 import { ErrorProvider } from "./contexts/errorContext"
-import GuestGuard from "./guards/GuestGuard"
 
+const Home = lazy(() => import('./components/home/Home'))
+const Header = lazy(() => import('./components/header/Header'))
+const Register = lazy(() => import('./components/register/Register'))
+const Logout = lazy(() => import('./components/logout/Logout'))
+const Create = lazy(() => import('./components/create/Create'))
+const UpdatePost = lazy(() => import('./components/updatePost/UpdatePost'))
+const Login = lazy(() => import('./components/login/Login'))
+const PostDetails = lazy(() => import('./components/postDetails/PostDetails'))
+const Profile = lazy(() => import('./components/profile/Profile'))
+const AllPosts = lazy(() => import('./components/allPosts/AllPosts'))
+const SearchResultsComponent = lazy(() => import('./components/searchResults/SearchResultsComponent'))
+const MyPosts = lazy(() => import('./components/myPosts/MyPosts'))
+const ErrorBanner = lazy(() => import('./components/errorBanner/ErrorBanner'))
+const Saved = lazy(() => import('./components/saved/Saved'))
+const GuestGuard = lazy(() => import('./guards/GuestGuard'))
+const AuthGuard = lazy(() => import('./guards/AuthGuard'))
 
 function App() {
 
@@ -46,48 +46,51 @@ function App() {
 
                 <ErrorBanner />
 
-                <Routes>
-                  <Route path='/' element={<Home />} />
-                  <Route path='/home' element={<Home />} />
-                  <Route path='/posts/all-posts' element={<AllPosts />} />
-                  <Route path='/search/:searchInput' element={<SearchResultsComponent />} />
-                  <Route path='/posts/details/:postId' element={<PostDetails />} />
-                  <Route path='/user/:profileId' element={< Profile />} />
+                <Suspense fallback={<div>Loading...</div>}>
+                  <Routes>
+                    <Route path='/' element={<Home />} />
+                    <Route path='/home' element={<Home />} />
+                    <Route path='/posts/all-posts' element={<AllPosts />} />
+                    <Route path='/search/:searchInput' element={<SearchResultsComponent />} />
+                    <Route path='/posts/details/:postId' element={<PostDetails />} />
+                    <Route path='/user/:profileId' element={< Profile />} />
 
-                  <Route element={<GuestGuard />}>
-                    <Route path='/user/register' element={<Register />} />
-                    <Route path="/user/login" element={<Login />} />
+                    <Route element={<GuestGuard />}>
+                      <Route path='/user/register' element={<Register />} />
+                      <Route path="/user/login" element={<Login />} />
 
-                  </Route>
+                    </Route>
 
 
-                  <Route element={<AuthGuard />}>
-                    <Route path="/user/my-posts" element={<MyPosts />} />
-                    <Route path="/user/saved-posts" element={<Saved />} />
-                    <Route path="/posts/create" element={<Create />} />
-                    <Route path="/posts/edit/:postId" element={<UpdatePost />} />
-                    <Route path="/user/logout" element={<Logout />} />
-                    <Route path="/my-profile" element={<Profile />} />
-                  </Route>
+                    <Route element={<AuthGuard />}>
+                      <Route path="/user/my-posts" element={<MyPosts />} />
+                      <Route path="/user/saved-posts" element={<Saved />} />
+                      <Route path="/posts/create" element={<Create />} />
+                      <Route path="/posts/edit/:postId" element={<UpdatePost />} />
+                      <Route path="/user/logout" element={<Logout />} />
+                      <Route path="/my-profile" element={<Profile />} />
+                    </Route>
 
-                  <Route
-                    path="*"
-                    element={
-                      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center">
-                        <h1 className="text-4xl font-bold text-red-600 mb-4">404 - Page Not Found</h1>
-                        <p className="text-lg text-gray-700 mb-6">
-                          Oops! The page you are looking for does not exist or an error occurred.
-                        </p>
-                        <Link
-                          to="/"
-                          className="px-6 py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition duration-300"
-                        >
-                          Go Back to Home
-                        </Link>
-                      </div>
-                    }
-                  />
-                </Routes>
+                    <Route
+                      path="*"
+                      element={
+                        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center">
+                          <h1 className="text-4xl font-bold text-red-600 mb-4">404 - Page Not Found</h1>
+                          <p className="text-lg text-gray-700 mb-6">
+                            Oops! The page you are looking for does not exist or an error occurred.
+                          </p>
+                          <Link
+                            to="/"
+                            className="px-6 py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition duration-300"
+                          >
+                            Go Back to Home
+                          </Link>
+                        </div>
+                      }
+                    />
+                  </Routes>
+                </Suspense>
+
               </div>
             </main>
 
