@@ -24,6 +24,7 @@ export default function Profile() {
 
 
     useEffect(() => {
+        isMounted.current = true
 
         getDoc(doc(firestoreDB, 'user-info', idToUse))
             .then(docSnap => {
