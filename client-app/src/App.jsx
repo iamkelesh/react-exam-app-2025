@@ -45,57 +45,25 @@ function App() {
 
                 <ErrorBanner />
 
-
                 <Routes>
                   <Route path='/' element={<Home />} />
                   <Route path='/home' element={<Home />} />
                   <Route path='/posts/all-posts' element={<AllPosts />} />
-
                   <Route path='/search/:searchInput' element={<SearchResultsComponent />} />
-
-                  <Route path='/user/:profileId' element={< Profile />} />
-
-
-                  <Route path='/user/my-posts' element={
-                    <AuthGuard>
-                      <MyPosts />
-                    </AuthGuard>} />
-
-                  <Route path='/user/saved-posts' element={
-                    <AuthGuard>
-                      <Saved />
-                    </AuthGuard>} />
-
                   <Route path='/posts/details/:postId' element={<PostDetails />} />
-
-                  <Route path='/posts/create' element={
-                    <AuthGuard>
-                      <Create />
-                    </AuthGuard>
-                  } />
-
-                  <Route path='/posts/edit/:postId' element={
-                    <AuthGuard>
-                      <UpdatePost />
-                    </AuthGuard>
-                  } />
-
-
-                  <Route path="/user/login" element={<Login />} />
+                  <Route path='/user/:profileId' element={< Profile />} />
                   <Route path='/user/register' element={<Register />} />
+                  <Route path="/user/login" element={<Login />} />
 
-                  <Route path='/user/logout' element={
-                    <AuthGuard>
-                      <Logout />
-                    </AuthGuard>
-                  } />
 
-                  <Route path='/my-profile' element={
-                    <AuthGuard>
-                      <Profile />
-                    </AuthGuard>
-                  } />
-
+                  <Route element={<AuthGuard />}>
+                    <Route path="/user/my-posts" element={<MyPosts />} />
+                    <Route path="/user/saved-posts" element={<Saved />} />
+                    <Route path="/posts/create" element={<Create />} />
+                    <Route path="/posts/edit/:postId" element={<UpdatePost />} />
+                    <Route path="/user/logout" element={<Logout />} />
+                    <Route path="/my-profile" element={<Profile />} />
+                  </Route>
 
                   <Route
                     path="*"
