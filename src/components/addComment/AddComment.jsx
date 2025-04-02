@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { useForm } from "../../hooks/useForm"
 import { useParams } from "react-router";
 
@@ -16,6 +16,7 @@ function AddComment({
 }) {
     const { postId } = useParams()
     const { showErrorHandler } = useContext(ErrorContext)
+    const { pending } = useRef(false)
 
     const initialValues = {
         text: '',
@@ -24,12 +25,29 @@ function AddComment({
         postId: postId,
     }
     const commentSubmit = async (args) => {
+
+        if (pending.current) {
+            showErrorHandler('Please wait for the previous request to finish!')
+            return
+        }
+
+        pending.current = true
+
         try {
+
             await addComment(args)
+
             setShowAdd(false)
+
+            pending.current = false
+
         } catch (error) {
             console.log(error)
+
             showErrorHandler("Error creating comment");
+
+            pending.current = false
+
         }
     }
 
