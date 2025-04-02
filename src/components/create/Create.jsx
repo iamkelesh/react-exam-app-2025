@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 
 
 import AuthContext from '../../contexts/authContext';
@@ -13,7 +13,7 @@ import Dropdown2 from '../dropdown2/Dropdown2';
 
 function Create() {
   const { showErrorHandler } = useContext(ErrorContext)
-
+  const { pending } = useRef(false)
   const navigate = useNavigation();
   const { accessToken, userId, fullName } = useContext(AuthContext)
 
@@ -28,13 +28,21 @@ function Create() {
     creatorName: fullName,
   }
 
-  function createHandler(e) {
-    try {
-      createNewPost(e)
+  async function createHandler(e) {
+    if (pending.current) {
+      showErrorHandler('Please wait for the previous request to finish!')
+      return
     }
-    catch (error) {
+
+    pending.current = true
+    try {
+      await createNewPost(e)
+      pending.current = false
+
+    } catch (error) {
       console.log(error);
       showErrorHandler('Error while creating post!')
+      pending.current = false
     }
   }
 
