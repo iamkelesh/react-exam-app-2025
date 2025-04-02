@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 
 import { Link } from "react-router-dom";
 
@@ -22,12 +22,26 @@ function Register() {
     const { showErrorHandler } = useContext(ErrorContext)
     const { newRegisterHandler } = useContext(AuthContext)
 
+    const { pending } = useRef(false)
+
+
     const registerSubmit = async (e) => {
-        try{
-            newRegisterHandler(e)
+
+        if (pending.current) {
+            return
+        }
+
+        pending.current = true
+
+        try {
+            await newRegisterHandler(e)
+            pending.current = false
+
         } catch (error) {
             console.error('Error during registration:', error)
             showErrorHandler('Error during registration!')
+            pending.current = false
+
         }
     }
 
@@ -51,7 +65,7 @@ function Register() {
                         <input
                             type="text"
                             name='fullName'
-                            
+
                             onChange={onChange}
                             value={values.fullName}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
@@ -64,7 +78,7 @@ function Register() {
                         <input
                             type="email"
                             name='email'
-                            
+
                             onChange={onChange}
                             value={values.email}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
@@ -76,7 +90,7 @@ function Register() {
                         <input
                             type="text"
                             name='jobTitle'
-                            
+
                             onChange={onChange}
                             value={values.jobTitle}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
@@ -89,7 +103,7 @@ function Register() {
                         <textarea
                             type="text"
                             name='bio'
-                            
+
                             onChange={onChange}
                             value={values.bio}
                             className="w-full rows-4 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
@@ -104,7 +118,7 @@ function Register() {
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
                             placeholder="••••••••"
                             name='password'
-                            
+
                             onChange={onChange}
                             value={values.password}
                         />
@@ -117,9 +131,9 @@ function Register() {
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
                             placeholder="••••••••"
                             name='repeatPassword'
-                            
+
                             onChange={onChange}
-                            value={values.repeatPassword }
+                            value={values.repeatPassword}
                         />
                     </div>
 
