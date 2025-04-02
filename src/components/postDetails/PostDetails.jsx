@@ -21,6 +21,7 @@ import {
 import Comments from "../comments/Comments";
 
 function PostDetails() {
+
     const { showErrorHandler } = useContext(ErrorContext)
     const { userId, fullName, isAuthenticated } = useContext(AuthContext)
 
@@ -32,6 +33,7 @@ function PostDetails() {
     const navigate = useNavigate()
 
     const isMounted = useRef(false);
+    const { pending } = useRef(false)
 
     const { postId } = useParams()
 
@@ -55,7 +57,7 @@ function PostDetails() {
 
     useEffect(() => {
         isMounted.current = true
-        
+
         if (!postId || !userId) return
 
         checkIfLiked({ postId, userId })
@@ -155,7 +157,7 @@ function PostDetails() {
                                 </button>
 
                                 <button
-                                    onClick={() => deletePostHandler({ postId, showErrorHandler, navigate })}
+                                    onClick={() => deletePostHandler({ postId, showErrorHandler, navigate, pending })}
                                     className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                 >
                                     Delete post
@@ -168,13 +170,13 @@ function PostDetails() {
                         {isAuthenticated &&
                             (saveState.canBeSaved ?
                                 <button
-                                    onClick={() => addSavedHandler({ dataState, userId, setSaveState, showErrorHandler })}
+                                    onClick={() => addSavedHandler({ dataState, userId, setSaveState, showErrorHandler, pending })}
                                     className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                 >
                                     Save post
                                 </button> :
                                 <button
-                                    onClick={() => removeSavedHandler({ postId, userId, setSaveState, showErrorHandler })}
+                                    onClick={() => removeSavedHandler({ postId, userId, setSaveState, showErrorHandler, pending })}
                                     className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                 >
                                     Unsave post
