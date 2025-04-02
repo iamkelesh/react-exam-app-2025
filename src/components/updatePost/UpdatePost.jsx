@@ -28,13 +28,25 @@ function UpdatePost() {
   const navigate = useNavigation();
 
   const isMounted = useRef(false);
+  const { pending } = useRef(false)
 
   const formSubmit = async (e) => {
+    if (pending.current) {
+      showErrorHandler('Please wait for the previous request to finish!')
+      return
+    }
+    pending.current = true
+
     try {
-      updatePostDetails(e)
+      await updatePostDetails(e)
+      pending.current = false
+
     } catch (error) {
+
       console.error("Error while updating post at UpdatePost.jsx: ", error)
       showErrorHandler('Error while updating post!')
+      pending.current = false
+      
     }
   }
 
