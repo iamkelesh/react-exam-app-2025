@@ -187,13 +187,13 @@ function PostDetails() {
                         {/* LIKE BUTTONS */}
                         {isAuthenticated &&
                             (!wasLiked ? <button
-                                onClick={() => likeHandler({ postId, userId, setWasLiked, showErrorHandler })}
+                                onClick={() => likeHandler({ postId, userId, setWasLiked, showErrorHandler, pending })}
                                 className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                             >
                                 Like post
                             </button> :
                                 <button
-                                    onClick={() => dislikeHandler({ postId, userId, setWasLiked, showErrorHandler })}
+                                    onClick={() => dislikeHandler({ postId, userId, setWasLiked, showErrorHandler, pending })}
                                     className="inline-flex items-center gap-2 rounded-full border border-[#7629c8] px-6 py-2 text-sm font-semibold text-[#7629c8] transition-all hover:bg-[#7629c8] hover:text-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                 >
                                     Dislike post

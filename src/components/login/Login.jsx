@@ -1,4 +1,4 @@
-import { useContext, useRef } from 'react';
+import { useContext,useRef } from 'react';
 import { Link } from "react-router-dom";
 
 import AuthContext from '../../contexts/authContext';
@@ -11,11 +11,12 @@ const initialValues = {
 
 function Login() {
     const { newLoginHandler } = useContext(AuthContext)
-
-    const { pending } = useRef(false)
+    
+    const pending = useRef(false)
 
     const formHandler = async (e) => {
         if (pending.current) {
+            console.log('Please wait for the previous request to finish!')
             return
         }
 
@@ -44,7 +45,7 @@ function Login() {
                         <input
                             type="email"
                             name='email'
-
+                            
                             onChange={onChange}
                             value={values.email}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
@@ -59,7 +60,7 @@ function Login() {
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
                             placeholder="••••••••"
                             name='password'
-
+                            
                             onChange={onChange}
                             value={values.password}
                         />

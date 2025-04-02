@@ -120,6 +120,8 @@ export const dislikeHandler = async ({ postId, userId, setWasLiked, showErrorHan
         return
     }
 
+    pending.current = true
+
     try {
         await dislikePost({ postId, userId })
         setWasLiked(false)

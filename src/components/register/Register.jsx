@@ -28,6 +28,7 @@ function Register() {
     const registerSubmit = async (e) => {
 
         if (pending.current) {
+            console.log('Please wait for the previous request to finish!')
             return
         }
 
